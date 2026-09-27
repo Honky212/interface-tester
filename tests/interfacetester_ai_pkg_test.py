@@ -124,6 +124,33 @@ class TestPackageEntryPoints(unittest.TestCase):
         proc = self._run(os.path.join("bench", "silent_traps.py"))
         self.assertEqual(proc.returncode, 0, proc.stdout.decode("utf-8", "replace"))
 
+    def test_version_flag_answers_like_hrun(self):
+        """★§9.35：`haify -V/--version` 与 `hrun --version` **同一口径**（两个别名都认）。
+
+        现场：装好 `haify` 后第一件事往往是问版本（`hrun --version` 的习惯），而它此前只认
+        `-h` → `unrecognized arguments: --version`（退出码 2）—— **看起来像"命令坏了"**，
+        其实只是"同一条链路上的工具，版本问法不一致"。
+        """
+        for flag in ("--version", "-V"):
+            with self.subTest(flag=flag):
+                proc = self._run("-m", "interfacetester_ai", flag)
+                text = proc.stdout.decode("utf-8", "replace")
+                self.assertEqual(proc.returncode, 0, text)
+                self.assertIn("interfacetester-ai", text)
+
+    def test_version_text_also_names_the_kernel(self):
+        """★AI 层读内核的**公开面** → 两者必须**配套**；版本文案要把两边都报出来。
+
+        判据用的是**内核现装的那一版**（不是写死的字符串）——内核升版而文案没跟上就会红。
+        """
+        from interfacetester import __version__ as kernel_version  # noqa: PLC0415
+
+        proc = self._run("-m", "interfacetester_ai", "--version")
+        text = proc.stdout.decode("utf-8", "replace")
+
+        self.assertIn(interfacetester_ai.__version__, text)
+        self.assertIn(kernel_version, text)
+
 
 class TestPackageLayout(unittest.TestCase):
     """骨架齐 + 版本两处对账（形态自检，T6 验收「新包内自检全绿」）。"""
@@ -178,6 +205,21 @@ class TestPackageLayout(unittest.TestCase):
         ).read()
         self.assertIn('name = "interfacetester-ai"', text)
         self.assertIn('version = "0.1.0"', text)
+
+    def test_pyproject_declares_the_haify_console_script(self):
+        """★入口必须声明在**包自己的** `pyproject.toml` 里 —— 它悄悄消失的后果就是
+        「**`haify` 命令用不了**」。
+
+        现场（2026-09-27）：根 `pyproject.toml` 只声明 `hrun` / `hmake` / `hconvert`（内核），
+        而 `haify` 属于 **AI 包**；用户 `pip install -e .`（只装内核）后敲 `haify` → 命令不存在，
+        只有 `python -m interfacetester_ai` 能用。装法见 `deploy.md`（`pip install -e interfacetester_ai`）。
+        """
+        text = open(
+            os.path.join(BASE, "interfacetester_ai", "pyproject.toml"), encoding="utf-8"
+        ).read()
+
+        self.assertIn("[project.scripts]", text)
+        self.assertIn('haify = "interfacetester_ai.cli:main"', text)
 
     def test_version_is_consistent_between_init_and_pyproject(self):
         self.assertEqual(interfacetester_ai.__version__, "0.1.0")

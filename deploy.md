@@ -135,6 +135,25 @@ python -m pip install -e . --no-build-isolation
 python -m pip install . --no-build-isolation
 ```
 
+★**AI 协作层（可选，得到 `haify` 命令）**：`haify` 由**独立发行版** `interfacetester-ai` 提供 ——
+它有自己的 `pyproject.toml`（`[project.scripts]` **只在那儿**），所以上面那句 **只装内核**，
+装完 `hrun` / `hmake` / `hconvert` 有、**`haify` 没有**（敲了会报"无法识别为 cmdlet / 命令"）。
+
+```bash
+# 装 AI 层（零三方依赖；`--no-build-isolation` 需要本机已有 setuptools/wheel）
+python -m pip install -e interfacetester_ai --no-build-isolation
+haify -V
+# 期望：打印 **AI 层版本 + 内核版本**（两个都报）——`-V` / `--version` 都认，与 `hrun --version` 同一习惯；
+#       版本号**不写死在这里**：内核版本 = interfacetester/__init__.py 的 __version__，
+#       AI 层版本 = interfacetester_ai/__init__.py 的 __version__（两者必须配套）。
+
+# 不装也能用（等价入口，同一份 `cli.main`）：python -m interfacetester_ai gen <文档.md>
+# 回滚 AI 层（内核 0 改动，删包即回滚）：python -m pip uninstall interfacetester-ai
+```
+
+> 离线提示：本机实测 `setuptools` / `wheel` 可**从 pip 本地缓存**装上
+> （`pip install --no-input setuptools wheel`），装完即可用 `--no-build-isolation` 离线打轮/安装。
+
 ### 3.5 开发与重新打包（改源码 → 生效）
 
 > **原则：只改工作区 `interfacetester/` 下的源码。**
@@ -155,11 +174,21 @@ python -c "import interfacetester; print(interfacetester.__file__)"
 #    不需要 docker httpbin，也不依赖外网）
 python -m pytest tests -q
 
-# 5) 需要交付/分发时重新打包
+# 5) 需要交付/分发时重新打包（**两个** wheel：内核 + AI 层）
 python -m build --wheel
 # 产物：dist/interfacetester-<版本>-py3-none-any.whl
 #   <版本> 取自 interfacetester/__init__.py 的 __version__（唯一事实来源），
 #   想知道具体文件名就直接看目录：Get-ChildItem dist/*.whl
+
+# AI 层（独立发行版，装它才有 `haify`；它有**自己的** pyproject.toml）
+cd interfacetester_ai
+python -m build --wheel
+# 产物：interfacetester_ai/dist/interfacetester_ai-0.1.0-py3-none-any.whl
+cd ..
+
+# ★**没有 `build` 前端也能打**（用 setuptools 自己的构建后端，离线可用；本机实测）：
+#   python -c "import setuptools.build_meta as b; print(b.build_wheel('dist'))"
+#   （AI 层同理：在 interfacetester_ai/ 目录里执行；前提：本机已有 setuptools/wheel）
 ```
 
 > 注意：
@@ -167,6 +196,12 @@ python -m build --wheel
 >   `black`，当前解释器没有才回落到 PATH）。`hmake` 会调用 `black` 格式化生成的 pytest
 >   文件；black 缺失或超时（默认 60s）时只告警并跳过格式化，但断言格式化输出的用例会失败。
 > - 打包产物统一放 `dist/`；仓库根目录不再手工放置 whl。
+> - ★**打轮别污染包目录**：源码目录里**不许**留下 `build/` 与 `*.egg-info/`
+>   （`tests/packaging_test.py` 盯着这条；本机实测踩过一次 —— 原地打轮会留下这两样）。
+> - ★**验产物内容**（可选，2×5 条判据，本机实测 **41 passed**）：
+>   `$env:INTERFACETESTER_WHEEL_PATH=<内核 wheel>`、`$env:INTERFACETESTER_AI_WHEEL_PATH=<AI wheel>`，
+>   然后跑 `python -m pytest tests/wheel_content_test.py tests/packaging_test.py -q`；
+>   不设这两个变量时它们按设计 **skip**（普通单测不依赖"本机恰好打过轮"）。
 > - 历史产物已归档在 `dist/prev/`（重构前手工安装用的那份）。
 > - **不要把版本号写死**在文档里（例如把 `4.3.5` 直接嵌进产物名或
 >   `--version` 的期望输出）：版本只在 `interfacetester/__init__.py` 维护，
@@ -225,7 +260,7 @@ python -m pytest tests -q \
   --deselect tests/step_testcase_test.py::TestRunTestCase::test_run_testcase_by_path \
   --deselect tests/cli_test.py::TestCli::test_debug_pytest \
   --deselect tests/cli_test.py::TestCli::test_run_testcase_with_abnormal_path
-# 期望：2541 passed, 122 skipped, 6 deselected   （本机：无外网；已装 filetype；★已 `git init`，
+# 期望：2545 passed, 121 skipped, 6 deselected   （本机：无外网；已装 filetype；★已 `git init`，
 #   所以 `git ls-files` 与 black 版本推断那两条护栏**会真跑**（此前因无 .git 而 skip））
 # ★本机当前**没有"环境遗留 failed"**：上传依赖的核心 `filetype` 已装（走 pip 本地缓存，
 #   **不需要外网**）→ 早先那条 `…test_requests_toolbelt_is_not_a_hard_prerequisite` 已转绿；

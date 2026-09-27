@@ -744,12 +744,36 @@ def cmd_debugtalk(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _version_text() -> str:
+    """`haify --version` 的文案：**AI 包 + 内核**两个版本都报。
+
+    ★为什么带上内核版本：AI 层读内核的**公开面**（`loader` / `make` / `parser` / `converter`），
+      两者必须**配套**使用（见 `deploy.md` 的版本口径）。只报自己那一半，出问题时要靠人猜
+      "是不是版本不配套" —— 那是现场最难查的一类问题。
+
+    成对情形：**没装内核**也要能问版本（此时如实写"（未装）"），因为
+    「我到底装没装、装的是哪个」正是用户来问版本的原因。
+    """
+    from interfacetester_ai import __version__ as ai_version  # noqa: PLC0415
+
+    try:
+        from interfacetester import __version__ as kernel_version  # noqa: PLC0415
+    except Exception:  # noqa: BLE001 - 没装内核也要能问出版本
+        kernel_version = "（未装）"
+    return f"interfacetester-ai {ai_version}（内核 interfacetester {kernel_version}）"
+
+
 def build_parser() -> argparse.ArgumentParser:
     """命令行解析器（`haify` 的公开面）。"""
     parser = argparse.ArgumentParser(
         prog="haify",
         description="interfacetester 的 AI 协作层（P0a：gen——文档 → 用例）",
     )
+    # ★与 `hrun` / `hmake` **同一口径**：`-V` / `--version` 都能问版本。
+    #   现场（2026-09-27）：装好 `haify` 后第一件事往往是问版本（`hrun --version` 的习惯），
+    #   而它此前只认 `-h` → 报 `unrecognized arguments: --version`（退出码 2），
+    #   看起来像"这个命令坏了"——**同一条链路上的工具，版本问法就该一样**。
+    parser.add_argument("-V", "--version", action="version", version=_version_text())
     sub = parser.add_subparsers(dest="command")
 
     gen = sub.add_parser("gen", help="文档 → 用例草稿（§5.1）")

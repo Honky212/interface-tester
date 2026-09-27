@@ -15,9 +15,24 @@
 
 | 场景 | 怎么做 |
 | --- | --- |
-| 有网、要跑测试 | `pip install -e ".[test]"` |
-| 有网、只要跑起来 | `pip install -e .`（AI 层**零三方依赖**，见下） |
-| **内网/离线** | 把两个 wheel + `requirements.txt` 一起带过去，用 `--no-index --find-links=./wheels` 安装（步骤与实测见 `deploy.md`；离线打轮也已实测） |
+| 有网、要跑测试 | `pip install -e ".[test]"`（内核）+ `pip install -e interfacetester_ai`（**AI 层**，见下 ★） |
+| 有网、只要跑起来 | `pip install -e .` + `pip install -e interfacetester_ai`（AI 层**零三方依赖**，见下） |
+| **内网/离线** | 把**两个** wheel（内核 + `interfacetester_ai`）+ `requirements.txt` 一起带过去，用 `--no-index --find-links=./wheels` 安装（步骤与实测见 `deploy.md`；离线打轮也已实测） |
+
+> ★**`haify` 这个命令从哪来**（2026-09-27 实测踩过，写在这里免得再踩）：
+> `haify` 声明在 **AI 包自己的** `pyproject.toml`（`[project.scripts]`），**不在**根 `pyproject.toml`
+> —— 根上只有 `hrun` / `hmake` / `hconvert` / `interfacetester`。所以只跑 `pip install -e .`
+> （只装内核）时：**`hrun` 有、`haify` 没有**，敲 `haify` 会报"无法将 `haify` 项识别为 cmdlet /
+> 命令 / 脚本文件…"。两条路都行：
+>
+> - **装 AI 包**（推荐，装完就能像 `hrun` 一样直接敲）：
+>   `python -m pip install -e interfacetester_ai --no-build-isolation`（离线也可，见下表）；
+> - **不装也能跑**（等价入口，同一份 `cli.main`，不存在两套行为）：
+>   `python -m interfacetester_ai gen <文档.md>`。
+>
+> 装完**自查一句**：`haify -V` → 应当打印 **AI 层版本 + 内核版本**（两个都报：
+> 内核版本取自 `interfacetester/__init__.py` 的 `__version__`，AI 层版本取自
+> `interfacetester_ai/__init__.py`）
 
 - **AI 层只依赖内核的公开面**（`converters` / `loader` / `make` / `models`），**不 import 运行内核**；
   反过来**内核永不 import AI 层**——所以「`pip uninstall` AI 层」就是**回滚**。

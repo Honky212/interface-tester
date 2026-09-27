@@ -69,7 +69,19 @@ hconvert --from openapi --in petstore_demo.yaml                  --out converted
 
 支持子集（**冻结**，逐条写明处理方式）见 **[`docs/convert/README.md`](docs/convert/README.md)**。
 
-### `haify`（AI 协作层）：配置在哪
+### `haify`（AI 协作层）：先装、再配
+
+> **这个命令从哪来**：`haify` 在 **AI 包自己的** `pyproject.toml` 里声明，**不在**根 `pyproject.toml`
+> （根上只有 `hrun` / `hmake` / `hconvert` / `interfacetester`）。所以 `pip install -e .`（只装内核）之后
+> **`haify` 不存在** —— 要么装 AI 包，要么用等价入口：
+>
+> ```powershell
+> python -m pip install -e interfacetester_ai --no-build-isolation   # 装 AI 包（零三方依赖）
+> haify -V      # 两个版本都报（AI 层版本 + 内核版本）；与 hrun --version 同一习惯
+> # 不装也能用（等价入口，同一份 cli.main）：python -m interfacetester_ai gen <文档.md>
+> ```
+>
+> 装法/离线/回滚的完整口径见 `deploy.md` §3.4；逐步用法见 `docs/使用手册-AI协作层.md` §1。
 
 `haify` 要调模型时必须**显式**配三样 —— 都是**环境变量**（**不是** `.env`）：
 
@@ -247,7 +259,7 @@ pip install -e ".[xml]"                # A2-1/A2-2 内核算子需要 lxml（二
 hrun examples/soap_xpath               # SOAP/XML：内核算子（完整 XPath 1.0 + XSD 契约校验）
 ```
 
-当前基线：**确定性口径 2541 passed / 122 skipped / 6 deselected**（全量 2669 个用例、**1824** 个 subtest）。★本机已装上传依赖的核心 `filetype`（`UPLOAD_READY=True`）——**因此早先那条"与代码无关的 failed"（`…test_requests_toolbelt_is_not_a_hard_prerequisite`）已经消失**；若在**未装** `filetype` 的环境里跑，它仍会红（那是环境项，不是代码项）。另有 1 条 `docs_consistency_test` 的"记录总数 vs 实际收集数"会在本行未更新时变红——它正是**基线联动护栏**，更新本行即转绿。
+当前基线：**确定性口径 2545 passed / 121 skipped / 6 deselected**（全量 2672 个用例、**1826** 个 subtest）。★本机已装上传依赖的核心 `filetype`（`UPLOAD_READY=True`）——**因此早先那条"与代码无关的 failed"（`…test_requests_toolbelt_is_not_a_hard_prerequisite`）已经消失**；若在**未装** `filetype` 的环境里跑，它仍会红（那是环境项，不是代码项）。另有 1 条 `docs_consistency_test` 的"记录总数 vs 实际收集数"会在本行未更新时变红——它正是**基线联动护栏**，更新本行即转绿。
 > NOTICE（本机实测口径，2026-09-22，Python 3.12.10 / pytest 9.1.1）：这一行是**未装任何可选
 > extra**（无 `test`／`xml`／`upload`／`trustme`）时的实测值，**不是回归**：
 >   - **skip 119**：可选依赖全缺，`lxml`（XML/XPath 算子）、`trustme`（HTTPS mock）、
