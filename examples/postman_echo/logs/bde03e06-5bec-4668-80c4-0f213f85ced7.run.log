@@ -1,0 +1,3 @@
+2026-09-22 22:23:52.136 | INFO | Start to run testcase: psm only, TestCase ID: bde03e06-5bec-4668-80c4-0f213f85ced7
+2026-09-22 22:23:52.136 | INFO | run step begin: psm only >>>>>>
+2026-09-22 22:23:52.136 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\bde03e06-5bec-4668-80c4-0f213f85ced7.run.log

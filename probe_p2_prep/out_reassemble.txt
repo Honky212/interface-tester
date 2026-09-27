@@ -1,0 +1,36 @@
+==========================================================================
+快照源：C:\Users\10503\AppData\Local\Temp\ai_real_run\.ai\draft
+工作区：C:\Users\10503\AppData\Local\Temp\ai_raw_new5
+文档  ：D:\tester\project-three\统一文件服务平台-接入应用接口文档.md
+==========================================================================
+  OK  T1_2_认证方式                  断言  2 / 覆盖字段  1 / 降级  0 
+  OK  T2_1_创建目录                  断言  4 / 覆盖字段  0 / 降级  3 {'expect-semantics': 1, 'response-ownership': 1, 'sample-value-hardcoded': 1}
+       · steps[0].validate[3] → `body.path` 的 `path` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定会回它，照文档实
+  OK  T2_2_更新目录                  断言  5 / 覆盖字段  1 / 降级  5 {'response-ownership': 2, 'expect-not-in-quote': 1, 'field-not-in-quote': 1, 'sample-value-hardcoded': 1}
+       · steps[0].validate[3] → `body.sourceDirName` 的 `sourceDirName` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表
+       · steps[0].validate[4] → `body.targetDirName` 的 `targetDirName` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表
+  OK  T2_3_查询目录                  断言  4 / 覆盖字段  2 / 降级  1 {'quote-miss': 1}
+  OK  T2_4_删除目录                  断言  4 / 覆盖字段  0 / 降级  3 {'expect-semantics': 2, 'quote-miss': 1}
+  OK  T3_1_文件上传                  断言  6 / 覆盖字段  1 / 降级  3 {'expect-semantics': 3}
+  OK  T3_2_文件下载                  断言  6 / 覆盖字段  0 / 降级  5 {'response-ownership': 2, 'expect-not-in-quote': 1, 'expect-semantics': 1, 'quote-miss': 1}
+       · steps[0].validate[4] → `body.fileName` 的 `fileName` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定
+       · steps[0].validate[5] → `body.path` 的 `path` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定会回它，照文档实
+  OK  T3_3_文件删除                  断言  5 / 覆盖字段  1 / 降级  3 {'response-ownership': 2, 'sample-value-hardcoded': 1}
+       · steps[0].validate[3] → `body.fileName` 的 `fileName` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定
+       · steps[0].validate[4] → `body.path` 的 `path` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定会回它，照文档实
+  OK  T3_4_文件预览                  断言  4 / 覆盖字段  0 / 降级  3 {'response-ownership': 2, 'expect-semantics': 1}
+       · steps[0].validate[2] → `body.fileName` 的 `fileName` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定
+       · steps[0].validate[3] → `body.path` 的 `path` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定会回它，照文档实
+  OK  T3_5_文件重命名                 断言  8 / 覆盖字段  0 / 降级  8 {'expect-semantics': 6, 'expect-not-in-quote': 1, 'sample-value-hardcoded': 1}
+  OK  T4_1_获取版本列表                断言  4 / 覆盖字段  0 / 降级  3 {'response-ownership': 2, 'doc-schema-conflict': 1}
+       · steps[0].validate[1] → `body.path` 的 `path` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定会回它，照文档实
+       · steps[0].validate[2] → `body.filename` 的 `filename` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定
+  OK  T4_2_获取版本详情                断言  7 / 覆盖字段  1 / 降级  5 {'field-not-in-quote': 3, 'expect-not-in-quote': 2}
+  OK  T4_3_版本回滚                  断言  6 / 覆盖字段  0 / 降级  3 {'expect-semantics': 2, 'quote-miss': 1}
+  OK  T5_1_获取元数据                 断言  4 / 覆盖字段  0 / 降级  2 {'expect-semantics': 2}
+  OK  T5_2_获取元数据列表               断言  3 / 覆盖字段  0 / 降级  2 {'doc-schema-conflict': 1, 'response-ownership': 1}
+       · steps[0].validate[1] → `body.path` 的 `path` **在文档的响应侧没有据**（响应侧没有这个字段）：本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它，它只出现在**请求**参数表里 → 服务端不一定会回它，照文档实
+  OK  T5_3_递归查询元数据               断言  4 / 覆盖字段  0 / 降级  4 {'expect-semantics': 2, 'expect-not-in-quote': 1, 'sample-value-hardcoded': 1}
+  OK  T5_4_分页递归查询元数据             断言  4 / 覆盖字段  0 / 降级  4 {'expect-semantics': 2, 'expect-not-in-quote': 1, 'sample-value-hardcoded': 1}
+
+合计：17 份快照 → 装配 17 成功；断言 80 条；降级 57 条（其中 **响应侧归属 12 条**）

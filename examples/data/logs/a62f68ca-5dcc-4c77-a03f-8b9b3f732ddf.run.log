@@ -1,0 +1,261 @@
+2026-09-25 16:12:54.216 | INFO | Start to run testcase: reference testcase unittest for abnormal folder path, TestCase ID: a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf
+2026-09-25 16:12:54.216 | INFO | run step begin: request with functions >>>>>>
+2026-09-25 16:12:54.216 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\tester\examples\data\logs\a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf.run.log
+2026-09-25 16:12:54.216 | INFO | Start to run testcase: request methods testcase with functions, TestCase ID: a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf
+2026-09-25 16:12:54.216 | INFO | run step begin: get with params >>>>>>
+2026-09-25 16:12:54.217 | DEBUG | ====== request details ======
+url: https://postman-echo.com/get
+method: GET
+params: {
+    "foo1": "bar1",
+    "foo2": "config_bar2",
+    "sum_v": 3
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "interfacetester-Request-ID": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-974217"
+}
+json: None
+
+2026-09-25 16:13:11.146 | DEBUG | failed to get client address: too many values to unpack (expected 2)
+2026-09-25 16:13:11.146 | DEBUG | failed to get server address: too many values to unpack (expected 2)
+2026-09-25 16:13:11.146 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : https://postman-echo.com/get?foo1=bar1&foo2=config_bar2&sum_v=3
+headers  : {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-974217"
+}
+cookies  : {}
+body     : None
+
+2026-09-25 16:13:11.147 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Date": "Fri, 25 Sep 2026 08:12:56 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "etag": "W/\"16f-bWr67opdtuKi2/tIJlj05tVuXBY\"",
+    "vary": "Accept-Encoding",
+    "x-envoy-upstream-service-time": "6",
+    "cf-cache-status": "DYNAMIC",
+    "Set-Cookie": "******",
+    "Content-Encoding": "gzip",
+    "Server": "cloudflare",
+    "CF-RAY": "a4089113cb668900-LAX"
+}
+cookies  : {
+    "sails.sid": "******",
+    "__cf_bm": "XZjzxDw2zfPm8MzjiQ8.89KApzQ2IqVJSnKpEwxtTnc-1790323976.288318-1.0.1.1-y21uq.ZTosjvwbqjvJuSv.I6I9K5yRMSJx49eeyRiUKQCJ7SQQS4GMjgqdBC5FePoaBYrNemqYfvVsHUcUWzaoVaIua4JHXi55pblQu_aY0XXrR0aSlnPtVQN0nuPvSs",
+    "_cfuvid": "70UOhXKov9dvDgUjfcmJou9l5Zz3TpaOBabQ65oACFk-1790323976.288318-1.0.1.1-wWCBk8vmxL6JdeslsGsFOHK8LvmCkAr1agSkf0Zo5nY"
+}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "args": {
+        "foo1": "bar1",
+        "foo2": "config_bar2",
+        "sum_v": "3"
+    },
+    "headers": {
+        "host": "postman-echo.com",
+        "accept-encoding": "gzip, br",
+        "user-agent": "InterfaceTester/5.0.1",
+        "interfacetester-request-id": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-974217",
+        "accept": "*/*",
+        "x-forwarded-proto": "https"
+    },
+    "url": "https://postman-echo.com/get?foo1=bar1&foo2=config_bar2&sum_v=3"
+}
+
+2026-09-25 16:13:11.147 | INFO | status_code: 200, response_time(ms): 16928.66 ms, response_length: 367 bytes (estimated, no Content-Length)
+2026-09-25 16:13:11.147 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Date": "Fri, 25 Sep 2026 08:12:56 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "etag": "W/\"16f-bWr67opdtuKi2/tIJlj05tVuXBY\"",
+    "vary": "Accept-Encoding",
+    "x-envoy-upstream-service-time": "6",
+    "cf-cache-status": "DYNAMIC",
+    "Set-Cookie": "******",
+    "Content-Encoding": "gzip",
+    "Server": "cloudflare",
+    "CF-RAY": "a4089113cb668900-LAX"
+}
+body: {
+    "args": {
+        "foo1": "bar1",
+        "foo2": "config_bar2",
+        "sum_v": "3"
+    },
+    "headers": {
+        "host": "postman-echo.com",
+        "accept-encoding": "gzip, br",
+        "user-agent": "InterfaceTester/5.0.1",
+        "interfacetester-request-id": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-974217",
+        "accept": "*/*",
+        "x-forwarded-proto": "https"
+    },
+    "url": "https://postman-echo.com/get?foo1=bar1&foo2=config_bar2&sum_v=3"
+}
+
+2026-09-25 16:13:11.147 | INFO | extract mapping: {'session_foo2': '******'}
+2026-09-25 16:13:11.147 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-25 16:13:11.147 | INFO | assert body.args.foo1 equal bar1(str)	==> pass
+2026-09-25 16:13:11.147 | INFO | assert body.args.sum_v equal 3(str)	==> pass
+2026-09-25 16:13:11.147 | INFO | assert body.args.foo2 equal config_bar2(str)	==> pass
+2026-09-25 16:13:11.147 | INFO | run step end: get with params <<<<<<
+
+2026-09-25 16:13:11.147 | INFO | generate testcase log: D:\tester\examples\data\logs\a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf.run.log
+2026-09-25 16:13:11.148 | INFO | export variables: {'session_foo2': '******'}
+2026-09-25 16:13:11.148 | INFO | run step end: request with functions <<<<<<
+
+2026-09-25 16:13:11.148 | INFO | run step begin: post form data >>>>>>
+2026-09-25 16:13:11.148 | DEBUG | ====== request details ======
+url: https://postman-echo.com/post
+method: POST
+params: {}
+data: 'foo1=bar12&foo2=config_bar2'
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "interfacetester-Request-ID": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-991148"
+}
+json: None
+
+2026-09-25 16:13:11.571 | DEBUG | failed to get client address: too many values to unpack (expected 2)
+2026-09-25 16:13:11.572 | DEBUG | failed to get server address: too many values to unpack (expected 2)
+2026-09-25 16:13:11.572 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.POST
+url      : https://postman-echo.com/post
+headers  : {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "interfacetester-Request-ID": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-991148",
+    "Cookie": "******",
+    "Content-Length": "27"
+}
+cookies  : {
+    "sails.sid": "******",
+    "__cf_bm": "XZjzxDw2zfPm8MzjiQ8.89KApzQ2IqVJSnKpEwxtTnc-1790323976.288318-1.0.1.1-y21uq.ZTosjvwbqjvJuSv.I6I9K5yRMSJx49eeyRiUKQCJ7SQQS4GMjgqdBC5FePoaBYrNemqYfvVsHUcUWzaoVaIua4JHXi55pblQu_aY0XXrR0aSlnPtVQN0nuPvSs",
+    "_cfuvid": "70UOhXKov9dvDgUjfcmJou9l5Zz3TpaOBabQ65oACFk-1790323976.288318-1.0.1.1-wWCBk8vmxL6JdeslsGsFOHK8LvmCkAr1agSkf0Zo5nY"
+}
+body     : foo1=bar12&foo2=config_bar2
+
+2026-09-25 16:13:11.572 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Date": "Fri, 25 Sep 2026 08:13:11 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "etag": "W/\"38a-t9AR9SAm7kwBVDcrro7i4g4ufV8\"",
+    "vary": "Accept-Encoding",
+    "Set-Cookie": "******",
+    "x-envoy-upstream-service-time": "7",
+    "cf-cache-status": "DYNAMIC",
+    "Content-Encoding": "gzip",
+    "Server": "cloudflare",
+    "CF-RAY": "a40891707bc88900-LAX"
+}
+cookies  : {
+    "sails.sid": "******"
+}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {
+        "foo1": "bar12",
+        "foo2": "config_bar2"
+    },
+    "headers": {
+        "host": "postman-echo.com",
+        "accept-encoding": "gzip, br",
+        "accept": "*/*",
+        "interfacetester-request-id": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-991148",
+        "x-forwarded-proto": "https",
+        "content-type": "application/x-www-form-urlencoded",
+        "content-length": "27",
+        "user-agent": "InterfaceTester/5.0.1",
+        "cookie": "******"
+    },
+    "json": {
+        "foo1": "bar12",
+        "foo2": "config_bar2"
+    },
+    "url": "https://postman-echo.com/post"
+}
+
+2026-09-25 16:13:11.572 | INFO | status_code: 200, response_time(ms): 422.38 ms, response_length: 906 bytes (estimated, no Content-Length)
+2026-09-25 16:13:11.572 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Date": "Fri, 25 Sep 2026 08:13:11 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "etag": "W/\"38a-t9AR9SAm7kwBVDcrro7i4g4ufV8\"",
+    "vary": "Accept-Encoding",
+    "Set-Cookie": "******",
+    "x-envoy-upstream-service-time": "7",
+    "cf-cache-status": "DYNAMIC",
+    "Content-Encoding": "gzip",
+    "Server": "cloudflare",
+    "CF-RAY": "a40891707bc88900-LAX"
+}
+body: {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {
+        "foo1": "bar12",
+        "foo2": "config_bar2"
+    },
+    "headers": {
+        "host": "postman-echo.com",
+        "accept-encoding": "gzip, br",
+        "accept": "*/*",
+        "interfacetester-request-id": "interfacetester-a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf-991148",
+        "x-forwarded-proto": "https",
+        "content-type": "application/x-www-form-urlencoded",
+        "content-length": "27",
+        "user-agent": "InterfaceTester/5.0.1",
+        "cookie": "******"
+    },
+    "json": {
+        "foo1": "bar12",
+        "foo2": "config_bar2"
+    },
+    "url": "https://postman-echo.com/post"
+}
+
+2026-09-25 16:13:11.573 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-25 16:13:11.573 | INFO | assert body.form.foo1 equal bar12(str)	==> pass
+2026-09-25 16:13:11.573 | INFO | assert body.form.foo2 equal config_bar2(str)	==> pass
+2026-09-25 16:13:11.573 | INFO | run step end: post form data <<<<<<
+
+2026-09-25 16:13:11.573 | INFO | generate testcase log: D:\tester\examples\data\logs\a62f68ca-5dcc-4c77-a03f-8b9b3f732ddf.run.log

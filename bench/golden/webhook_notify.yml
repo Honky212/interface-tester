@@ -1,0 +1,31 @@
+config:
+  name: 回调通知
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 投递订单已支付事件
+    request:
+      method: POST
+      url: /api/webhook/notify
+      headers:
+        Content-Type: application/json
+      json:
+        event: order.paid
+        payload:
+          orderNo: SO-2026-0002
+          amount: 19900
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.delivered, "bool"]
+      - greater_or_equals: [body.data.attempt, 1]
+      - jsonschema_match:
+          - body.data
+          - type: object
+            required: [delivered, attempt]
+            properties:
+              delivered:
+                type: boolean
+              attempt:
+                type: integer

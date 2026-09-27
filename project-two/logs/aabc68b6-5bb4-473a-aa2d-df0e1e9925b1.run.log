@@ -1,0 +1,67 @@
+2026-09-22 19:19:52.823 | INFO | Start to run testcase: 非JSON响应, TestCase ID: aabc68b6-5bb4-473a-aa2d-df0e1e9925b1
+2026-09-22 19:19:52.823 | INFO | run step begin: 在非JSON上按路径取值 >>>>>>
+2026-09-22 19:19:52.826 | DEBUG | ====== request details ======
+url: http://127.0.0.1:8000/api/user/info
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-aabc68b6-5bb4-473a-aa2d-df0e1e9925b1-992823"
+}
+json: None
+
+2026-09-22 19:19:52.829 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-22 19:19:52.829 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:8000/api/user/info
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-aabc68b6-5bb4-473a-aa2d-df0e1e9925b1-992823"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 19:19:52.832 | DEBUG | 
+================== response details ==================
+status_code : 401
+headers  : {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 11:19:52 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "52"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "code": 401,
+    "message": "未授权：token 无效"
+}
+
+2026-09-22 19:19:52.833 | ERROR | 401 Client Error: Unauthorized for url: http://127.0.0.1:8000/api/user/info
+2026-09-22 19:19:52.833 | DEBUG | ====== response details ======
+status_code: 401
+headers: {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 11:19:52 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "52"
+}
+body: {
+    "code": 401,
+    "message": "未授权：token 无效"
+}
+
+2026-09-22 19:19:52.833 | ERROR | assert body.code equal 0(int)	==> fail
+check_item: body.code
+check_value: 401(int)
+assert_method: equal
+expect_value: 0(int)
+2026-09-22 19:19:52.833 | INFO | generate testcase log: D:\learn\interface-tester\project-two\logs\aabc68b6-5bb4-473a-aa2d-df0e1e9925b1.run.log

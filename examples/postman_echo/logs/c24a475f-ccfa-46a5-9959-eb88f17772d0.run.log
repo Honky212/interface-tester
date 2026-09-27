@@ -1,0 +1,32 @@
+2026-09-22 21:53:34.059 | INFO | Start to run testcase: thrift scalar response, TestCase ID: c24a475f-ccfa-46a5-9959-eb88f17772d0
+2026-09-22 21:53:34.059 | INFO | run step begin: scalar response >>>>>>
+2026-09-22 21:53:34.059 | DEBUG | config.thrift is not set, fall back to TConfigThrift defaults (step-level fields still win)
+2026-09-22 21:53:34.059 | ERROR | assert @ equal pang(str)	==> fail
+check_item: @
+check_value: pong(str)
+assert_method: equal
+expect_value: pang(str)
+2026-09-22 21:53:34.059 | ERROR | 
+******************************** THRIFT DETAILED REQUEST & RESPONSE ********************************
+====== thrift request details ======
+psm: None
+method: None
+params: {}
+thrift_client: <step_thrift_request_test._ScalarThriftClient object at 0x000001E18A2E54F0>
+idl_path: 'a.thrift'
+timeout: 10
+include_dirs: ['/idl']
+target: ''
+env: 'prod'
+cluster: 'default'
+psm: None
+service_name: None
+ip: '127.0.0.1'
+port: 9000
+proto_type: <ProtoType.Binary: 1>
+trans_type: <TransType.Buffered: 1>
+
+====== thrift response details ======
+<str> pong
+
+2026-09-22 21:53:34.066 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\c24a475f-ccfa-46a5-9959-eb88f17772d0.run.log

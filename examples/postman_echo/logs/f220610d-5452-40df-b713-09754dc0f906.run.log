@@ -1,0 +1,77 @@
+2026-09-23 23:02:16.729 | INFO | Start to run testcase: request methods testcase with functions, TestCase ID: f220610d-5452-40df-b713-09754dc0f906
+2026-09-23 23:02:16.729 | INFO | run step begin: get with params >>>>>>
+2026-09-23 23:02:16.729 | DEBUG | ====== request details ======
+url: https://postman-echo.com/get
+method: GET
+params: {
+    "foo1": "bar11",
+    "foo2": "bar21",
+    "sum_v": 3
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "interfacetester-Request-ID": "interfacetester-f220610d-5452-40df-b713-09754dc0f906-736729"
+}
+json: None
+
+2026-09-23 23:04:19.421 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-23 23:04:19.423 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : https://postman-echo.com/get?foo1=bar11&foo2=bar21&sum_v=3
+headers  : {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "interfacetester-Request-ID": "interfacetester-f220610d-5452-40df-b713-09754dc0f906-736729"
+}
+cookies  : {}
+body     : None
+
+2026-09-23 23:04:19.423 | DEBUG | 
+================== response details ==================
+status_code : 0
+headers  : {}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-23 23:04:19.423 | ERROR | HTTPSConnectionPool(host='postman-echo.com', port=443): Read timed out. (read timeout=120.0)
+2026-09-23 23:04:19.423 | DEBUG | ====== response details ======
+status_code: 0
+headers: {}
+body: None
+
+2026-09-23 23:04:19.423 | WARNING | extract 的 'foo3'：取值表达式 'body.args.foo2' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  后续步骤引用该变量时会拿到 None。
+2026-09-23 23:04:19.423 | INFO | extract mapping: {'foo3': None}
+2026-09-23 23:04:19.423 | ERROR | assert status_code equal 200(int)	==> fail
+check_item: status_code
+check_value: 0(int)
+assert_method: equal
+expect_value: 200(int)
+2026-09-23 23:04:19.423 | WARNING | equal 的 check 位置：取值表达式 'body.args.foo1' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.foo1, ""]`）。
+2026-09-23 23:04:19.423 | ERROR | assert body.args.foo1 equal bar11(str)	==> fail
+check_item: body.args.foo1
+check_value: None(NoneType)
+assert_method: equal
+expect_value: bar11(str)
+2026-09-23 23:04:19.424 | WARNING | equal 的 check 位置：取值表达式 'body.args.sum_v' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.sum_v, ""]`）。
+2026-09-23 23:04:19.424 | ERROR | assert body.args.sum_v equal 3(str)	==> fail
+check_item: body.args.sum_v
+check_value: None(NoneType)
+assert_method: equal
+expect_value: 3(str)
+2026-09-23 23:04:19.424 | WARNING | equal 的 check 位置：取值表达式 'body.args.foo2' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.foo2, ""]`）。
+2026-09-23 23:04:19.424 | ERROR | assert body.args.foo2 equal bar21(str)	==> fail
+check_item: body.args.foo2
+check_value: None(NoneType)
+assert_method: equal
+expect_value: bar21(str)
+2026-09-23 23:04:19.424 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\f220610d-5452-40df-b713-09754dc0f906.run.log

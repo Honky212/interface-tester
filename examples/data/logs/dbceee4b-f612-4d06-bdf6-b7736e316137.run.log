@@ -1,0 +1,81 @@
+2026-09-27 00:09:01.259 | INFO | Start to run testcase: reference testcase unittest for abnormal folder path, TestCase ID: dbceee4b-f612-4d06-bdf6-b7736e316137
+2026-09-27 00:09:01.259 | INFO | run step begin: request with functions >>>>>>
+2026-09-27 00:09:01.259 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\tester\examples\data\logs\dbceee4b-f612-4d06-bdf6-b7736e316137.run.log
+2026-09-27 00:09:01.259 | INFO | Start to run testcase: request methods testcase with functions, TestCase ID: dbceee4b-f612-4d06-bdf6-b7736e316137
+2026-09-27 00:09:01.259 | INFO | run step begin: get with params >>>>>>
+2026-09-27 00:09:01.259 | DEBUG | ====== request details ======
+url: https://postman-echo.com/get
+method: GET
+params: {
+    "foo1": "bar1",
+    "foo2": "config_bar2",
+    "sum_v": 3
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "interfacetester-Request-ID": "interfacetester-dbceee4b-f612-4d06-bdf6-b7736e316137-941259"
+}
+json: None
+
+2026-09-27 00:11:03.081 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-27 00:11:03.082 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : https://postman-echo.com/get?foo1=bar1&foo2=config_bar2&sum_v=3
+headers  : {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "interfacetester-Request-ID": "interfacetester-dbceee4b-f612-4d06-bdf6-b7736e316137-941259"
+}
+cookies  : {}
+body     : None
+
+2026-09-27 00:11:03.082 | DEBUG | 
+================== response details ==================
+status_code : 0
+headers  : {}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-27 00:11:03.082 | ERROR | HTTPSConnectionPool(host='postman-echo.com', port=443): Read timed out. (read timeout=120.0)
+2026-09-27 00:11:03.082 | DEBUG | ====== response details ======
+status_code: 0
+headers: {}
+body: None
+
+2026-09-27 00:11:03.082 | WARNING | extract 的 'session_foo2'：取值表达式 'body.args.foo2' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  后续步骤引用该变量时会拿到 None。
+2026-09-27 00:11:03.082 | INFO | extract mapping: {'session_foo2': '******'}
+2026-09-27 00:11:03.082 | ERROR | assert status_code equal 200(int)	==> fail
+check_item: status_code
+check_value: 0(int)
+assert_method: equal
+expect_value: 200(int)
+2026-09-27 00:11:03.082 | WARNING | equal 的 check 位置：取值表达式 'body.args.foo1' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.foo1, ""]`）。
+2026-09-27 00:11:03.082 | ERROR | assert body.args.foo1 equal bar1(str)	==> fail
+check_item: body.args.foo1
+check_value: None(NoneType)
+assert_method: equal
+expect_value: bar1(str)
+2026-09-27 00:11:03.082 | WARNING | equal 的 check 位置：取值表达式 'body.args.sum_v' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.sum_v, ""]`）。
+2026-09-27 00:11:03.082 | ERROR | assert body.args.sum_v equal 3(str)	==> fail
+check_item: body.args.sum_v
+check_value: None(NoneType)
+assert_method: equal
+expect_value: 3(str)
+2026-09-27 00:11:03.082 | WARNING | equal 的 check 位置：取值表达式 'body.args.foo2' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.foo2, ""]`）。
+2026-09-27 00:11:03.082 | ERROR | assert body.args.foo2 equal config_bar2(str)	==> fail
+check_item: body.args.foo2
+check_value: None(NoneType)
+assert_method: equal
+expect_value: config_bar2(str)
+2026-09-27 00:11:03.082 | INFO | generate testcase log: D:\tester\examples\data\logs\dbceee4b-f612-4d06-bdf6-b7736e316137.run.log
+2026-09-27 00:11:03.082 | INFO | generate testcase log: D:\tester\examples\data\logs\dbceee4b-f612-4d06-bdf6-b7736e316137.run.log

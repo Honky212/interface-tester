@@ -1,0 +1,77 @@
+2026-09-22 19:19:47.314 | INFO | Start to run testcase: 断言值未命中, TestCase ID: 32fb3c69-17f8-4939-9c2a-771891e3b97c
+2026-09-22 19:19:47.316 | INFO | run step begin: 取一个不存在的字段再断非空 >>>>>>
+2026-09-22 19:19:47.316 | DEBUG | ====== request details ======
+url: http://127.0.0.1:8000/api/user/info
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-32fb3c69-17f8-4939-9c2a-771891e3b97c-987316"
+}
+json: None
+
+2026-09-22 19:19:47.319 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-22 19:19:47.319 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:8000/api/user/info
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-32fb3c69-17f8-4939-9c2a-771891e3b97c-987316"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 19:19:47.319 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 11:19:47 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "89"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "code": 0,
+    "data": {
+        "username": "admin",
+        "role": "admin",
+        "email": "admin@example.com"
+    }
+}
+
+2026-09-22 19:19:47.319 | INFO | status_code: 200, response_time(ms): 3.74 ms, response_length: 89 bytes
+2026-09-22 19:19:47.319 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 11:19:47 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "89"
+}
+body: {
+    "code": 0,
+    "data": {
+        "username": "admin",
+        "role": "admin",
+        "email": "admin@example.com"
+    }
+}
+
+2026-09-22 19:19:47.319 | WARNING | not_equal 的 check 位置：取值表达式 'body.data.nonexistent_field' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.data.nonexistent_field, ""]`）。
+2026-09-22 19:19:47.319 | INFO | assert body.data.nonexistent_field not_equal (str)	==> pass
+2026-09-22 19:19:47.319 | INFO | run step end: 取一个不存在的字段再断非空 <<<<<<
+
+2026-09-22 19:19:47.319 | INFO | generate testcase log: D:\learn\interface-tester\project-two\logs\32fb3c69-17f8-4939-9c2a-771891e3b97c.run.log

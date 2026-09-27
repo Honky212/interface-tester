@@ -1,0 +1,1139 @@
+# 真实文档结构探查（第二档需求探明 · b）
+
+- 接口文档：`project-three\统一文件服务平台-接入应用接口文档.md`（37604 字节）
+- 人工用例：`project-three\统一文件服务平台-接口测试用例.md`（47831 字节）
+
+## 1. 接口文档的标题骨架（前 40 条）
+
+```
+# 统一文件服务平台 - 接入应用接口文档
+## 1. 接口概述
+### 1.1 服务地址
+### 1.2 认证方式
+### 1.3 公共请求头
+### 1.4 统一响应格式
+#### 成功响应
+#### 失败响应
+### 1.5 常见错误码
+## 2. 目录服务接口
+### 2.1 创建目录
+### 2.2 更新目录
+### 2.3 查询目录
+### 2.4 删除目录
+## 3. 文件服务接口
+### 3.1 文件上传
+### 3.2 文件下载
+### 3.3 文件删除
+### 3.4 文件预览
+### 3.5 文件重命名
+## 4. 版本服务接口
+### 4.1 获取版本列表
+### 4.2 获取版本详情
+### 4.3 版本回滚
+## 5. 元数据服务接口
+### 5.1 获取元数据
+### 5.2 获取元数据列表
+### 5.3 递归查询元数据
+### 5.4 分页递归查询元数据
+## 6. 附录
+### 6.1 请求路径格式规范
+### 6.2 代码参考
+### 6.3 常见问题
+```
+
+## 2. 接口文档里的**所有表头**（盲区是否触发的直接证据）
+
+共 270 张表。逐张列出（★标出含反引号或落到词表盲区的表头）：
+
+ 1. 环境 | 基础URL
+ 2. 开发环境 | `https://localhost:8080`　★反引号
+ 3. 测试环境 | `https://unifsptst.cernet.com`　★反引号
+ 4. 生产环境 | `https://unifsp.cernet.com`　★反引号
+ 5. 头名称 | 必填 | 说明 | 示例值
+ 6. `Authorization` | 是 | OAuth2.0 Bearer Token | `Bearer eyJhbGciOi...`　★反引号
+ 7. `X-Path` | 是 | 请求路径，用于权限校验 | `/app1/documents/`　★反引号
+ 8. 字段名 | 类型 | 说明
+ 9. `success` | Boolean | 操作是否成功　★反引号，★assertions 认、doc_quality 不认的必填词
+10. `errorCode` | String | 业务错误码，成功时为 `null`　★反引号
+11. `message` | String | 操作结果消息　★反引号
+12. `data` | Object | 返回的业务数据，失败时为 `null`　★反引号
+13. 错误码 | 错误信息 | 说明
+14. `FILE_1001` | 文件列表不能为空 | 上传文件列表为空　★反引号
+15. `FILE_1007` | 版本ID不能为空 | 版本回滚/查询时未传版本号　★反引号
+16. `FILE_1008` | 版本不能为空 | 版本参数缺失　★反引号
+17. `FILE_1010` | 目录路径不能为空 | 路径参数缺失　★反引号
+18. `FILE_1016` | 最多上传10个文件 | 上传文件数量超限　★反引号
+19. `FILE_1018` | 路径与Header不一致 | X-Path 校验失败　★反引号
+20. `FILE_1020` | Header格式错误 | X-Path 格式不规范　★反引号
+21. `FILE_1021` | 上传文件大小超过限制 | 单文件超过 50MB　★反引号
+22. `FILE_1023` | 部分文件上传失败 | 上传存在部分成功部分失败　★反引号
+23. `FILE_2001` | 目录不存在 | 指定的目录不存在　★反引号
+24. `FILE_2003` | 文件不存在 | 指定的文件不存在　★反引号
+25. `FILE_2005` | 目标版本不存在 | 指定的版本记录不存在　★反引号
+26. `FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误　★反引号
+27. `FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误　★反引号
+28. `FILE_4012` | 目录下有文件，不能删除 | 删除非空目录　★反引号
+29. `FILE_4015` | 同一目录下已存在同名文件 | 重命名时文件名冲突　★反引号
+30. `FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<> | 等特殊字符　★反引号
+31. `FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格　★反引号
+32. `FILE_5001` | 目标版本已是当前版本，无需回滚 | 版本回滚时目标版本即当前版本　★反引号
+33. `FILE_6004` | 文件存储操作异常 | 服务器内部错误　★反引号
+34. `FILE_8002` | 开始时间不能大于结束时间 | 元数据查询时间范围无效　★反引号
+35. 属性 | 值
+36. **URL** | `POST /api/directory/create`　★反引号
+37. **所属文件** | `DirectoryController.java`　★反引号
+38. 头名称 | 必填 | 示例值
+39. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+40. `X-Path` | 是 | `/app1/`　★反引号
+41. 字段名 | 类型 | 必填 | 说明 | 示例值
+42. `path` | String | 是 | 新目录的完整路径 | `/app1/documents/reports/`　★反引号
+43. 属性 | 值
+44. **URL** | `POST /api/directory/update`　★反引号
+45. **所属文件** | `DirectoryController.java`　★反引号
+46. 头名称 | 必填 | 示例值
+47. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+48. `X-Path` | 是 | `/app1/documents/reports/`　★反引号
+49. 字段名 | 类型 | 必填 | 说明 | 示例值
+50. `sourceDirName` | String | 是 | 源目录完整路径 | `/app1/documents/reports/`　★反引号
+51. `targetDirName` | String | 是 | 目标目录完整路径 | `/app1/documents/reports_new/`　★反引号
+52. 属性 | 值
+53. **URL** | `GET /api/directory/query`　★反引号
+54. **所属文件** | `DirectoryController.java`　★反引号
+55. 头名称 | 必填 | 示例值
+56. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+57. `X-Path` | 是 | `/app1/`　★反引号
+58. 字段名 | 类型 | 必填 | 说明 | 示例值
+59. `path` | String | 是 | 查询路径 | `/app1/`　★反引号
+60. `dirName` | String | 否 | 目录名称（模糊查询） | `doc`　★反引号
+61. `startTime` | String | 否 | 开始时间（格式：yyyy-MM-dd） | `2026-01-01`　★反引号
+62. `endTime` | String | 否 | 结束时间（格式：yyyy-MM-dd） | `2026-12-31`　★反引号
+63. 字段名 | 类型 | 说明
+64. `directoryName` | String | 目录名称　★反引号
+65. `path` | String | 完整路径　★反引号
+66. `status` | Integer | 状态（1-启用，0-停用）　★反引号
+67. `createBy` | String | 创建人　★反引号
+68. `createTime` | String | 创建时间　★反引号
+69. `updateBy` | String | 修改人　★反引号
+70. `updateTime` | String | 修改时间　★反引号
+71. 属性 | 值
+72. **URL** | `POST /api/directory/delete`　★反引号
+73. **所属文件** | `DirectoryController.java`　★反引号
+74. 头名称 | 必填 | 示例值
+75. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+76. `X-Path` | 是 | `/app1/documents/`　★反引号
+77. 字段名 | 类型 | 必填 | 说明 | 示例值
+78. `path` | String | 是 | 要删除的目录完整路径 | `/app1/documents/reports/`　★反引号
+79. 属性 | 值
+80. **URL** | `POST /api/file/upload`　★反引号
+81. **所属文件** | `FileController.java`　★反引号
+82. 头名称 | 必填 | 示例值
+83. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+84. `X-Path` | 是 | `/app1/documents/`　★反引号
+85. `Content-Type` | 是 | `multipart/form-data`　★反引号
+86. 字段名 | 类型 | 必填 | 说明 | 示例值
+87. `path` | String | 是 | 目标目录路径 | `/app1/documents/`　★反引号
+88. `files` | MultipartFile[] | 是 | 文件数组（最多10个） | -　★反引号
+89. 属性 | 值
+90. **URL** | `GET /api/file/download`　★反引号
+91. **所属文件** | `FileController.java`　★反引号
+92. 头名称 | 必填 | 示例值
+93. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+94. `X-Path` | 是 | `/app1/documents/`　★反引号
+95. 字段名 | 类型 | 必填 | 说明 | 示例值
+96. `fileName` | String | 是 | 文件名 | `report.pdf`　★反引号
+97. `path` | String | 是 | 文件所在目录路径 | `/app1/documents/`　★反引号
+98. 属性 | 值
+99. **URL** | `POST /api/file/delete`　★反引号
+100. **所属文件** | `FileController.java`　★反引号
+101. 头名称 | 必填 | 示例值
+102. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+103. `X-Path` | 是 | `/app1/documents/`　★反引号
+104. 字段名 | 类型 | 必填 | 说明 | 示例值
+105. `fileName` | String | 是 | 要删除的文件名 | `report.pdf`　★反引号
+106. `path` | String | 是 | 文件所在目录路径 | `/app1/documents/`　★反引号
+107. 属性 | 值
+108. **URL** | `GET /api/file/previewUrl`　★反引号
+109. **所属文件** | `FileController.java`　★反引号
+110. 头名称 | 必填 | 示例值
+111. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+112. `X-Path` | 是 | `/app1/documents/`　★反引号
+113. 字段名 | 类型 | 必填 | 说明 | 示例值
+114. `fileName` | String | 是 | 文件名 | `report.pdf`　★反引号
+115. `path` | String | 是 | 文件所在目录路径 | `/app1/documents/`　★反引号
+116. `versionId` | String | 否 | 版本ID（不传则预览最新版本） | `abc123`　★反引号
+117. 属性 | 值
+118. **URL** | `POST /api/metadata/rename`　★反引号
+119. **所属文件** | `MetadataController.java`　★反引号
+120. 头名称 | 必填 | 示例值
+121. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+122. `X-Path` | 是 | `/app1/documents/`　★反引号
+123. 字段名 | 类型 | 必填 | 说明 | 示例值
+124. `path` | String | 是 | 文件所在目录路径 | `/app1/documents/`　★反引号
+125. `oldFileName` | String | 是 | 原文件名 | `report_old.pdf`　★反引号
+126. `newFileName` | String | 是 | 新文件名 | `report_new.pdf`　★反引号
+127. 属性 | 值
+128. **URL** | `GET /api/version/getList`　★反引号
+129. **所属文件** | `VersionController.java`　★反引号
+130. 头名称 | 必填 | 示例值
+131. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+132. `X-Path` | 是 | `/app1/documents/`　★反引号
+133. 字段名 | 类型 | 必填 | 说明 | 示例值
+134. `path` | String | 是 | 文件所在目录逻辑路径 | `/app1/documents/`　★反引号
+135. `filename` | String | 是 | 文件名 | `report.pdf`　★反引号
+136. 字段名 | 类型 | 说明
+137. `version` | String | 版本号　★反引号
+138. `fileSize` | Long | 版本文件大小（字节）　★反引号
+139. `fileEtag` | String | 版本文件 MD5　★反引号
+140. `createTime` | String | 版本生成时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+141. 属性 | 值
+142. **URL** | `GET /api/version/getInfo`　★反引号
+143. **所属文件** | `VersionController.java`　★反引号
+144. 头名称 | 必填 | 示例值
+145. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+146. `X-Path` | 是 | `/app1/documents/`　★反引号
+147. 字段名 | 类型 | 必填 | 说明 | 示例值
+148. `path` | String | 是 | 文件所在目录逻辑路径 | `/app1/documents/`　★反引号
+149. `filename` | String | 是 | 文件名 | `report.pdf`　★反引号
+150. `version` | String | 是 | 版本号 | `v2`　★反引号
+151. 字段名 | 类型 | 说明
+152. `version` | String | 版本号　★反引号
+153. `size` | Long | 版本文件大小（字节）　★反引号
+154. `etag` | String | 版本文件 MD5　★反引号
+155. `status` | Integer | 版本状态（1-已保存，3-已回滚，4-已删除）　★反引号
+156. `createTime` | String | 版本生成时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+157. `fileName` | String | 文件原名　★反引号
+158. `fileSuffix` | String | 文件后缀（不含 `.`）　★反引号
+159. `fileStatus` | Integer | 文件状态（1-已保存，4-已删除）　★反引号
+160. `dirName` | String | 所属目录名称　★反引号
+161. `bucketId` | String | 存储桶 ID（应用ID）　★反引号
+162. `dirLogicalPath` | String | 目录完整逻辑路径　★反引号
+163. 属性 | 值
+164. **URL** | `POST /api/version/rollback`　★反引号
+165. **所属文件** | `VersionController.java`　★反引号
+166. 头名称 | 必填 | 示例值
+167. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+168. `X-Path` | 是 | `/app1/documents/`　★反引号
+169. 字段名 | 类型 | 必填 | 说明 | 示例值
+170. `path` | String | 是 | 文件所在目录逻辑路径 | `/app1/documents/`　★反引号
+171. `filename` | String | 是 | 文件名 | `report.pdf`　★反引号
+172. `version` | String | 是 | 要回滚到的目标版本号 | `v2`　★反引号
+173. 属性 | 值
+174. **URL** | `GET /api/metadata/get`　★反引号
+175. **所属文件** | `MetadataController.java`　★反引号
+176. 头名称 | 必填 | 示例值
+177. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+178. `X-Path` | 是 | `/app1/documents/`　★反引号
+179. 字段名 | 类型 | 必填 | 说明 | 示例值
+180. `path` | String | 是 | 文件所在目录逻辑路径 | `/app1/documents/`　★反引号
+181. `filename` | String | 是 | 文件名 | `report.pdf`　★反引号
+182. 字段名 | 类型 | 说明
+183. `dirPath` | String | 文件所在目录的完整逻辑路径　★反引号
+184. `fileName` | String | 文件名　★反引号
+185. `fileSuffix` | String | 文件后缀（不含 `.`）　★反引号
+186. `fileSize` | Long | 文件大小（字节）　★反引号
+187. `version` | String | 当前版本号　★反引号
+188. `createTime` | String | 创建时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+189. `updateTime` | String | 更新时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+190. `status` | Integer | 文件状态（0-未保存，1-已保存，4-已删除）　★反引号
+191. 属性 | 值
+192. **URL** | `GET /api/metadata/list`　★反引号
+193. **所属文件** | `MetadataController.java`　★反引号
+194. 头名称 | 必填 | 示例值
+195. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+196. `X-Path` | 是 | `/app1/documents/`　★反引号
+197. 字段名 | 类型 | 必填 | 说明 | 示例值
+198. `path` | String | 是 | 目录逻辑路径 | `/app1/documents/`　★反引号
+199. `filename` | String | 否 | 文件名（模糊匹配） | `report`　★反引号
+200. `fileSuffix` | String | 否 | 文件后缀（精确匹配） | `pdf`　★反引号
+201. `status` | Integer | 否 | 文件状态（0-未保存，1-已保存，4-已删除） | `1`　★反引号
+202. `startTime` | LocalDateTime | 否 | 更新时间起始（格式：yyyy-MM-dd'T'HH:mm:ss） | `2026-01-01T00:00:00`　★反引号
+203. `endTime` | LocalDateTime | 否 | 更新时间截止（格式：yyyy-MM-dd'T'HH:mm:ss） | `2026-12-31T23:59:59`　★反引号
+204. 字段名 | 类型 | 说明
+205. `fileName` | String | 文件名　★反引号
+206. `fileSuffix` | String | 文件后缀（不含 `.`）　★反引号
+207. `fileSize` | Long | 文件大小（字节）　★反引号
+208. `version` | String | 当前版本号　★反引号
+209. `createTime` | String | 创建时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+210. `updateTime` | String | 更新时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+211. `status` | Integer | 文件状态（0-未保存，1-已保存，4-已删除）　★反引号
+212. 属性 | 值
+213. **URL** | `GET /api/metadata/query`　★反引号
+214. **所属文件** | `MetadataController.java`　★反引号
+215. 头名称 | 必填 | 示例值
+216. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+217. `X-Path` | 是 | `/app1/`　★反引号
+218. 字段名 | 类型 | 必填 | 说明 | 示例值
+219. `path` | String | 是 | 目录逻辑路径（递归起点） | `/app1/`　★反引号
+220. `filename` | String | 否 | 文件名（模糊匹配） | `report`　★反引号
+221. `fileSuffix` | String | 否 | 文件后缀（精确匹配） | `pdf`　★反引号
+222. `status` | Integer | 否 | 文件状态（0-未保存，1-已保存，4-已删除） | `1`　★反引号
+223. `startTime` | LocalDateTime | 否 | 更新时间起始（格式：yyyy-MM-dd'T'HH:mm:ss） | `2026-01-01T00:00:00`　★反引号
+224. `endTime` | LocalDateTime | 否 | 更新时间截止（格式：yyyy-MM-dd'T'HH:mm:ss） | `2026-12-31T23:59:59`　★反引号
+225. 字段名 | 类型 | 说明
+226. `dirPath` | String | 文件所在目录的完整逻辑路径（仅本接口返回）　★反引号
+227. `fileName` | String | 文件名　★反引号
+228. `fileSuffix` | String | 文件后缀（不含 `.`）　★反引号
+229. `fileSize` | Long | 文件大小（字节）　★反引号
+230. `version` | String | 当前版本号　★反引号
+231. `createTime` | String | 创建时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+232. `updateTime` | String | 更新时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+233. `status` | Integer | 文件状态（0-未保存，1-已保存，4-已删除）　★反引号
+234. 属性 | 值
+235. **URL** | `GET /api/metadata/queryPage`　★反引号
+236. **所属文件** | `MetadataController.java`　★反引号
+237. 头名称 | 必填 | 示例值
+238. `Authorization` | 是 | `Bearer eyJhbGciOi...`　★反引号
+239. `X-Path` | 是 | `/app1/`　★反引号
+240. 字段名 | 类型 | 必填 | 说明 | 示例值
+241. `path` | String | 是 | 目录逻辑路径（递归起点） | `/app1/`　★反引号
+242. `filename` | String | 否 | 文件名（模糊匹配） | `report`　★反引号
+243. `fileSuffix` | String | 否 | 文件后缀（精确匹配） | `pdf`　★反引号
+244. `status` | Integer | 否 | 文件状态（0-未保存，1-已保存，4-已删除） | `1`　★反引号
+245. `startTime` | LocalDateTime | 否 | 更新时间起始（格式：yyyy-MM-dd'T'HH:mm:ss） | `2026-01-01T00:00:00`　★反引号
+246. `endTime` | LocalDateTime | 否 | 更新时间截止（格式：yyyy-MM-dd'T'HH:mm:ss） | `2026-12-31T23:59:59`　★反引号
+247. `pageNum` | Integer | 否 | 页码（默认 1，小于 1 时采用默认值） | `1`　★反引号
+248. `pageSize` | Integer | 否 | 每页条数（默认 10，小于 1 或大于 100 时采用默认值） | `10`　★反引号
+249. 字段名 | 类型 | 说明
+250. `records` | Array | 当前页数据列表（`FileMetadataVo` 对象，含 `dirPath`）　★反引号
+251. `total` | Long | 总记录数　★反引号
+252. `size` | Long | 每页条数　★反引号
+253. `current` | Long | 当前页码　★反引号
+254. `pages` | Long | 总页数　★反引号
+255. 字段名 | 类型 | 说明
+256. `dirPath` | String | 文件所在目录的完整逻辑路径　★反引号
+257. `fileName` | String | 文件名　★反引号
+258. `fileSuffix` | String | 文件后缀（不含 `.`）　★反引号
+259. `fileSize` | Long | 文件大小（字节）　★反引号
+260. `version` | String | 当前版本号　★反引号
+261. `createTime` | String | 创建时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+262. `updateTime` | String | 更新时间（格式：yyyy-MM-dd'T'HH:mm:ss）　★反引号
+263. `status` | Integer | 文件状态（0-未保存，1-已保存，4-已删除）　★反引号
+264. 模块 | 文件 | 说明
+265. 文件控制器 | `FileController.java` | 文件操作API入口　★反引号
+266. 目录控制器 | `DirectoryController.java` | 目录操作API入口　★反引号
+267. 元数据控制器 | `MetadataController.java` | 元数据操作API入口　★反引号
+268. 版本控制器 | `VersionController.java` | 版本操作API入口　★反引号
+269. 文件服务 | `FileServiceImpl.java` | 文件操作核心逻辑　★反引号
+270. 元数据服务 | `MetadataServiceImpl.java` | 元数据操作核心逻辑　★反引号
+
+## 3. 接口文档里的端点行（`METHOD /path`）
+
+共 18 行；前 30 条：
+
+- POST /oauth2/token
+- | **URL** | `POST /api/directory/create` |
+- | **URL** | `POST /api/directory/update` |
+- | **URL** | `GET /api/directory/query` |
+- | **URL** | `POST /api/directory/delete` |
+- | **URL** | `POST /api/file/upload` |
+- | **URL** | `GET /api/file/download` |
+- | **URL** | `POST /api/file/delete` |
+- | **URL** | `GET /api/file/previewUrl` |
+- | **URL** | `POST /api/metadata/rename` |
+- | **URL** | `GET /api/version/getList` |
+- | **URL** | `GET /api/version/getInfo` |
+- | **URL** | `POST /api/version/rollback` |
+- > 本节包含元数据查询接口；文件重命名接口（`POST /api/metadata/rename`）见 [3.5 文件重命名](#35-文件重命名)。
+- | **URL** | `GET /api/metadata/get` |
+- | **URL** | `GET /api/metadata/list` |
+- | **URL** | `GET /api/metadata/query` |
+- | **URL** | `GET /api/metadata/queryPage` |
+
+## 4. 人工用例文档的结构（它是这次对照的**人工 oracle**）
+
+```
+# 统一文件服务平台 - 接口测试用例
+## 测试环境准备
+### 前置条件
+### 认证Token获取
+# 获取Access Token
+## 一、认证模块测试用例
+### TC-AUTH-001: 获取Token - 正常流程
+| 属性 | 值 |
+| **用例编号** | TC-AUTH-001 |
+| **用例名称** | 使用正确的client_id和client_secret获取Token |
+| **前置条件** | 有效的client_id和client_secret |
+| **请求方法** | POST |
+| **请求URL** | `/oauth2/token` |
+| **请求头** | `Content-Type: application/x-www-form-urlencoded` |
+| **请求体** | `grant_type=client_credentials&client_id={valid_id}&client_secret={valid_secret}` |
+| **预期结果** | 返回200，响应包含access_token、token_type、expires_in |
+| **验证点** | 1. success=true 2. access_token不为空 3. token_type="Bearer" 4. expires_in=3600 |
+### TC-AUTH-002: 获取Token - 错误的client_secret
+| 属性 | 值 |
+| **用例编号** | TC-AUTH-002 |
+| **用例名称** | 使用错误的client_secret获取Token |
+| **请求方法** | POST |
+| **请求URL** | `/oauth2/token` |
+| **请求体** | `grant_type=client_credentials&client_id={valid_id}&client_secret=wrong_secret` |
+| **预期结果** | 返回401，success=false |
+### TC-AUTH-003: 获取Token - 错误的client_id
+| 属性 | 值 |
+| **用例编号** | TC-AUTH-003 |
+| **用例名称** | 使用错误的client_id获取Token |
+| **请求方法** | POST |
+| **请求URL** | `/oauth2/token` |
+| **请求体** | `grant_type=client_credentials&client_id=invalid_id&client_secret={valid_secret}` |
+| **预期结果** | 返回401，success=false |
+### TC-AUTH-004: 获取Token - 缺少grant_type
+| 属性 | 值 |
+| **用例编号** | TC-AUTH-004 |
+| **用例名称** | 缺少grant_type参数 |
+| **请求方法** | POST |
+| **请求URL** | `/oauth2/token` |
+| **请求体** | `client_id={valid_id}&client_secret={valid_secret}` |
+| **预期结果** | 返回400，success=false |
+### TC-AUTH-005: 使用过期Token访问接口
+| 属性 | 值 |
+| **用例编号** | TC-AUTH-005 |
+| **用例名称** | 使用过期Token访问受保护接口 |
+```
+
+### 4b. 人工用例文档里的表头
+
+ 1. 属性 | 值
+ 2. **用例编号** | TC-AUTH-001
+ 3. **用例名称** | 使用正确的client_id和client_secret获取Token
+ 4. **前置条件** | 有效的client_id和client_secret
+ 5. **请求方法** | POST
+ 6. **请求URL** | `/oauth2/token`
+ 7. **请求头** | `Content-Type: application/x-www-form-urlencoded`
+ 8. **请求体** | `grant_type=client_credentials&client_id={valid_id}&client_secret={valid_secret}`
+ 9. **预期结果** | 返回200，响应包含access_token、token_type、expires_in
+10. **验证点** | 1. success=true 2. access_token不为空 3. token_type="Bearer" 4. expires_in=3600
+11. 属性 | 值
+12. **用例编号** | TC-AUTH-002
+13. **用例名称** | 使用错误的client_secret获取Token
+14. **请求方法** | POST
+15. **请求URL** | `/oauth2/token`
+16. **请求体** | `grant_type=client_credentials&client_id={valid_id}&client_secret=wrong_secret`
+17. **预期结果** | 返回401，success=false
+18. 属性 | 值
+19. **用例编号** | TC-AUTH-003
+20. **用例名称** | 使用错误的client_id获取Token
+21. **请求方法** | POST
+22. **请求URL** | `/oauth2/token`
+23. **请求体** | `grant_type=client_credentials&client_id=invalid_id&client_secret={valid_secret}`
+24. **预期结果** | 返回401，success=false
+25. 属性 | 值
+26. **用例编号** | TC-AUTH-004
+27. **用例名称** | 缺少grant_type参数
+28. **请求方法** | POST
+29. **请求URL** | `/oauth2/token`
+30. **请求体** | `client_id={valid_id}&client_secret={valid_secret}`
+31. **预期结果** | 返回400，success=false
+32. 属性 | 值
+33. **用例编号** | TC-AUTH-005
+34. **用例名称** | 使用过期Token访问受保护接口
+35. **前置条件** | 获取一个已过期Token
+36. **请求方法** | GET
+37. **请求URL** | `/api/directory/query?path=/app1/`
+38. **请求头** | `Authorization: Bearer {expired_token}`<br>`X-Path: /app1/`
+39. **预期结果** | 返回401，success=false
+40. 属性 | 值
+41. **用例编号** | TC-AUTH-006
+42. **用例名称** | 不带Authorization头访问接口
+43. **请求方法** | GET
+44. **请求URL** | `/api/directory/query?path=/app1/`
+45. **请求头** | `X-Path: /app1/`
+46. **预期结果** | 返回401，success=false
+47. 属性 | 值
+48. **用例编号** | TC-AUTH-007
+49. **用例名称** | 不带X-Path头访问接口
+50. **请求方法** | GET
+51. **请求URL** | `/api/directory/query?path=/app1/`
+52. **请求头** | `Authorization: Bearer {valid_token}`
+53. **预期结果** | 返回403，success=false
+54. 属性 | 值
+55. **用例编号** | TC-AUTH-008
+56. **用例名称** | X-Path与请求参数path不一致
+57. **请求方法** | GET
+58. **请求URL** | `/api/directory/query?path=/app1/documents/`
+59. **请求头** | `Authorization: Bearer {valid_token}`<br>`X-Path: /app1/`
+60. **预期结果** | 返回403，success=false，提示权限错误
+61. 属性 | 值
+62. **用例编号** | TC-DIR-001
+63. **用例名称** | 创建单级目录
+64. **前置条件** | 已获取有效Token，/app1/ 目录存在
+65. **请求方法** | POST
+66. **请求URL** | `/api/directory/create`
+67. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+68. **请求体** | `{"path": "/app1/test_dir/"}`
+69. **预期结果** | 返回200，success=true
+70. **验证点** | 1. success=true 2. code=200 3. 目录创建成功
+71. 属性 | 值
+72. **用例编号** | TC-DIR-002
+73. **用例名称** | 创建多级嵌套目录
+74. **前置条件** | 已获取有效Token
+75. **请求方法** | POST
+76. **请求URL** | `/api/directory/create`
+77. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+78. **请求体** | `{"path": "/app1/level1/level2/level3/"}`
+79. **预期结果** | 返回200，success=true
+80. 属性 | 值
+81. **用例编号** | TC-DIR-003
+82. **用例名称** | 路径缺少开头斜杠
+83. **请求方法** | POST
+84. **请求URL** | `/api/directory/create`
+85. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+86. **请求体** | `{"path": "app1/invalid_dir/"}`
+87. **预期结果** | 返回500，success=false，提示路径格式错误
+88. 属性 | 值
+89. **用例编号** | TC-DIR-004
+90. **用例名称** | 路径缺少结尾斜杠
+91. **请求方法** | POST
+92. **请求URL** | `/api/directory/create`
+93. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+94. **请求体** | `{"path": "/app1/invalid_dir"}`
+95. **预期结果** | 返回500，success=false，提示路径格式错误
+96. 属性 | 值
+97. **用例编号** | TC-DIR-005
+98. **用例名称** | 路径包含连续斜杠
+99. **请求方法** | POST
+100. **请求URL** | `/api/directory/create`
+101. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+102. **请求体** | `{"path": "/app1//invalid_dir/"}`
+103. **预期结果** | 返回500，success=false，提示路径格式错误
+104. 属性 | 值
+105. **用例编号** | TC-DIR-006
+106. **用例名称** | 路径等于根路径 `/`
+107. **请求方法** | POST
+108. **请求URL** | `/api/directory/create`
+109. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+110. **请求体** | `{"path": "/"}`
+111. **预期结果** | 返回500，success=false，提示路径格式错误
+112. 属性 | 值
+113. **用例编号** | TC-DIR-007
+114. **用例名称** | 创建的路径不在X-Path范围内
+115. **请求方法** | POST
+116. **请求URL** | `/api/directory/create`
+117. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+118. **请求体** | `{"path": "/app2/other_dir/"}`
+119. **预期结果** | 返回403，success=false，提示权限错误
+120. 属性 | 值
+121. **用例编号** | TC-DIR-008
+122. **用例名称** | 创建已存在的目录
+123. **前置条件** | /app1/test_dir/ 已存在
+124. **请求方法** | POST
+125. **请求URL** | `/api/directory/create`
+126. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+127. **请求体** | `{"path": "/app1/test_dir/"}`
+128. **预期结果** | 返回200（幂等操作）或返回500（提示目录已存在）
+129. 属性 | 值
+130. **用例编号** | TC-DIR-009
+131. **用例名称** | 请求体缺少path参数
+132. **请求方法** | POST
+133. **请求URL** | `/api/directory/create`
+134. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+135. **请求体** | `{}`
+136. **预期结果** | 返回400或500，success=false
+137. 属性 | 值
+138. **用例编号** | TC-DIR-010
+139. **用例名称** | 请求体为空
+140. **请求方法** | POST
+141. **请求URL** | `/api/directory/create`
+142. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+143. **请求体** | （空）
+144. **预期结果** | 返回400，success=false
+145. 属性 | 值
+146. **用例编号** | TC-DIR-011
+147. **用例名称** | 修改目录名称
+148. **前置条件** | /app1/test_dir/ 已存在
+149. **请求方法** | POST
+150. **请求URL** | `/api/directory/update`
+151. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/test_dir/`<br>`Content-Type: application/json`
+152. **请求体** | `{"sourceDirName": "/app1/test_dir/", "targetDirName": "/app1/test_dir_updated/"}`
+153. **预期结果** | 返回200，success=true
+154. **验证点** | 1. 目录重命名成功 2. 原路径不可访问 3. 新路径可访问
+155. 属性 | 值
+156. **用例编号** | TC-DIR-012
+157. **用例名称** | 源目录不存在
+158. **请求方法** | POST
+159. **请求URL** | `/api/directory/update`
+160. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/nonexistent/`<br>`Content-Type: application/json`
+161. **请求体** | `{"sourceDirName": "/app1/nonexistent/", "targetDirName": "/app1/new_dir/"}`
+162. **预期结果** | 返回500，success=false
+163. 属性 | 值
+164. **用例编号** | TC-DIR-013
+165. **用例名称** | 目标目录名称已存在
+166. **前置条件** | /app1/existing_dir/ 已存在
+167. **请求方法** | POST
+168. **请求URL** | `/api/directory/update`
+169. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/test_dir/`<br>`Content-Type: application/json`
+170. **请求体** | `{"sourceDirName": "/app1/test_dir/", "targetDirName": "/app1/existing_dir/"}`
+171. **预期结果** | 返回500，success=false
+172. 属性 | 值
+173. **用例编号** | TC-DIR-014
+174. **用例名称** | 缺少sourceDirName参数
+175. **请求方法** | POST
+176. **请求URL** | `/api/directory/update`
+177. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/test_dir/`<br>`Content-Type: application/json`
+178. **请求体** | `{"targetDirName": "/app1/new_dir/"}`
+179. **预期结果** | 返回400或500，success=false
+180. 属性 | 值
+181. **用例编号** | TC-DIR-015
+182. **用例名称** | 缺少targetDirName参数
+183. **请求方法** | POST
+184. **请求URL** | `/api/directory/update`
+185. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/test_dir/`<br>`Content-Type: application/json`
+186. **请求体** | `{"sourceDirName": "/app1/test_dir/"}`
+187. **预期结果** | 返回400或500，success=false
+188. 属性 | 值
+189. **用例编号** | TC-DIR-016
+190. **用例名称** | 查询应用根目录
+191. **前置条件** | /app1/ 下存在子目录
+192. **请求方法** | GET
+193. **请求URL** | `/api/directory/query?path=/app1/`
+194. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`
+195. **预期结果** | 返回200，success=true，obj为目录列表
+196. **验证点** | 1. 返回目录列表 2. 每个目录包含id、directoryName、fullPath等字段
+197. 属性 | 值
+198. **用例编号** | TC-DIR-017
+199. **用例名称** | 按目录名称模糊查询
+200. **前置条件** | /app1/ 下存在包含"doc"的目录
+201. **请求方法** | GET
+202. **请求URL** | `/api/directory/query?path=/app1/&dirName=doc`
+203. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`
+204. **预期结果** | 返回200，success=true，返回匹配的目录列表
+205. **验证点** | 返回的目录名称包含"doc"
+206. 属性 | 值
+207. **用例编号** | TC-DIR-018
+208. **用例名称** | 按创建时间范围查询
+209. **请求方法** | GET
+210. **请求URL** | `/api/directory/query?path=/app1/&startTime=2026-01-01&endTime=2026-12-31`
+211. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`
+212. **预期结果** | 返回200，success=true，返回时间范围内的目录
+213. **验证点** | 返回的目录createTime在指定时间范围内
+214. 属性 | 值
+215. **用例编号** | TC-DIR-019
+216. **用例名称** | 查询不存在的目录名称
+217. **请求方法** | GET
+218. **请求URL** | `/api/directory/query?path=/app1/&dirName=nonexistent_dir_xyz`
+219. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`
+220. **预期结果** | 返回200，success=true，obj为空数组[]
+221. 属性 | 值
+222. **用例编号** | TC-DIR-020
+223. **用例名称** | 缺少path参数
+224. **请求方法** | GET
+225. **请求URL** | `/api/directory/query`
+226. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`
+227. **预期结果** | 返回400或500，success=false
+228. 属性 | 值
+229. **用例编号** | TC-DIR-021
+230. **用例名称** | 查询子目录列表
+231. **前置条件** | /app1/documents/ 存在且有子目录
+232. **请求方法** | GET
+233. **请求URL** | `/api/directory/query?path=/app1/documents/`
+234. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+235. **预期结果** | 返回200，success=true，返回子目录列表
+236. 属性 | 值
+237. **用例编号** | TC-DIR-022
+238. **用例名称** | 删除空目录
+239. **前置条件** | /app1/empty_dir/ 存在且为空
+240. **请求方法** | POST
+241. **请求URL** | `/api/directory/delete`
+242. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/empty_dir/`<br>`Content-Type: application/json`
+243. **请求体** | `{"path": "/app1/empty_dir/"}`
+244. **预期结果** | 返回200，success=true
+245. **验证点** | 1. 删除成功 2. 查询该目录返回空
+246. 属性 | 值
+247. **用例编号** | TC-DIR-023
+248. **用例名称** | 删除包含文件的目录
+249. **前置条件** | /app1/with_files/ 存在且包含文件
+250. **请求方法** | POST
+251. **请求URL** | `/api/directory/delete`
+252. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/with_files/`<br>`Content-Type: application/json`
+253. **请求体** | `{"path": "/app1/with_files/"}`
+254. **预期结果** | 返回500，success=false，提示目录下有文件
+255. 属性 | 值
+256. **用例编号** | TC-DIR-024
+257. **用例名称** | 删除不存在的目录
+258. **请求方法** | POST
+259. **请求URL** | `/api/directory/delete`
+260. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/nonexistent/`<br>`Content-Type: application/json`
+261. **请求体** | `{"path": "/app1/nonexistent/"}`
+262. **预期结果** | 返回500，success=false
+263. 属性 | 值
+264. **用例编号** | TC-DIR-025
+265. **用例名称** | 缺少path参数
+266. **请求方法** | POST
+267. **请求URL** | `/api/directory/delete`
+268. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+269. **请求体** | `{}`
+270. **预期结果** | 返回400或500，success=false
+271. 属性 | 值
+272. **用例编号** | TC-DIR-026
+273. **用例名称** | 尝试删除应用根目录
+274. **请求方法** | POST
+275. **请求URL** | `/api/directory/delete`
+276. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+277. **请求体** | `{"path": "/app1/"}`
+278. **预期结果** | 返回500，success=false（根目录不允许删除）
+279. 属性 | 值
+280. **用例编号** | TC-FILE-001
+281. **用例名称** | 上传单个PDF文件
+282. **前置条件** | /app1/documents/ 目录存在，准备一个PDF文件
+283. **请求方法** | POST
+284. **请求URL** | `/api/file/upload`
+285. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+286. **请求参数** | `path=/app1/documents/`<br>`files=@test.pdf`
+287. **预期结果** | 返回200，success=true，obj.success包含文件名
+288. **验证点** | 1. success=true 2. obj.success=["test.pdf"] 3. obj.fail=[]
+289. 属性 | 值
+290. **用例编号** | TC-FILE-002
+291. **用例名称** | 同时上传多个文件
+292. **前置条件** | /app1/documents/ 目录存在，准备多个文件
+293. **请求方法** | POST
+294. **请求URL** | `/api/file/upload`
+295. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+296. **请求参数** | `path=/app1/documents/`<br>`files=@file1.pdf`<br>`files=@file2.docx`<br>`files=@file3.xlsx`
+297. **预期结果** | 返回200，success=true，obj.success包含所有文件名
+298. **验证点** | 所有文件上传成功
+299. 属性 | 值
+300. **用例编号** | TC-FILE-003
+301. **用例名称** | 上传最大数量文件（10个）
+302. **前置条件** | 准备10个不同类型的文件
+303. **请求方法** | POST
+304. **请求URL** | `/api/file/upload`
+305. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+306. **请求参数** | `path=/app1/documents/`<br>`files=@file1` ~ `files=@file10`
+307. **预期结果** | 返回200，success=true，所有文件上传成功
+308. 属性 | 值
+309. **用例编号** | TC-FILE-004
+310. **用例名称** | 上传超过限制的文件数量（11个）
+311. **前置条件** | 准备11个文件
+312. **请求方法** | POST
+313. **请求URL** | `/api/file/upload`
+314. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+315. **请求参数** | `path=/app1/documents/`<br>`files=@file1` ~ `files=@file11`
+316. **预期结果** | 返回500，success=false，提示超过文件数量限制
+317. 属性 | 值
+318. **用例编号** | TC-FILE-005
+319. **用例名称** | 上传超过50MB的文件
+320. **前置条件** | 准备一个大于50MB的文件
+321. **请求方法** | POST
+322. **请求URL** | `/api/file/upload`
+323. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+324. **请求参数** | `path=/app1/documents/`<br>`files=@large_file.zip`
+325. **预期结果** | 返回500，success=false，提示文件超过50MB
+326. 属性 | 值
+327. **用例编号** | TC-FILE-006
+328. **用例名称** | 上传不支持的文件类型（如.exe）
+329. **前置条件** | 准备一个.exe文件
+330. **请求方法** | POST
+331. **请求URL** | `/api/file/upload`
+332. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+333. **请求参数** | `path=/app1/documents/`<br>`files=@program.exe`
+334. **预期结果** | 返回500，success=false，提示不支持的文件类型
+335. 属性 | 值
+336. **用例编号** | TC-FILE-007
+337. **用例名称** | 文件名包含特殊字符 `/:*?"<> | `
+338. **前置条件** | 准备一个文件名包含特殊字符的文件
+339. **请求方法** | POST
+340. **请求URL** | `/api/file/upload`
+341. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+342. **请求参数** | `path=/app1/documents/`<br>`files=@file:name.txt`
+343. **预期结果** | 返回500，success=false，提示文件名不合法
+344. 属性 | 值
+345. **用例编号** | TC-FILE-008
+346. **用例名称** | 上传同名文件（版本覆盖）
+347. **前置条件** | /app1/documents/report.pdf 已存在
+348. **请求方法** | POST
+349. **请求URL** | `/api/file/upload`
+350. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+351. **请求参数** | `path=/app1/documents/`<br>`files=@report.pdf`
+352. **预期结果** | 返回200，success=true，文件被覆盖并创建新版本
+353. **验证点** | 1. 上传成功 2. 文件版本更新
+354. 属性 | 值
+355. **用例编号** | TC-FILE-009
+356. **用例名称** | 上传文件缺少path参数
+357. **请求方法** | POST
+358. **请求URL** | `/api/file/upload`
+359. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+360. **请求参数** | `files=@test.pdf`
+361. **预期结果** | 返回400或500，success=false
+362. 属性 | 值
+363. **用例编号** | TC-FILE-010
+364. **用例名称** | 不上传任何文件
+365. **请求方法** | POST
+366. **请求URL** | `/api/file/upload`
+367. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+368. **请求参数** | `path=/app1/documents/`
+369. **预期结果** | 返回400或500，success=false
+370. 属性 | 值
+371. **用例编号** | TC-FILE-011
+372. **用例名称** | 上传到不存在的目录
+373. **请求方法** | POST
+374. **请求URL** | `/api/file/upload`
+375. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/nonexistent/`<br>`Content-Type: multipart/form-data`
+376. **请求参数** | `path=/app1/nonexistent/`<br>`files=@test.pdf`
+377. **预期结果** | 返回500，success=false
+378. 属性 | 值
+379. **用例编号** | TC-FILE-012
+380. **用例名称** | 上传所有支持的文件类型
+381. **测试文件** | 文档类：.pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt<br>图片类：.jpg, .jpeg, .png, .gif, .bmp<br>压缩类：.zip, .rar, .7z
+382. **预期结果** | 所有文件上传成功
+383. 属性 | 值
+384. **用例编号** | TC-FILE-013
+385. **用例名称** | 上传0字节的空文件
+386. **前置条件** | 准备一个空文件
+387. **请求方法** | POST
+388. **请求URL** | `/api/file/upload`
+389. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+390. **请求参数** | `path=/app1/documents/`<br>`files=@empty.txt`
+391. **预期结果** | 返回200，success=true（或根据业务规则拒绝）
+392. 属性 | 值
+393. **用例编号** | TC-FILE-014
+394. **用例名称** | 上传接近限制大小的文件（49.9MB）
+395. **前置条件** | 准备一个49.9MB的文件
+396. **请求方法** | POST
+397. **请求URL** | `/api/file/upload`
+398. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: multipart/form-data`
+399. **请求参数** | `path=/app1/documents/`<br>`files=@almost_50mb.zip`
+400. **预期结果** | 返回200，success=true
+401. 属性 | 值
+402. **用例编号** | TC-DOWN-001
+403. **用例名称** | 下载已存在的文件
+404. **前置条件** | /app1/documents/report.pdf 已存在
+405. **请求方法** | GET
+406. **请求URL** | `/api/file/download?fileName=report.pdf&path=/app1/documents/`
+407. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+408. **预期结果** | 返回200，Content-Type=application/octet-stream，返回文件二进制流
+409. **验证点** | 1. HTTP状态码200 2. Content-Disposition包含文件名 3. 文件内容正确
+410. 属性 | 值
+411. **用例编号** | TC-DOWN-002
+412. **用例名称** | 下载不存在的文件
+413. **请求方法** | GET
+414. **请求URL** | `/api/file/download?fileName=nonexistent.pdf&path=/app1/documents/`
+415. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+416. **预期结果** | 返回500，success=false
+417. 属性 | 值
+418. **用例编号** | TC-DOWN-003
+419. **用例名称** | 缺少fileName参数
+420. **请求方法** | GET
+421. **请求URL** | `/api/file/download?path=/app1/documents/`
+422. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+423. **预期结果** | 返回400或500，success=false
+424. 属性 | 值
+425. **用例编号** | TC-DOWN-004
+426. **用例名称** | 缺少path参数
+427. **请求方法** | GET
+428. **请求URL** | `/api/file/download?fileName=report.pdf`
+429. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+430. **预期结果** | 返回400或500，success=false
+431. 属性 | 值
+432. **用例编号** | TC-DOWN-005
+433. **用例名称** | 下载不同目录下的同名文件
+434. **前置条件** | /app1/dir1/report.pdf 和 /app1/dir2/report.pdf 都存在
+435. **请求方法** | GET
+436. **请求URL** | `/api/file/download?fileName=report.pdf&path=/app1/dir1/`
+437. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/dir1/`
+438. **预期结果** | 返回200，下载dir1下的report.pdf
+439. **验证点** | 下载的是正确目录下的文件
+440. 属性 | 值
+441. **用例编号** | TC-DOWN-006
+442. **用例名称** | 下载文件名包含中文/空格的文件
+443. **前置条件** | 上传一个中文名称的文件
+444. **请求方法** | GET
+445. **请求URL** | `/api/file/download?fileName=测试文件.pdf&path=/app1/documents/`
+446. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+447. **预期结果** | 返回200，文件正常下载
+448. 属性 | 值
+449. **用例编号** | TC-DEL-001
+450. **用例名称** | 删除已存在的文件
+451. **前置条件** | /app1/documents/to_delete.pdf 已存在
+452. **请求方法** | POST
+453. **请求URL** | `/api/file/delete`
+454. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+455. **请求体** | `{"fileName": "to_delete.pdf", "path": "/app1/documents/"}`
+456. **预期结果** | 返回200，success=true，obj="to_delete.pdf"
+457. **验证点** | 1. 删除成功 2. 文件不再存在
+458. 属性 | 值
+459. **用例编号** | TC-DEL-002
+460. **用例名称** | 删除不存在的文件
+461. **请求方法** | POST
+462. **请求URL** | `/api/file/delete`
+463. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+464. **请求体** | `{"fileName": "nonexistent.pdf", "path": "/app1/documents/"}`
+465. **预期结果** | 返回500，success=false
+466. 属性 | 值
+467. **用例编号** | TC-DEL-003
+468. **用例名称** | 缺少fileName参数
+469. **请求方法** | POST
+470. **请求URL** | `/api/file/delete`
+471. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+472. **请求体** | `{"path": "/app1/documents/"}`
+473. **预期结果** | 返回400或500，success=false
+474. 属性 | 值
+475. **用例编号** | TC-DEL-004
+476. **用例名称** | 缺少path参数
+477. **请求方法** | POST
+478. **请求URL** | `/api/file/delete`
+479. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+480. **请求体** | `{"fileName": "test.pdf"}`
+481. **预期结果** | 返回400或500，success=false
+482. 属性 | 值
+483. **用例编号** | TC-DEL-005
+484. **用例名称** | 重复删除同一文件
+485. **前置条件** | 文件已存在
+486. **测试步骤** | 1. 第一次删除（成功）<br>2. 第二次删除（应失败）
+487. **预期结果** | 第一次返回200，第二次返回500
+488. 属性 | 值
+489. **用例编号** | TC-PREV-001
+490. **用例名称** | 获取文件预览链接
+491. **前置条件** | /app1/documents/report.pdf 已存在
+492. **请求方法** | GET
+493. **请求URL** | `/api/file/previewUrl?fileName=report.pdf&path=/app1/documents/`
+494. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+495. **预期结果** | 返回200，success=true，obj包含预览链接
+496. **验证点** | 1. 返回预览链接 2. 链接包含token参数
+497. 属性 | 值
+498. **用例编号** | TC-PREV-002
+499. **用例名称** | 获取不存在文件的预览链接
+500. **请求方法** | GET
+501. **请求URL** | `/api/file/previewUrl?fileName=nonexistent.pdf&path=/app1/documents/`
+502. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+503. **预期结果** | 返回500，success=false
+504. 属性 | 值
+505. **用例编号** | TC-PREV-003
+506. **用例名称** | 使用返回的预览链接访问文件
+507. **前置条件** | 已获取预览链接
+508. **测试步骤** | 1. 获取预览链接<br>2. 在浏览器中打开预览链接
+509. **预期结果** | 文件正常预览
+510. 属性 | 值
+511. **用例编号** | TC-PREV-004
+512. **用例名称** | 预览链接超过3次使用限制
+513. **前置条件** | 已获取预览链接
+514. **测试步骤** | 1. 第1次访问预览链接（成功）<br>2. 第2次访问预览链接（成功）<br>3. 第3次访问预览链接（成功）<br>4. 第4次访问预览链接（应失败）
+515. **预期结果** | 前3次可正常预览，第4次访问失败
+516. 属性 | 值
+517. **用例编号** | TC-PREV-005
+518. **用例名称** | 预览链接超过2小时失效
+519. **前置条件** | 已获取预览链接
+520. **测试步骤** | 1. 获取预览链接<br>2. 等待2小时以上<br>3. 访问预览链接
+521. **预期结果** | 预览链接失效，无法访问
+522. 属性 | 值
+523. **用例编号** | TC-PREV-006
+524. **用例名称** | 使用versionId预览指定版本
+525. **前置条件** | 文件有多个版本
+526. **请求方法** | GET
+527. **请求URL** | `/api/file/previewUrl?fileName=report.pdf&path=/app1/documents/&versionId=abc123`
+528. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+529. **预期结果** | 返回200，success=true，返回指定版本的预览链接
+530. 属性 | 值
+531. **用例编号** | TC-PREV-007
+532. **用例名称** | 缺少fileName参数
+533. **请求方法** | GET
+534. **请求URL** | `/api/file/previewUrl?path=/app1/documents/`
+535. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`
+536. **预期结果** | 返回400或500，success=false
+537. 属性 | 值
+538. **用例编号** | TC-REN-001
+539. **用例名称** | 重命名文件
+540. **前置条件** | /app1/documents/old_name.pdf 已存在
+541. **请求方法** | POST
+542. **请求URL** | `/api/metadata/rename`
+543. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+544. **请求体** | `{"path": "/app1/documents/", "filename": "old_name.pdf", "newFileName": "new_name.pdf"}`
+545. **预期结果** | 返回200，success=true，msg="重命名成功"
+546. **验证点** | 1. 重命名成功 2. 原文件名不可访问 3. 新文件名可访问
+547. 属性 | 值
+548. **用例编号** | TC-REN-002
+549. **用例名称** | 重命名为已存在的文件名
+550. **前置条件** | /app1/documents/existing.pdf 已存在
+551. **请求方法** | POST
+552. **请求URL** | `/api/metadata/rename`
+553. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+554. **请求体** | `{"path": "/app1/documents/", "filename": "test.pdf", "newFileName": "existing.pdf"}`
+555. **预期结果** | 返回500，success=false，msg="文件名已存在"
+556. 属性 | 值
+557. **用例编号** | TC-REN-003
+558. **用例名称** | 重命名不存在的文件
+559. **请求方法** | POST
+560. **请求URL** | `/api/metadata/rename`
+561. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+562. **请求体** | `{"path": "/app1/documents/", "filename": "nonexistent.pdf", "newFileName": "new.pdf"}`
+563. **预期结果** | 返回500，success=false
+564. 属性 | 值
+565. **用例编号** | TC-REN-004
+566. **用例名称** | 缺少path参数
+567. **请求方法** | POST
+568. **请求URL** | `/api/metadata/rename`
+569. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+570. **请求体** | `{"filename": "old.pdf", "newFileName": "new.pdf"}`
+571. **预期结果** | 返回400或500，success=false
+572. 属性 | 值
+573. **用例编号** | TC-REN-005
+574. **用例名称** | 缺少filename参数
+575. **请求方法** | POST
+576. **请求URL** | `/api/metadata/rename`
+577. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+578. **请求体** | `{"path": "/app1/documents/", "newFileName": "new.pdf"}`
+579. **预期结果** | 返回400或500，success=false
+580. 属性 | 值
+581. **用例编号** | TC-REN-006
+582. **用例名称** | 缺少newFileName参数
+583. **请求方法** | POST
+584. **请求URL** | `/api/metadata/rename`
+585. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+586. **请求体** | `{"path": "/app1/documents/", "filename": "old.pdf"}`
+587. **预期结果** | 返回400或500，success=false
+588. 属性 | 值
+589. **用例编号** | TC-REN-007
+590. **用例名称** | 重命名为相同文件名
+591. **前置条件** | /app1/documents/test.pdf 已存在
+592. **请求方法** | POST
+593. **请求URL** | `/api/metadata/rename`
+594. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+595. **请求体** | `{"path": "/app1/documents/", "filename": "test.pdf", "newFileName": "test.pdf"}`
+596. **预期结果** | 返回200（幂等操作）或返回500（提示文件名已存在）
+597. 属性 | 值
+598. **用例编号** | TC-REN-008
+599. **用例名称** | 重命名修改文件扩展名
+600. **前置条件** | /app1/documents/report.pdf 已存在
+601. **请求方法** | POST
+602. **请求URL** | `/api/metadata/rename`
+603. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/documents/`<br>`Content-Type: application/json`
+604. **请求体** | `{"path": "/app1/documents/", "filename": "report.pdf", "newFileName": "report.txt"}`
+605. **预期结果** | 返回200，success=true（或根据业务规则拒绝）
+606. 属性 | 值
+607. **用例编号** | TC-ERR-001
+608. **用例名称** | JSON接口使用错误的Content-Type
+609. **请求方法** | POST
+610. **请求URL** | `/api/directory/create`
+611. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/x-www-form-urlencoded`
+612. **请求体** | `path=/app1/test_dir/`
+613. **预期结果** | 返回400或415，success=false
+614. 属性 | 值
+615. **用例编号** | TC-ERR-002
+616. **用例名称** | 使用GET请求POST接口
+617. **请求方法** | GET
+618. **请求URL** | `/api/directory/create`
+619. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`
+620. **预期结果** | 返回405，success=false
+621. 属性 | 值
+622. **用例编号** | TC-ERR-003
+623. **用例名称** | 请求体不是合法JSON格式
+624. **请求方法** | POST
+625. **请求URL** | `/api/directory/create`
+626. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+627. **请求体** | `{invalid json}`
+628. **预期结果** | 返回400，success=false
+629. 属性 | 值
+630. **用例编号** | TC-ERR-004
+631. **用例名称** | Authorization头格式错误
+632. **请求方法** | GET
+633. **请求URL** | `/api/directory/query?path=/app1/`
+634. **请求头** | `Authorization: eyJhbGciOi...`（缺少Bearer前缀）<br>`X-Path: /app1/`
+635. **预期结果** | 返回401，success=false
+636. 属性 | 值
+637. **用例编号** | TC-ERR-005
+638. **用例名称** | Authorization头Token为空
+639. **请求方法** | GET
+640. **请求URL** | `/api/directory/query?path=/app1/`
+641. **请求头** | `Authorization: Bearer `（空Token）<br>`X-Path: /app1/`
+642. **预期结果** | 返回401，success=false
+643. 属性 | 值
+644. **用例编号** | TC-ERR-006
+645. **用例名称** | 使用非法Token访问接口
+646. **请求方法** | GET
+647. **请求URL** | `/api/directory/query?path=/app1/`
+648. **请求头** | `Authorization: Bearer invalid_token_12345`<br>`X-Path: /app1/`
+649. **预期结果** | 返回401，success=false
+650. 属性 | 值
+651. **用例编号** | TC-ERR-007
+652. **用例名称** | 路径包含中文字符
+653. **请求方法** | POST
+654. **请求URL** | `/api/directory/create`
+655. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+656. **请求体** | `{"path": "/app1/中文目录/"}`
+657. **预期结果** | 根据业务规则返回（可能成功或失败）
+658. 属性 | 值
+659. **用例编号** | TC-ERR-008
+660. **用例名称** | 路径长度超过限制
+661. **请求方法** | POST
+662. **请求URL** | `/api/directory/create`
+663. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+664. **请求体** | `{"path": "/app1/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u/v/w/x/y/z/"}`
+665. **预期结果** | 根据业务规则返回（可能成功或失败）
+666. 属性 | 值
+667. **用例编号** | TC-ERR-009
+668. **用例名称** | 路径包含特殊字符
+669. **请求方法** | POST
+670. **请求URL** | `/api/directory/create`
+671. **请求头** | `Authorization: Bearer {token}`<br>`X-Path: /app1/`<br>`Content-Type: application/json`
+672. **请求体** | `{"path": "/app1/dir@#$%/"}`
+673. **预期结果** | 返回500，success=false
+674. 属性 | 值
+675. **用例编号** | TC-ERR-010
+676. **用例名称** | 多用户并发上传文件
+677. **前置条件** | 准备10个线程
+678. **测试步骤** | 10个线程同时向同一目录上传文件
+679. **预期结果** | 所有文件上传成功，无数据丢失
+680. 属性 | 值
+681. **用例编号** | TC-ERR-011
+682. **用例名称** | 并发删除同一文件
+683. **前置条件** | 文件已存在
+684. **测试步骤** | 多个请求同时删除同一文件
+685. **预期结果** | 只有一个删除成功，其他返回文件不存在
+686. 属性 | 值
+687. **用例编号** | TC-ERR-012
+688. **用例名称** | 并发重命名同一文件
+689. **前置条件** | 文件已存在
+690. **测试步骤** | 多个请求同时重命名同一文件为不同名称
+691. **预期结果** | 只有一个成功，其他失败
+692. 属性 | 值
+693. **用例编号** | TC-INT-001
+694. **用例名称** | 完整文件生命周期测试
+695. **测试步骤** | 1. 创建目录 `/app1/test_lifecycle/`<br>2. 上传文件到该目录<br>3. 查询目录确认文件存在<br>4. 下载文件验证内容<br>5. 获取预览链接<br>6. 重命名文件<br>7. 下载重命名后的文件<br>8. 删除文件<br>9. 确认文件已删除<br>10. 删除目录
+696. **预期结果** | 所有步骤成功执行
+697. 属性 | 值
+698. **用例编号** | TC-INT-002
+699. **用例名称** | 多级目录创建和查询
+700. **测试步骤** | 1. 创建 `/app1/a/`<br>2. 创建 `/app1/a/b/`<br>3. 创建 `/app1/a/b/c/`<br>4. 查询 `/app1/` 确认目录结构<br>5. 查询 `/app1/a/` 确认子目录<br>6. 删除 `/app1/a/b/c/`<br>7. 删除 `/app1/a/b/`<br>8. 删除 `/app1/a/`
+701. **预期结果** | 所有操作成功
+702. 属性 | 值
+703. **用例编号** | TC-INT-003
+704. **用例名称** | 文件版本覆盖和预览
+705. **测试步骤** | 1. 上传文件 report.pdf<br>2. 获取预览链接并预览<br>3. 再次上传同名文件 report.pdf（覆盖）<br>4. 获取新版本预览链接<br>5. 使用versionId预览旧版本
+706. **预期结果** | 版本管理正常
+707. 属性 | 值
+708. **用例编号** | TC-PERF-001
+709. **用例名称** | 各接口响应时间测试
+710. **测试接口** | 1. 创建目录<br>2. 查询目录<br>3. 上传文件（1MB）<br>4. 下载文件（1MB）<br>5. 删除文件<br>6. 获取预览链接
+711. **预期结果** | 所有接口响应时间 < 3秒
+712. 属性 | 值
+713. **用例编号** | TC-PERF-002
+714. **用例名称** | 上传49MB文件性能
+715. **测试步骤** | 上传一个49MB的文件
+716. **预期结果** | 上传完成，响应时间 < 60秒
+717. 属性 | 值
+718. **用例编号** | TC-PERF-003
+719. **用例名称** | 查询包含大量文件的目录
+720. **前置条件** | 目录包含1000+文件
+721. **测试步骤** | 查询该目录列表
+722. **预期结果** | 返回结果，响应时间 < 5秒
+723. 模块 | 用例数量 | 优先级
+724. 认证模块 | 8 | P0
+725. 目录服务-创建 | 10 | P0
+726. 目录服务-更新 | 5 | P1
+727. 目录服务-查询 | 6 | P0
+728. 目录服务-删除 | 5 | P1
+729. 文件服务-上传 | 14 | P0
+730. 文件服务-下载 | 6 | P0
+731. 文件服务-删除 | 5 | P0
+732. 文件服务-预览 | 7 | P1
+733. 文件服务-重命名 | 8 | P1
+734. 异常/边界 | 12 | P2
+735. 集成测试 | 3 | P1
+736. 性能测试 | 3 | P2
+737. **总计** | **92** | -
+
+## 5. `.env` 的**变量名**（★值一律不打印——凭据纪律）
+
+共 4 个变量：
+- `UNIFSP_BASE_URL`
+- `UNIFSP_CLIENT_ID`
+- `UNIFSP_CLIENT_SECRET`
+- `UNIFSP_TIMEOUT`
+

@@ -1,0 +1,43 @@
+# 对照演示（**故意失败**）：XSD 契约校验拦住「格式合法但不符合契约」的业务码
+#
+# 默认被 conftest 跳过（文件名以 contrast 开头）。想看真实后果就显式打开：
+#   Windows PowerShell:
+#     $env:SOAP_RUN_CONTRAST=1
+#     python -m interfacetester run examples/soap_xpath/contrast_xsd_violation.yml
+#   Linux / macOS:
+#     SOAP_RUN_CONTRAST=1 python -m interfacetester run examples/soap_xpath/contrast_xsd_violation.yml
+#
+# 预期结果：唯一那一步**失败**（AssertionError，不是报错），信息形如：
+#   XSD 校验失败：共 1 处不符合（已定位：QueryResponse）
+#   XSD：…/examples/soap_xpath/schemas/query.xsd
+#   - /ns1:QueryResponse/ns1:code: Element '{http://demo.example.com/svc}code':
+#     [facet 'pattern'] The value '1002' is not accepted by the pattern '0[0-9]{3}'.
+#
+# 这正是 XSD 相对 xpath_match 的增量：**契约里写过的约束，用例不必逐条重复**；
+# 而「业务码必须 4 位且以 0 开头」这种规则，用 XPath 断言要自己写正则。
+config:
+  name: "对照：业务码违反 XSD 约束（本例会失败）"
+  base_url: ${soap_base_url()}
+  variables:
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId>U1001</ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: "业务码 1002 违反 pattern 0[0-9]{3} → 失败，并指到具体节点"
+  request:
+    method: POST
+    url: /svc/query-badcode
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    - xml_schema_match: ["body", {"xpath": "QueryResponse", "xsd": "schemas/query.xsd"}, "业务码不符合契约"]

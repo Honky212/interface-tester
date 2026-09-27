@@ -1,0 +1,7 @@
+2026-09-22 21:02:49.225 | INFO | Start to run testcase: psm and ip, TestCase ID: 0204dc2f-b59c-4334-ada3-cabbf2c78c6b
+2026-09-22 21:02:49.225 | INFO | run step begin: psm and ip >>>>>>
+2026-09-22 21:02:49.225 | WARNING | `psm='my.db.service'` **只用于日志展示、不参与连接解析**（实际连接目标由 ip/port 决定：10.1.2.3:3306）。若本意是走服务发现，请按 docs/能力清单.md §3.9 的说明自行解析。
+2026-09-22 21:02:49.225 | INFO | Executing SQL: select 1
+2026-09-22 21:02:49.227 | INFO | run step end: psm and ip <<<<<<
+
+2026-09-22 21:02:49.227 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\0204dc2f-b59c-4334-ada3-cabbf2c78c6b.run.log

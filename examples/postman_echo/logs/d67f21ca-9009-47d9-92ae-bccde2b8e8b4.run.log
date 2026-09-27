@@ -1,0 +1,21 @@
+2026-09-22 19:53:31.862 | INFO | Start to run testcase: NetworkOptionsCase, TestCase ID: d67f21ca-9009-47d9-92ae-bccde2b8e8b4
+2026-09-22 19:53:31.862 | INFO | run step begin: network options >>>>>>
+2026-09-22 19:53:31.862 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+proxies: {
+    "http": "http://127.0.0.1:8888"
+}
+cert: ('/tmp/client.crt', '/tmp/client.key')
+stream: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-d67f21ca-9009-47d9-92ae-bccde2b8e8b4-011862"
+}
+json: None
+
+2026-09-22 19:53:31.862 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\d67f21ca-9009-47d9-92ae-bccde2b8e8b4.run.log

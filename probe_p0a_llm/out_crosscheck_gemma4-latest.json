@@ -1,0 +1,589 @@
+{
+  "model": "gemma4:latest",
+  "protocol_checks": [
+    "elapsed_ms",
+    "elapsed_s",
+    "reason",
+    "response_size",
+    "status_code",
+    "text"
+  ],
+  "b": [
+    {
+      "case": "G01_auth_token_flow___GET__api_user_me",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G01_auth_token_flow___POST__api_login",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G02_biz_error_order___POST__api_order_cr…",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G03_create_user_schema___POST__api_user",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G05_get_user_profile___GET__api_user_pro…",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G07_login___POST__api_login",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G08_order_create___POST__api_order",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G09_paged_product_list___GET__api_produc…",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G10_search_products___GET__api_product_s…",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G12_update_order_status___PUT__api_order…",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G13_user_info___GET__api_user_info",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G13_user_info___前置",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    },
+    {
+      "case": "G14_utf8_bom_doc___POST__api_export_task…",
+      "check": "⚠ 找不到落盘产物（可能该篇没产出）"
+    },
+    {
+      "case": "G15_webhook_notify___POST__api_webhook_n…",
+      "kind": "protocol-only",
+      "checks": [
+        "status_code"
+      ],
+      "field_checks": [],
+      "judged": "✓",
+      "machine_consistent": true
+    }
+  ],
+  "c": [
+    {
+      "doc": "G01_auth_token_flow",
+      "title": "# 登录与当前用户接口",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G01_auth_token_flow",
+      "title": "# 登录与当前用户接口 > ## POST /api/login > ### 请求体（JSON）",
+      "lines": "7-12",
+      "method_in_body": "",
+      "method_in_title": "POST /api/login",
+      "judged": "✓"
+    },
+    {
+      "doc": "G01_auth_token_flow",
+      "title": "# 登录与当前用户接口 > ## POST /api/login > ### 响应",
+      "lines": "14-18",
+      "method_in_body": "",
+      "method_in_title": "POST /api/login",
+      "judged": "✓"
+    },
+    {
+      "doc": "G01_auth_token_flow",
+      "title": "# 登录与当前用户接口 > ## GET /api/user/me > ### 请求头",
+      "lines": "24-28",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/me",
+      "judged": "✓"
+    },
+    {
+      "doc": "G01_auth_token_flow",
+      "title": "# 登录与当前用户接口 > ## GET /api/user/me > ### 响应",
+      "lines": "30-34",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/me",
+      "judged": "✓"
+    },
+    {
+      "doc": "G01_auth_token_flow",
+      "title": "# 登录与当前用户接口 > ## GET /api/user/me > ### 业务规则",
+      "lines": "36-38",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/me",
+      "judged": "✓"
+    },
+    {
+      "doc": "G02_biz_error_order",
+      "title": "# 订单（业务错误码）",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G02_biz_error_order",
+      "title": "# 订单（业务错误码） > ## POST /api/order/create > ### 请求体（JSON）",
+      "lines": "7-12",
+      "method_in_body": "",
+      "method_in_title": "POST /api/order/create",
+      "judged": "✓"
+    },
+    {
+      "doc": "G02_biz_error_order",
+      "title": "# 订单（业务错误码） > ## POST /api/order/create > ### 响应",
+      "lines": "14-18",
+      "method_in_body": "",
+      "method_in_title": "POST /api/order/create",
+      "judged": "✓"
+    },
+    {
+      "doc": "G02_biz_error_order",
+      "title": "# 订单（业务错误码） > ## POST /api/order/create > ### 业务规则",
+      "lines": "20-24",
+      "method_in_body": "",
+      "method_in_title": "POST /api/order/create",
+      "judged": "✓"
+    },
+    {
+      "doc": "G03_create_user_schema",
+      "title": "# 创建用户接口（带 schema 契约）",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G03_create_user_schema",
+      "title": "# 创建用户接口（带 schema 契约） > ## POST /api/user > ### 请求体（JSON）",
+      "lines": "7-13",
+      "method_in_body": "",
+      "method_in_title": "POST /api/user",
+      "judged": "✓"
+    },
+    {
+      "doc": "G03_create_user_schema",
+      "title": "# 创建用户接口（带 schema 契约） > ## POST /api/user > ### 响应",
+      "lines": "15-22",
+      "method_in_body": "",
+      "method_in_title": "POST /api/user",
+      "judged": "✓"
+    },
+    {
+      "doc": "G03_create_user_schema",
+      "title": "# 创建用户接口（带 schema 契约） > ## POST /api/user > ### 业务规则",
+      "lines": "24-26",
+      "method_in_body": "",
+      "method_in_title": "POST /api/user",
+      "judged": "✓"
+    },
+    {
+      "doc": "G05_get_user_profile",
+      "title": "# 用户档案接口",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G05_get_user_profile",
+      "title": "# 用户档案接口 > ## GET /api/user/profile > ### 查询参数",
+      "lines": "7-12",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/profile",
+      "judged": "✓"
+    },
+    {
+      "doc": "G05_get_user_profile",
+      "title": "# 用户档案接口 > ## GET /api/user/profile > ### 响应",
+      "lines": "14-23",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/profile",
+      "judged": "✓"
+    },
+    {
+      "doc": "G05_get_user_profile",
+      "title": "# 用户档案接口 > ## GET /api/user/profile > ### 业务规则",
+      "lines": "25-27",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/profile",
+      "judged": "✓"
+    },
+    {
+      "doc": "G06_legacy_gbk_doc",
+      "title": "# 旧系统用户信息接口（GBK 编码文档样本）",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G06_legacy_gbk_doc",
+      "title": "# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info > ###…",
+      "lines": "9-13",
+      "method_in_body": "",
+      "method_in_title": "GET /api/legacy/user/info",
+      "judged": "✓"
+    },
+    {
+      "doc": "G06_legacy_gbk_doc",
+      "title": "# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info > ###…",
+      "lines": "15-23",
+      "method_in_body": "",
+      "method_in_title": "GET /api/legacy/user/info",
+      "judged": "✓"
+    },
+    {
+      "doc": "G06_legacy_gbk_doc",
+      "title": "# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info > ###…",
+      "lines": "25-27",
+      "method_in_body": "",
+      "method_in_title": "GET /api/legacy/user/info",
+      "judged": "✓"
+    },
+    {
+      "doc": "G07_login",
+      "title": "# 用户登录接口",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G07_login",
+      "title": "# 用户登录接口 > ## POST /api/login > ### 请求体（JSON）",
+      "lines": "7-12",
+      "method_in_body": "",
+      "method_in_title": "POST /api/login",
+      "judged": "✓"
+    },
+    {
+      "doc": "G07_login",
+      "title": "# 用户登录接口 > ## POST /api/login > ### 响应",
+      "lines": "14-22",
+      "method_in_body": "",
+      "method_in_title": "POST /api/login",
+      "judged": "✓"
+    },
+    {
+      "doc": "G07_login",
+      "title": "# 用户登录接口 > ## POST /api/login > ### 业务规则",
+      "lines": "24-26",
+      "method_in_body": "",
+      "method_in_title": "POST /api/login",
+      "judged": "✓"
+    },
+    {
+      "doc": "G08_order_create",
+      "title": "# 订单接口",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G08_order_create",
+      "title": "# 订单接口 > ## POST /api/order > ### 请求体（JSON）",
+      "lines": "7-13",
+      "method_in_body": "",
+      "method_in_title": "POST /api/order",
+      "judged": "✓"
+    },
+    {
+      "doc": "G08_order_create",
+      "title": "# 订单接口 > ## POST /api/order > ### 响应",
+      "lines": "15-19",
+      "method_in_body": "",
+      "method_in_title": "POST /api/order",
+      "judged": "✓"
+    },
+    {
+      "doc": "G08_order_create",
+      "title": "# 订单接口 > ## POST /api/order > ### 业务规则",
+      "lines": "21-24",
+      "method_in_body": "",
+      "method_in_title": "POST /api/order",
+      "judged": "✓"
+    },
+    {
+      "doc": "G09_paged_product_list",
+      "title": "# 商品列表（分页）",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G09_paged_product_list",
+      "title": "# 商品列表（分页） > ## GET /api/product/list > ### 查询参数",
+      "lines": "7-12",
+      "method_in_body": "",
+      "method_in_title": "GET /api/product/list",
+      "judged": "✓"
+    },
+    {
+      "doc": "G09_paged_product_list",
+      "title": "# 商品列表（分页） > ## GET /api/product/list > ### 响应",
+      "lines": "14-23",
+      "method_in_body": "",
+      "method_in_title": "GET /api/product/list",
+      "judged": "✓"
+    },
+    {
+      "doc": "G09_paged_product_list",
+      "title": "# 商品列表（分页） > ## GET /api/product/list > ### 业务规则",
+      "lines": "25-27",
+      "method_in_body": "",
+      "method_in_title": "GET /api/product/list",
+      "judged": "✓"
+    },
+    {
+      "doc": "G10_search_products",
+      "title": "# 商品搜索",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G10_search_products",
+      "title": "# 商品搜索 > ## GET /api/product/search > ### 查询参数",
+      "lines": "7-13",
+      "method_in_body": "",
+      "method_in_title": "GET /api/product/search",
+      "judged": "✓"
+    },
+    {
+      "doc": "G10_search_products",
+      "title": "# 商品搜索 > ## GET /api/product/search > ### 响应",
+      "lines": "15-22",
+      "method_in_body": "",
+      "method_in_title": "GET /api/product/search",
+      "judged": "✓"
+    },
+    {
+      "doc": "G10_search_products",
+      "title": "# 商品搜索 > ## GET /api/product/search > ### 业务规则",
+      "lines": "24-26",
+      "method_in_body": "",
+      "method_in_title": "GET /api/product/search",
+      "judged": "✓"
+    },
+    {
+      "doc": "G12_update_order_status",
+      "title": "# 更新订单状态",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G12_update_order_status",
+      "title": "# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 路径参数",
+      "lines": "7-11",
+      "method_in_body": "",
+      "method_in_title": "PUT /api/order/{orderNo}/status",
+      "judged": "✓"
+    },
+    {
+      "doc": "G12_update_order_status",
+      "title": "# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 请求体（JSON…",
+      "lines": "13-17",
+      "method_in_body": "",
+      "method_in_title": "PUT /api/order/{orderNo}/status",
+      "judged": "✓"
+    },
+    {
+      "doc": "G12_update_order_status",
+      "title": "# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 响应",
+      "lines": "19-23",
+      "method_in_body": "",
+      "method_in_title": "PUT /api/order/{orderNo}/status",
+      "judged": "✓"
+    },
+    {
+      "doc": "G12_update_order_status",
+      "title": "# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 业务规则",
+      "lines": "25-27",
+      "method_in_body": "",
+      "method_in_title": "PUT /api/order/{orderNo}/status",
+      "judged": "✓"
+    },
+    {
+      "doc": "G13_user_info",
+      "title": "# 用户信息查询",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G13_user_info",
+      "title": "# 用户信息查询 > ## GET /api/user/info > ### 请求头",
+      "lines": "11-15",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/info",
+      "judged": "✓"
+    },
+    {
+      "doc": "G13_user_info",
+      "title": "# 用户信息查询 > ## GET /api/user/info > ### 响应",
+      "lines": "17-21",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/info",
+      "judged": "✓"
+    },
+    {
+      "doc": "G13_user_info",
+      "title": "# 用户信息查询 > ## GET /api/user/info > ### 业务规则",
+      "lines": "23-25",
+      "method_in_body": "",
+      "method_in_title": "GET /api/user/info",
+      "judged": "✓"
+    },
+    {
+      "doc": "G14_utf8_bom_doc",
+      "title": "# 导出接口（BOM 编码文档样本）",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G14_utf8_bom_doc",
+      "title": "# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks > ### 请求体（JSO…",
+      "lines": "9-14",
+      "method_in_body": "",
+      "method_in_title": "POST /api/export/tasks",
+      "judged": "✓"
+    },
+    {
+      "doc": "G14_utf8_bom_doc",
+      "title": "# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks > ### 响应",
+      "lines": "16-23",
+      "method_in_body": "",
+      "method_in_title": "POST /api/export/tasks",
+      "judged": "✓"
+    },
+    {
+      "doc": "G14_utf8_bom_doc",
+      "title": "# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks > ### 业务规则",
+      "lines": "25-27",
+      "method_in_body": "",
+      "method_in_title": "POST /api/export/tasks",
+      "judged": "✓"
+    },
+    {
+      "doc": "G15_webhook_notify",
+      "title": "# 回调通知（Webhook）",
+      "lines": "1-1",
+      "method_in_body": "",
+      "method_in_title": "",
+      "judged": "✓"
+    },
+    {
+      "doc": "G15_webhook_notify",
+      "title": "# 回调通知（Webhook） > ## POST /api/webhook/notify > ### 请求体（JSON…",
+      "lines": "7-14",
+      "method_in_body": "",
+      "method_in_title": "POST /api/webhook/notify",
+      "judged": "✓"
+    },
+    {
+      "doc": "G15_webhook_notify",
+      "title": "# 回调通知（Webhook） > ## POST /api/webhook/notify > ### 响应",
+      "lines": "16-23",
+      "method_in_body": "",
+      "method_in_title": "POST /api/webhook/notify",
+      "judged": "✓"
+    },
+    {
+      "doc": "G15_webhook_notify",
+      "title": "# 回调通知（Webhook） > ## POST /api/webhook/notify > ### 业务规则",
+      "lines": "25-27",
+      "method_in_body": "",
+      "method_in_title": "POST /api/webhook/notify",
+      "judged": "✓"
+    }
+  ]
+}

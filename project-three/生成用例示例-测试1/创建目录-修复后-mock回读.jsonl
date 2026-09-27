@@ -1,0 +1,1 @@
+{"method": "POST", "path": "/api/directory/create", "headers": {"Accept": "*/*", "Authorization": "Bearer dummy-for-mock", "X-Path": "/app1/", "Content-Type": "application/json", "interfacetester-Request-ID": "interfacetester-1e3a0665-cc61-4913-90bc-c48502504a60-430979"}, "body": {"path": "/app1/documents/reports/"}, "triggered_rule": ""}

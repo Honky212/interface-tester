@@ -1,0 +1,37 @@
+2026-09-22 22:27:06.856 | INFO | Start to run testcase: request methods testcase with functions, TestCase ID: b201eb68-6142-491a-9a3f-bd986ce2f64f
+2026-09-22 22:27:06.856 | INFO | run step begin: get with params >>>>>>
+2026-09-22 22:27:06.856 | DEBUG | ====== request details ======
+url: https://postman-echo.com/get
+method: GET
+params: {
+    "foo1": "bar11",
+    "foo2": "bar21",
+    "sum_v": 3
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "interfacetester-Request-ID": "interfacetester-b201eb68-6142-491a-9a3f-bd986ce2f64f-226856"
+}
+json: None
+
+2026-09-22 22:27:09.726 | DEBUG | failed to get client address: too many values to unpack (expected 2)
+2026-09-22 22:27:09.739 | DEBUG | failed to get server address: too many values to unpack (expected 2)
+2026-09-22 22:27:09.739 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : https://postman-echo.com/get?foo1=bar11&foo2=bar21&sum_v=3
+headers  : {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-b201eb68-6142-491a-9a3f-bd986ce2f64f-226856"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 22:29:09.743 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\b201eb68-6142-491a-9a3f-bd986ce2f64f.run.log

@@ -1,0 +1,18 @@
+config:
+  name: 更新订单状态
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 把订单标记为已支付
+    request:
+      method: PUT
+      url: /api/order/${ENV(ORDER_NO)}/status
+      headers:
+        Content-Type: application/json
+      json:
+        status: paid
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - contained_by: [body.status, ["pending", "paid", "cancelled"]]

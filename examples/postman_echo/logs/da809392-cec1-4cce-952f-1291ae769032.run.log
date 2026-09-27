@@ -1,0 +1,11 @@
+2026-09-24 03:44:26.957 | INFO | Start to run testcase: upload fail fast, TestCase ID: da809392-cec1-4cce-952f-1291ae769032
+2026-09-24 03:44:26.957 | INFO | run step begin: upload >>>>>>
+2026-09-24 03:44:26.957 | ERROR | 
+    uploader extension dependency uninstalled, install first and try again.
+    install with pip:
+    $ pip install filetype
+
+    or you can install interfacetester with optional upload dependencies:
+    $ pip install "interfacetester[upload]"
+    
+2026-09-24 03:44:26.957 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\da809392-cec1-4cce-952f-1291ae769032.run.log

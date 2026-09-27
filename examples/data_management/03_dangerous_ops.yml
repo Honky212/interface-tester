@@ -1,0 +1,33 @@
+config:
+    name: "03 危险操作：全库清空的闸门（生产环境会被 conftest 跳过）"
+    base_url: ${api_base()}
+    variables:
+        token: "${ENV(DM_TOKEN)}"
+        run_prefix: "${run_prefix()}"
+        # 危险操作：影响范围**超出本次运行**（清空整个数据服务）。
+        # debugtalk.reset_store() 只在闸门开着时才带 X-Allow-Dangerous 头；
+        # 生产环境（DM_ENV_NAME=prod）闸门被 conftest 强制关闭，且**本用例会被直接 skip**。
+        reset_result: "${reset_store()}"
+
+teststeps:
+-
+    name: 闸门开着时：全库清空被执行，本次运行的数据也被一并清掉
+    request:
+        method: GET
+        url: /records
+        params:
+            prefix: $run_prefix
+        headers:
+            Authorization: "Bearer $token"
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.count", 0]
+-
+    name: 不带危险头时：即使是合法请求也被服务端 403 拒绝
+    request:
+        method: DELETE
+        url: /records
+        headers:
+            Authorization: "Bearer $token"
+    validate:
+        - eq: ["status_code", 403]

@@ -1,0 +1,8 @@
+2026-09-22 21:04:22.524 | INFO | Start to run testcase: 我的第一条用例, TestCase ID: be917508-cfc6-466a-a54c-6c966f886d8c
+2026-09-22 21:04:22.524 | INFO | run step begin: 调一次 GET 接口 >>>>>>
+2026-09-22 21:04:22.526 | ERROR | call function error:
+func_name: ENV
+args: ['BASE_URL']
+kwargs: {}
+EnvNotFound: BASE_URL
+2026-09-22 21:04:22.526 | INFO | generate testcase log: D:\learn\interface-tester\examples\quickstart\logs\be917508-cfc6-466a-a54c-6c966f886d8c.run.log

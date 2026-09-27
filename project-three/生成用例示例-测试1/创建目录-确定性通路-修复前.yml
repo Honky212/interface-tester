@@ -1,0 +1,35 @@
+# 由 `hconvert` 从 haify gen 生成（InterfaceTester 导入器）
+# 用法：hrun _api_directory_create.yml
+# NOTICE:
+#   - 敏感信息（Cookie/Authorization/token 等）已替换成 ${...} 占位，
+#     占位符的值定义在 config.variables 里（默认从环境变量读）——**不要**把明文写回来；
+#   - 生成后请人工过一遍：契约/录制里造出来的骨架值（时间戳/UUID/路径 id/示例值）需要按业务替换；
+#   - 生成的 *_test.py 由 hmake 产出，改用例请改这个 YAML。
+config:
+  name: _api_directory_create
+  base_url: http://127.0.0.1:8899
+teststeps:
+- name: _api_directory_create
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Content-Type: application/json
+    json:
+      path: /app1/documents/reports/
+  validate:
+  - type_match:
+    - body.success
+    - bool
+  - equal:
+    - body.success
+    - true
+  - equal:
+    - body.errorCode
+    - null
+  - type_match:
+    - body.message
+    - str
+  - equal:
+    - body.data
+    - null

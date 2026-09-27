@@ -1,0 +1,96 @@
+2026-09-22 22:29:53.102 | INFO | Start to run testcase: thrift data isolation case, TestCase ID: 1babc73a-ca9a-4acf-92f0-41250d7b9b64
+2026-09-22 22:29:53.102 | INFO | run step begin: http step >>>>>>
+2026-09-22 22:29:53.102 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-1babc73a-ca9a-4acf-92f0-41250d7b9b64-393102"
+}
+json: None
+
+2026-09-22 22:29:53.104 | DEBUG | client IP: 127.0.0.1, Port: 50929
+2026-09-22 22:29:53.104 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-22 22:29:53.104 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/get
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-1babc73a-ca9a-4acf-92f0-41250d7b9b64-393102"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 22:29:53.104 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 14:29:53 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json
+body     : {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-1babc73a-ca9a-4acf-92f0-41250d7b9b64-393102"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-22 22:29:53.104 | INFO | status_code: 200, response_time(ms): 1.89 ms, response_length: 386 bytes
+2026-09-22 22:29:53.107 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 14:29:53 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+body: {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-1babc73a-ca9a-4acf-92f0-41250d7b9b64-393102"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-22 22:29:53.107 | INFO | run step end: http step <<<<<<
+
+2026-09-22 22:29:53.107 | INFO | run step begin: thrift step >>>>>>
+2026-09-22 22:29:53.107 | INFO | run step end: thrift step <<<<<<
+
+2026-09-22 22:29:53.107 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\1babc73a-ca9a-4acf-92f0-41250d7b9b64.run.log

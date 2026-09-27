@@ -1,0 +1,22 @@
+# 对照演示（**默认被 conftest.py 跳过**：文件名以 contrast 开头）
+#
+# 目的：让你亲眼看到「期望值**类型**写错」会怎样——这是新手最常踩的一种坑，
+#       而且它看起来特别像「接口返回不对」。
+# 手动跑：
+#     $env:QUICKSTART_RUN_CONTRAST=1; hrun examples/quickstart/contrast_type_mismatch.yml  # Windows PowerShell
+#     QUICKSTART_RUN_CONTRAST=1 hrun examples/quickstart/contrast_type_mismatch.yml        # Linux / macOS
+# 期望：**1 failed**
+#
+# 为什么会红：`200` 是数字，`"200"` 是**字符串**，两者不相等。
+#   YAML 里**加了引号就是字符串**——这是最容易忽略的一点。
+#   想断响应体里的字符串字段时同理：数字型字段就得写数字。
+config:
+  name: "对照：期望值类型写错（FAILED）"
+
+teststeps:
+  - name: 把数字 200 写成了字符串 "200"
+    request:
+      method: GET
+      url: ${base_url()}/get
+    validate:
+      - eq: [status_code, "200"]   # ← 故意加的引号：实际是数字 200

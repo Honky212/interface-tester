@@ -1,0 +1,121 @@
+# 由 `hconvert` 从 haify gen 生成（InterfaceTester 导入器）
+# 用法：hrun POST__api_directory_create__创建目录_.yml
+# NOTICE:
+#   - 敏感信息（Cookie/Authorization/token 等）已替换成 ${...} 占位，
+#     占位符的值定义在 config.variables 里（默认从环境变量读）——**不要**把明文写回来；
+#   - 生成后请人工过一遍：契约/录制里造出来的骨架值（时间戳/UUID/路径 id/示例值）需要按业务替换；
+#   - 生成的 *_test.py 由 hmake 产出，改用例请改这个 YAML。
+config:
+  name: POST__api_directory_create__创建目录_
+  base_url: http://127.0.0.1:8899
+teststeps:
+- name: 正常创建目录
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Authorization: Bearer ${ENV(AUTH_TOKEN)}
+      X-Path: /app1/
+      Content-Type: application/json
+    json:
+      path: /app1/documents/reports/
+  validate:
+  - equal:
+    - status_code
+    - 200
+  - equal:
+    - body.success
+    - true
+  - equal:
+    - body.errorCode
+    - null
+  - equal:
+    - body.data
+    - null
+- name: path不以/开头触发FILE_4001
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Authorization: Bearer ${ENV(AUTH_TOKEN)}
+      X-Path: /app1/
+      Content-Type: application/json
+    json:
+      path: app1/documents/reports/
+  validate:
+  - equal:
+    - status_code
+    - 500
+  - equal:
+    - body.errorCode
+    - FILE_4001
+  - equal:
+    - body.success
+    - false
+- name: path含连续//触发FILE_4003
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Authorization: Bearer ${ENV(AUTH_TOKEN)}
+      X-Path: /app1/
+      Content-Type: application/json
+    json:
+      path: /app1//documents/
+  validate:
+  - equal:
+    - status_code
+    - 500
+  - equal:
+    - body.errorCode
+    - FILE_4003
+- name: path等于/触发路径格式错误
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Authorization: Bearer ${ENV(AUTH_TOKEN)}
+      X-Path: /app1/
+      Content-Type: application/json
+    json:
+      path: /
+  validate:
+  - equal:
+    - status_code
+    - 500
+  - equal:
+    - body.success
+    - false
+- name: 缺少path参数触发FILE_1010
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Authorization: Bearer ${ENV(AUTH_TOKEN)}
+      X-Path: /app1/
+      Content-Type: application/json
+    json: {}
+  validate:
+  - equal:
+    - body.errorCode
+    - FILE_1010
+  - equal:
+    - body.success
+    - false
+- name: path与X-Path不一致触发FILE_1018
+  request:
+    method: POST
+    url: /api/directory/create
+    headers:
+      Authorization: Bearer ${ENV(AUTH_TOKEN)}
+      X-Path: /app1/
+      Content-Type: application/json
+    json:
+      path: /other/documents/
+  validate:
+  - equal:
+    - body.errorCode
+    - FILE_1018
+  - equal:
+    - body.success
+    - false

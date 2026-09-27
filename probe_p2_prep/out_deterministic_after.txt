@@ -1,0 +1,127 @@
+﻿[haify gen --assertions-only] 鏂囨。锛歩face.md锛?8302 瀛楃锛?
+[haify gen --assertions-only] 閫氶亾锛氱‘瀹氭€ф槧灏勶紙**涓嶈皟妯″瀷**锛屽悓涓€鏂囨。缁撴灉鍙鐜帮級
+[haify gen --assertions-only] 钀界偣锛?*鎸夋帴鍙ｆ閫愮墖**锛堟瘡娈典竴鏉¤崏绋匡紱娈靛鏂█涓嶈繘鏈潯锛?
+[haify gen] 鐩爣  锛歨ttp://127.0.0.1:8899锛堝凡鍐欒繘浜х墿鐨?`config.base_url`锛?
+------------------------------------------------------------------
+鉁?_oauth2_token
+    路 鏂█ 0 鏉?/ 瑕嗙洊瀛楁 0 涓紙鏂囨。澹版槑瀛楁 0 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細rejected 路 structure-rejected
+    路 鑽夌    锛?ai/draft\_oauth2_token.yml
+    路 鑽夋蹇収锛?ai/draft/_oauth2_token.draft.json
+    路 unknowns锛?ai/draft/_oauth2_token.unknowns.json
+    路 闇€浜哄伐  锛?ai/failed/_oauth2_token/NEEDS_HUMAN.md
+鉁?_api_directory_create
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 5 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_directory_create.yml
+    路 鑽夋蹇収锛?ai/draft/_api_directory_create.draft.json
+    路 unknowns锛?ai/draft/_api_directory_create.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_directory_update
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 6 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_directory_update.yml
+    路 鑽夋蹇収锛?ai/draft/_api_directory_update.draft.json
+    路 unknowns锛?ai/draft/_api_directory_update.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_directory_query
+    路 鏂█ 5 鏉?/ 瑕嗙洊瀛楁 10 涓紙鏂囨。澹版槑瀛楁 14 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_directory_query.yml
+    路 鑽夋蹇収锛?ai/draft/_api_directory_query.draft.json
+    路 unknowns锛?ai/draft/_api_directory_query.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_directory_delete
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 5 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_directory_delete.yml
+    路 鑽夋蹇収锛?ai/draft/_api_directory_delete.draft.json
+    路 unknowns锛?ai/draft/_api_directory_delete.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_file_upload
+    路 鏂█ 3 鏉?/ 瑕嗙洊瀛楁 3 涓紙鏂囨。澹版槑瀛楁 7 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_file_upload.yml
+    路 鑽夋蹇収锛?ai/draft/_api_file_upload.draft.json
+    路 unknowns锛?ai/draft/_api_file_upload.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_file_download
+    路 鏂█ 0 鏉?/ 瑕嗙洊瀛楁 0 涓紙鏂囨。澹版槑瀛楁 6 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細rejected 路 structure-rejected
+    路 鑽夌    锛?ai/draft\_api_file_download.yml
+    路 鑽夋蹇収锛?ai/draft/_api_file_download.draft.json
+    路 unknowns锛?ai/draft/_api_file_download.unknowns.json
+    路 闇€浜哄伐  锛?ai/failed/_api_file_download/NEEDS_HUMAN.md
+鉁?_api_file_delete
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 6 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_file_delete.yml
+    路 鑽夋蹇収锛?ai/draft/_api_file_delete.draft.json
+    路 unknowns锛?ai/draft/_api_file_delete.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_file_previewUrl
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 7 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_file_previewUrl.yml
+    路 鑽夋蹇収锛?ai/draft/_api_file_previewUrl.draft.json
+    路 unknowns锛?ai/draft/_api_file_previewUrl.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_metadata_rename
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 7 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_metadata_rename.yml
+    路 鑽夋蹇収锛?ai/draft/_api_metadata_rename.draft.json
+    路 unknowns锛?ai/draft/_api_metadata_rename.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_version_getList
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 6 涓紙鏂囨。澹版槑瀛楁 10 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_version_getList.yml
+    路 鑽夋蹇収锛?ai/draft/_api_version_getList.draft.json
+    路 unknowns锛?ai/draft/_api_version_getList.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_version_getInfo
+    路 鏂█ 5 鏉?/ 瑕嗙洊瀛楁 13 涓紙鏂囨。澹版槑瀛楁 17 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_version_getInfo.yml
+    路 鑽夋蹇収锛?ai/draft/_api_version_getInfo.draft.json
+    路 unknowns锛?ai/draft/_api_version_getInfo.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_version_rollback
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 4 涓紙鏂囨。澹版槑瀛楁 7 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_version_rollback.yml
+    路 鑽夋蹇収锛?ai/draft/_api_version_rollback.draft.json
+    路 unknowns锛?ai/draft/_api_version_rollback.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_metadata_get
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 10 涓紙鏂囨。澹版槑瀛楁 14 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_metadata_get.yml
+    路 鑽夋蹇収锛?ai/draft/_api_metadata_get.draft.json
+    路 unknowns锛?ai/draft/_api_metadata_get.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_metadata_list
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 9 涓紙鏂囨。澹版槑瀛楁 15 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_metadata_list.yml
+    路 鑽夋蹇収锛?ai/draft/_api_metadata_list.draft.json
+    路 unknowns锛?ai/draft/_api_metadata_list.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_metadata_query
+    路 鏂█ 4 鏉?/ 瑕嗙洊瀛楁 10 涓紙鏂囨。澹版槑瀛楁 16 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_metadata_query.yml
+    路 鑽夋蹇収锛?ai/draft/_api_metadata_query.draft.json
+    路 unknowns锛?ai/draft/_api_metadata_query.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+鉁?_api_metadata_queryPage
+    路 鏂█ 5 鏉?/ 瑕嗙洊瀛楁 11 涓紙鏂囨。澹版槑瀛楁 23 涓級锛涙湰娆￠檷绾?鎷掓帀 0 鏉?
+    路 璐ㄩ噺鐘舵€侊細needs_review 路 unknown-critical
+    路 鑽夌    锛?ai/draft\_api_metadata_queryPage.yml
+    路 鑽夋蹇収锛?ai/draft/_api_metadata_queryPage.draft.json
+    路 unknowns锛?ai/draft/_api_metadata_queryPage.unknowns.json
+    路 鈿?浜х墿**鍙湪 `.ai/draft/`**锛埪т節 绗竴妗ｂ憽锛氶粯璁や氦浠樿崏绋匡級鈥斺€旇繘 `cases/` 蹇呴』鍏堜汉宸ョ‘璁わ細`haify review --approve <鑽夌> --approver <濮撳悕>`
+------------------------------------------------------------------
+[haify gen --assertions-only] 15/17 鏉?*鎺ュ彛娈?*浜у嚭鑽夌锛堚槄姣忔涓€鏉★紱杞浠嶉渶 `haify review --approve` 鈥斺€?閫€鍑虹爜 0 鈮?鍙洿鎺ヨ繘 CI锛?
+[haify gen] T28 闄嶇骇缁熻锛?/62 = 0%

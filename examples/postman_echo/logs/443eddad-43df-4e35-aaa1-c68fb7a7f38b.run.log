@@ -1,0 +1,17 @@
+2026-09-22 20:02:47.994 | INFO | Start to run testcase: config timeout, TestCase ID: 443eddad-43df-4e35-aaa1-c68fb7a7f38b
+2026-09-22 20:02:47.994 | INFO | run step begin: config timeout >>>>>>
+2026-09-22 20:02:47.994 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+timeout: 7.0
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-443eddad-43df-4e35-aaa1-c68fb7a7f38b-567994"
+}
+json: None
+
+2026-09-22 20:02:47.994 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\443eddad-43df-4e35-aaa1-c68fb7a7f38b.run.log

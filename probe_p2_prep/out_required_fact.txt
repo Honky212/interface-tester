@@ -1,0 +1,50 @@
+==============================================================================
+响应数据表的「必带」→ 安全 required（§9.31）：文档声明 → 断言 → 真跑 + 牙齿对照
+工作区：C:\Users\10503\AppData\Local\Temp\ai_required_probe
+==============================================================================
+
+① 确定性通路退出码 = 0
+   [haify gen --assertions-only] 落点：**按接口段逐片**（每段一条草稿；段外断言不进本条）
+   [haify gen --assertions-only] 1/1 条**接口段**产出草稿（★每段一条；转正仍需 `haify review --approve` —— 退出码 0 ≠ 可直接进 CI）
+
+② 草稿里的 schema 断言（_api_file_metadata.yml）
+   · body | type: object | properties: | data: | type: object | properties: | fileName: | type: string | fileVersion: | type: integer | required: | fileName
+
+③ 转正 + 真跑（mock 按文档的成功响应示例回数据）
+   · promote：True（ok）
+   · hrun 退出码 = 0
+     ======================== 1 passed, 1 warning in 0.14s =========================
+   · mock：[mock] 依据文档推出 1 条路由（required_fixture.md）：
+
+④ 牙齿对照（同一份用例 + **响应里没有必带字段**的 mock → 必须变红）
+   · hrun 退出码 = 1（期望 **≠0**：判据有牙）
+     conftest.py 落点: C:\Users\10503\AppData\Local\Temp\ai_required_probe\cases
+     2026-09-27 17:20:24.976 | INFO | make path: C:\Users\10503\AppData\Local\Temp\ai_required_probe\cases\_api_file_metadata.yml
+     2026-09-27 17:20:24.979 | INFO | start to make testcase: C:\Users\10503\AppData\Local\Temp\ai_required_probe\cases\_api_file_metadata.yml
+     2026-09-27 17:20:24.979 | INFO | generated testcase: C:\Users\10503\AppData\Local\Temp\ai_required_probe\cases\_api_file_metadata_test.py
+     rootdir: C:\Users\10503\AppData\Local\Temp\ai_required_probe
+     E   interfacetester.exceptions.ValidationFailure: assert body jsonschema_match {'type': 'object', 'properties': {'data': {'type': 'object', 
+     E   assert_method: jsonschema_match
+     E   expect_value: {'type': 'object', 'properties': {'data': {'type': 'object', 'properties': {'fileName': {'type': 'string'}, 'fileVersion':
+     E   - $.data: 期望 required=["fileName"]，实际 {"fileVersion": 3}(dict)
+     2026-09-27 17:20:25.363 | ERROR | assert body jsonschema_match {'type': 'object', 'properties': {'data': {'type': 'object', 'properties': {'
+     expect_value: {'type': 'object', 'properties': {'data': {'type': 'object', 'properties': {'fileName': {'type': 'string'}, 'fileVersion': {'t
+     - $.data: 期望 required=["fileName"]，实际 {"fileVersion": 3}(dict)
+     2026-09-27 17:20:25.372 | INFO | generate testcase log: C:\Users\10503\AppData\Local\Temp\ai_required_probe\logs\e73132fa-390d-457c-b3de-1a0
+     2026-09-27 17:20:25.394 | INFO | generated task summary: C:\Users\10503\AppData\Local\Temp\ai_required_probe\cases\logs\_api_file_metadata.s
+     - generated xml file: C:\Users\10503\AppData\Local\Temp\ai_required_probe\reports\required_negative.xml -
+     ============================== 1 failed in 0.12s ==============================
+     reformatted C:\Users\10503\AppData\Local\Temp\ai_required_probe\cases\_api_file_metadata_test.py
+
+⑤ ★回归（§9.32）：请求字段与响应字段**末段撞名** → 取错层级那条**必须被摘**、且点名
+   · 确定性通路退出码 = 0
+   · 草稿里取错层级的断言：（没有 ✓）
+     ✓ 撞名那条被归属闸门摘掉了（§9.32：按**路径**判，不再按名字）
+   · 点名：`body.fileName` 的**层级取错了**：文档里 `fileName` 确实在响应侧，但在 `data.fileName`（不在 `fileName`）→ 摘掉：照文档实现的服务会让这条断言取不到值
+   · hrun 退出码 = 0（期望 **0**：摘掉取错层级那条后，用例真跑绿）
+
+■ 结论
+  · 响应数据表的「必带」→ `required`，**挂在文档说的那一层容器上**（裸名 → `data` 层）✓
+  · 与「仅当…时返回」矛盾 → **不写** `required` + 点名（不替文档拍板）✓
+  · 没标必带 → **老行为一字不变**（不写 `required`，见 `TestResponseTableSchema`）✓
+  · ★**牙齿对照**：响应里缺必带字段 → **必须变红**（否则这条 `required` 永远为真 ✗）

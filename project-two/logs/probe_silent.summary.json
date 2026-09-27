@@ -1,0 +1,744 @@
+{
+    "success": false,
+    "stat": {
+        "testcases": {
+            "total": 4,
+            "success": 2,
+            "fail": 2
+        },
+        "teststeps": {
+            "total": 6,
+            "failures": 2,
+            "successes": 4
+        }
+    },
+    "time": {
+        "start_at": 1790175488.352581,
+        "duration": 383.3179225921631
+    },
+    "platform": {
+        "interfacetester_version": "5.0.1",
+        "python_version": "CPython 3.12.10",
+        "platform": "Windows-11-10.0.26200-SP0"
+    },
+    "details": [
+        {
+            "name": "我的第一条用例",
+            "success": true,
+            "case_id": "34890d95-a46e-4234-a840-7ede8cd10137",
+            "time": {
+                "start_at": 1790175486.5844643,
+                "start_at_iso_format": "2026-09-23T14:58:06.584464",
+                "duration": 1.766106367111206
+            },
+            "in_out": {
+                "config_vars": {},
+                "export_vars": {}
+            },
+            "log": "D:\\tester\\project-one\\logs\\34890d95-a46e-4234-a840-7ede8cd10137.run.log",
+            "records": [
+                {
+                    "name": "调一次 GET 接口",
+                    "step_type": "request",
+                    "success": true,
+                    "data": {
+                        "success": true,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "GET",
+                                    "url": "https://httpbin.org/get",
+                                    "headers": {
+                                        "User-Agent": "python-requests/2.34.2",
+                                        "Accept-Encoding": "gzip, deflate, br",
+                                        "Accept": "*/*",
+                                        "Connection": "keep-alive",
+                                        "interfacetester-Request-ID": "interfacetester-34890d95-a46e-4234-a840-7ede8cd10137-486591"
+                                    },
+                                    "cookies": {},
+                                    "body": null
+                                },
+                                "response": {
+                                    "status_code": 200,
+                                    "headers": {
+                                        "Date": "Wed, 23 Sep 2026 14:58:05 GMT",
+                                        "Content-Type": "application/json",
+                                        "Content-Length": "411",
+                                        "Connection": "keep-alive",
+                                        "Server": "gunicorn/19.9.0",
+                                        "Access-Control-Allow-Origin": "*",
+                                        "Access-Control-Allow-Credentials": "******"
+                                    },
+                                    "cookies": {},
+                                    "encoding": "utf-8",
+                                    "content_type": "application/json",
+                                    "body": {
+                                        "args": {},
+                                        "headers": {
+                                            "Accept": "*/*",
+                                            "Accept-Encoding": "gzip, deflate, br",
+                                            "Host": "httpbin.org",
+                                            "Interfacetester-Request-Id": "interfacetester-34890d95-a46e-4234-a840-7ede8cd10137-486591",
+                                            "User-Agent": "python-requests/2.34.2",
+                                            "X-Amzn-Trace-Id": "Root=1-6ab3e8fd-499e9d871fe772ae48360fd1"
+                                        },
+                                        "origin": "123.118.210.159",
+                                        "url": "https://httpbin.org/get"
+                                    }
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 411,
+                            "response_time_ms": 1756.57,
+                            "elapsed_ms": 1754.7
+                        },
+                        "address": {
+                            "client_ip": "192.168.0.199",
+                            "client_port": 64250,
+                            "server_ip": "3.217.138.231",
+                            "server_port": 443
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 200,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "pass"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 1.7590796947479248,
+                    "content_size": 411,
+                    "export_vars": {},
+                    "attachment": ""
+                }
+            ]
+        },
+        {
+            "name": "登录拿 token 再带 token 调接口",
+            "success": false,
+            "case_id": "8bdd03b8-0ccc-40ea-b5e7-f8c7c3b4af7e",
+            "time": {
+                "start_at": 1790175488.3600202,
+                "start_at_iso_format": "2026-09-23T14:58:08.360020",
+                "duration": 2.039841413497925
+            },
+            "in_out": {
+                "config_vars": {},
+                "export_vars": {}
+            },
+            "log": "D:\\tester\\project-two\\logs\\8bdd03b8-0ccc-40ea-b5e7-f8c7c3b4af7e.run.log",
+            "records": [
+                {
+                    "name": "登录获取 token",
+                    "step_type": "request-POST",
+                    "success": false,
+                    "data": {
+                        "success": false,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "POST",
+                                    "url": "http://127.0.0.1:8000/api/login",
+                                    "headers": {
+                                        "Content-Type": "application/json",
+                                        "interfacetester-Request-ID": "interfacetester-8bdd03b8-0ccc-40ea-b5e7-f8c7c3b4af7e-488361",
+                                        "Content-Length": "43"
+                                    },
+                                    "cookies": {},
+                                    "body": {
+                                        "username": "admin",
+                                        "password": "******"
+                                    }
+                                },
+                                "response": {
+                                    "status_code": 0,
+                                    "headers": {},
+                                    "cookies": {},
+                                    "encoding": null,
+                                    "content_type": "",
+                                    "body": ""
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 0,
+                            "response_time_ms": 2034.69,
+                            "elapsed_ms": 0.0
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 0,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "fail"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.code",
+                                    "check_value": null,
+                                    "expect": 0,
+                                    "expect_value": 0,
+                                    "message": "",
+                                    "check_result": "fail"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 2.0371322631835938,
+                    "content_size": 0.0,
+                    "export_vars": {
+                        "token": "******"
+                    },
+                    "attachment": ""
+                }
+            ]
+        },
+        {
+            "name": "request methods testcase with functions",
+            "success": false,
+            "case_id": "6ed5825d-1d3f-4b54-8c10-b544b02980d6",
+            "time": {
+                "start_at": 1790175616.1501932,
+                "start_at_iso_format": "2026-09-23T15:00:16.150193",
+                "duration": 120.55714416503906
+            },
+            "in_out": {
+                "config_vars": {
+                    "foo1": "config_bar1",
+                    "foo2": "config_bar2",
+                    "expect_foo1": "config_bar1",
+                    "expect_foo2": "config_bar2",
+                    "foo3": "bar21"
+                },
+                "export_vars": {}
+            },
+            "log": "D:\\tester\\examples\\postman_echo\\logs\\6ed5825d-1d3f-4b54-8c10-b544b02980d6.run.log",
+            "records": [
+                {
+                    "name": "get with params",
+                    "step_type": "request-GET",
+                    "success": false,
+                    "data": {
+                        "success": false,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "GET",
+                                    "url": "https://postman-echo.com/get?foo1=bar11&foo2=bar21&sum_v=3",
+                                    "headers": {
+                                        "User-Agent": "InterfaceTester/5.0.1",
+                                        "interfacetester-Request-ID": "interfacetester-6ed5825d-1d3f-4b54-8c10-b544b02980d6-616151"
+                                    },
+                                    "cookies": {},
+                                    "body": null
+                                },
+                                "response": {
+                                    "status_code": 0,
+                                    "headers": {},
+                                    "cookies": {},
+                                    "encoding": null,
+                                    "content_type": "",
+                                    "body": ""
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 0,
+                            "response_time_ms": 120549.03,
+                            "elapsed_ms": 0.0
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 0,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "fail"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.args.foo1",
+                                    "check_value": null,
+                                    "expect": "bar11",
+                                    "expect_value": "bar11",
+                                    "message": "",
+                                    "check_result": "fail"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.args.sum_v",
+                                    "check_value": null,
+                                    "expect": "3",
+                                    "expect_value": "3",
+                                    "message": "",
+                                    "check_result": "fail"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.args.foo2",
+                                    "check_value": null,
+                                    "expect": "bar21",
+                                    "expect_value": "bar21",
+                                    "message": "",
+                                    "check_result": "fail"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 120.55614852905273,
+                    "content_size": 0.0,
+                    "export_vars": {
+                        "foo3": null
+                    },
+                    "attachment": ""
+                }
+            ]
+        },
+        {
+            "name": "request methods testcase with functions",
+            "success": true,
+            "case_id": "ca30a2ab-98a0-43a5-b10d-0c4886975c9a",
+            "time": {
+                "start_at": 1790175859.5983138,
+                "start_at_iso_format": "2026-09-23T15:04:19.598314",
+                "duration": 3.992412567138672
+            },
+            "in_out": {
+                "config_vars": {
+                    "foo1": "config_bar1",
+                    "foo2": "config_bar2",
+                    "expect_foo1": "config_bar1",
+                    "expect_foo2": "config_bar2",
+                    "foo3": "bar21"
+                },
+                "export_vars": {
+                    "foo3": "bar21"
+                }
+            },
+            "log": "D:\\tester\\examples\\postman_echo\\logs\\ca30a2ab-98a0-43a5-b10d-0c4886975c9a.run.log",
+            "records": [
+                {
+                    "name": "get with params",
+                    "step_type": "request",
+                    "success": true,
+                    "data": {
+                        "success": true,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "GET",
+                                    "url": "https://postman-echo.com/get?foo1=bar11&foo2=bar21&sum_v=3",
+                                    "headers": {
+                                        "User-Agent": "InterfaceTester/5.0.1",
+                                        "Accept-Encoding": "gzip, deflate, br",
+                                        "Accept": "*/*",
+                                        "Connection": "keep-alive",
+                                        "interfacetester-Request-ID": "interfacetester-ca30a2ab-98a0-43a5-b10d-0c4886975c9a-859599"
+                                    },
+                                    "cookies": {},
+                                    "body": null
+                                },
+                                "response": {
+                                    "status_code": 200,
+                                    "headers": {
+                                        "Date": "Wed, 23 Sep 2026 15:04:17 GMT",
+                                        "Content-Type": "application/json; charset=utf-8",
+                                        "Transfer-Encoding": "chunked",
+                                        "Connection": "keep-alive",
+                                        "etag": "W/\"165-n0C/INQEI5GXEExHSkjL0FR1JLw\"",
+                                        "vary": "Accept-Encoding",
+                                        "x-envoy-upstream-service-time": "7",
+                                        "cf-cache-status": "DYNAMIC",
+                                        "Set-Cookie": "******",
+                                        "Content-Encoding": "gzip",
+                                        "Server": "cloudflare",
+                                        "CF-RAY": "a3fa70e76a975fb8-LAX"
+                                    },
+                                    "cookies": {
+                                        "sails.sid": "******",
+                                        "__cf_bm": "_OyfUEsu3_T79fuUQ2_RsOuFvSb.SZ.sl_2nh50_83U-1790175857.8262913-1.0.1.1-BX4oazTwz3BA7aZDnJUh7l58O.Ai0Th0KSQiMhUxIjyVPcw0FIoAPmxaoqtKsy_SZNuzOjMAfwtw9EWmFxhsN8G4O.Ajcy33_XP1yg4kt4Hfig1cMIUh23mVNLhJ2OBu",
+                                        "_cfuvid": "zoM0SmnLbqsdFbd1AX9lkRVeyK3K1gNmGElA1VPi5Ts-1790175857.8262913-1.0.1.1-IMR5RSztTqPgS_liMBWfUedcOGcdu_DQwt37508Ka88"
+                                    },
+                                    "encoding": "utf-8",
+                                    "content_type": "application/json; charset=utf-8",
+                                    "body": {
+                                        "args": {
+                                            "foo1": "bar11",
+                                            "foo2": "bar21",
+                                            "sum_v": "3"
+                                        },
+                                        "headers": {
+                                            "host": "postman-echo.com",
+                                            "accept-encoding": "gzip, br",
+                                            "user-agent": "InterfaceTester/5.0.1",
+                                            "interfacetester-request-id": "interfacetester-ca30a2ab-98a0-43a5-b10d-0c4886975c9a-859599",
+                                            "accept": "*/*",
+                                            "x-forwarded-proto": "https"
+                                        },
+                                        "url": "https://postman-echo.com/get?foo1=bar11&foo2=bar21&sum_v=3"
+                                    }
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 357,
+                            "response_time_ms": 3452.44,
+                            "elapsed_ms": 3451.28
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 200,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.args.foo1",
+                                    "check_value": "bar11",
+                                    "expect": "bar11",
+                                    "expect_value": "bar11",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.args.sum_v",
+                                    "check_value": "3",
+                                    "expect": "3",
+                                    "expect_value": "3",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.args.foo2",
+                                    "check_value": "bar21",
+                                    "expect": "bar21",
+                                    "expect_value": "bar21",
+                                    "message": "",
+                                    "check_result": "pass"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 3.4580674171447754,
+                    "content_size": 357,
+                    "export_vars": {
+                        "foo3": "bar21"
+                    },
+                    "attachment": ""
+                },
+                {
+                    "name": "post raw text",
+                    "step_type": "request",
+                    "success": true,
+                    "data": {
+                        "success": true,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "POST",
+                                    "url": "https://postman-echo.com/post",
+                                    "headers": {
+                                        "User-Agent": "InterfaceTester/5.0.1",
+                                        "Accept-Encoding": "gzip, deflate, br",
+                                        "Accept": "*/*",
+                                        "Connection": "keep-alive",
+                                        "Content-Type": "text/plain",
+                                        "interfacetester-Request-ID": "interfacetester-ca30a2ab-98a0-43a5-b10d-0c4886975c9a-863057",
+                                        "Cookie": "******",
+                                        "Content-Length": "83"
+                                    },
+                                    "cookies": {
+                                        "sails.sid": "******",
+                                        "__cf_bm": "_OyfUEsu3_T79fuUQ2_RsOuFvSb.SZ.sl_2nh50_83U-1790175857.8262913-1.0.1.1-BX4oazTwz3BA7aZDnJUh7l58O.Ai0Th0KSQiMhUxIjyVPcw0FIoAPmxaoqtKsy_SZNuzOjMAfwtw9EWmFxhsN8G4O.Ajcy33_XP1yg4kt4Hfig1cMIUh23mVNLhJ2OBu",
+                                        "_cfuvid": "zoM0SmnLbqsdFbd1AX9lkRVeyK3K1gNmGElA1VPi5Ts-1790175857.8262913-1.0.1.1-IMR5RSztTqPgS_liMBWfUedcOGcdu_DQwt37508Ka88"
+                                    },
+                                    "body": "This is expected to be sent back as part of response body: bar12-config_bar2-bar32."
+                                },
+                                "response": {
+                                    "status_code": 200,
+                                    "headers": {
+                                        "Date": "Wed, 23 Sep 2026 15:04:20 GMT",
+                                        "Content-Type": "application/json; charset=utf-8",
+                                        "Transfer-Encoding": "chunked",
+                                        "Connection": "keep-alive",
+                                        "etag": "W/\"386-q1TrxNPN2t+pn2mihMlyH5JLj5c\"",
+                                        "vary": "Accept-Encoding",
+                                        "Set-Cookie": "******",
+                                        "x-envoy-upstream-service-time": "6",
+                                        "cf-cache-status": "DYNAMIC",
+                                        "Content-Encoding": "gzip",
+                                        "Server": "cloudflare",
+                                        "CF-RAY": "a3fa70f8fc2c5fb8-LAX"
+                                    },
+                                    "cookies": {
+                                        "sails.sid": "******"
+                                    },
+                                    "encoding": "utf-8",
+                                    "content_type": "application/json; charset=utf-8",
+                                    "body": {
+                                        "args": {},
+                                        "data": "This is expected to be sent back as part of response body: bar12-config_bar2-bar32.",
+                                        "files": {},
+                                        "form": {},
+                                        "headers": {
+                                            "host": "postman-echo.com",
+                                            "accept-encoding": "gzip, br",
+                                            "accept": "*/*",
+                                            "interfacetester-request-id": "interfacetester-ca30a2ab-98a0-43a5-b10d-0c4886975c9a-863057",
+                                            "x-forwarded-proto": "https",
+                                            "content-type": "text/plain",
+                                            "content-length": "83",
+                                            "user-agent": "InterfaceTester/5.0.1",
+                                            "cookie": "******"
+                                        },
+                                        "json": null,
+                                        "url": "https://postman-echo.com/post"
+                                    }
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 902,
+                            "response_time_ms": 262.77,
+                            "elapsed_ms": 261.18
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 200,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.data",
+                                    "check_value": "This is expected to be sent back as part of response body: bar12-config_bar2-bar32.",
+                                    "expect": "This is expected to be sent back as part of response body: bar12-$expect_foo2-bar32.",
+                                    "expect_value": "This is expected to be sent back as part of response body: bar12-config_bar2-bar32.",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "type_match",
+                                    "check": "body.json",
+                                    "check_value": null,
+                                    "expect": "None",
+                                    "expect_value": "None",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "type_match",
+                                    "check": "body.json",
+                                    "check_value": null,
+                                    "expect": "NoneType",
+                                    "expect_value": "NoneType",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "type_match",
+                                    "check": "body.json",
+                                    "check_value": null,
+                                    "expect": null,
+                                    "expect_value": null,
+                                    "message": "",
+                                    "check_result": "pass"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 0.2642829418182373,
+                    "content_size": 902,
+                    "export_vars": {},
+                    "attachment": ""
+                },
+                {
+                    "name": "post form data",
+                    "step_type": "request",
+                    "success": true,
+                    "data": {
+                        "success": true,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "POST",
+                                    "url": "https://postman-echo.com/post",
+                                    "headers": {
+                                        "User-Agent": "InterfaceTester/5.0.1",
+                                        "Accept-Encoding": "gzip, deflate, br",
+                                        "Accept": "*/*",
+                                        "Connection": "keep-alive",
+                                        "Content-Type": "application/x-www-form-urlencoded",
+                                        "interfacetester-Request-ID": "interfacetester-ca30a2ab-98a0-43a5-b10d-0c4886975c9a-863321",
+                                        "Cookie": "******",
+                                        "Content-Length": "38"
+                                    },
+                                    "cookies": {
+                                        "sails.sid": "******",
+                                        "__cf_bm": "_OyfUEsu3_T79fuUQ2_RsOuFvSb.SZ.sl_2nh50_83U-1790175857.8262913-1.0.1.1-BX4oazTwz3BA7aZDnJUh7l58O.Ai0Th0KSQiMhUxIjyVPcw0FIoAPmxaoqtKsy_SZNuzOjMAfwtw9EWmFxhsN8G4O.Ajcy33_XP1yg4kt4Hfig1cMIUh23mVNLhJ2OBu",
+                                        "_cfuvid": "zoM0SmnLbqsdFbd1AX9lkRVeyK3K1gNmGElA1VPi5Ts-1790175857.8262913-1.0.1.1-IMR5RSztTqPgS_liMBWfUedcOGcdu_DQwt37508Ka88"
+                                    },
+                                    "body": "foo1=config_bar1&foo2=bar23&foo3=bar21"
+                                },
+                                "response": {
+                                    "status_code": 200,
+                                    "headers": {
+                                        "Date": "Wed, 23 Sep 2026 15:04:20 GMT",
+                                        "Content-Type": "application/json; charset=utf-8",
+                                        "Transfer-Encoding": "chunked",
+                                        "Connection": "keep-alive",
+                                        "etag": "W/\"3ae-pnRm2zOtl+MLDV9oY1AfMHu8dGE\"",
+                                        "vary": "Accept-Encoding",
+                                        "Set-Cookie": "******",
+                                        "x-envoy-upstream-service-time": "6",
+                                        "cf-cache-status": "DYNAMIC",
+                                        "Content-Encoding": "gzip",
+                                        "Server": "cloudflare",
+                                        "CF-RAY": "a3fa70faaae15fb8-LAX"
+                                    },
+                                    "cookies": {
+                                        "sails.sid": "******"
+                                    },
+                                    "encoding": "utf-8",
+                                    "content_type": "application/json; charset=utf-8",
+                                    "body": {
+                                        "args": {},
+                                        "data": "",
+                                        "files": {},
+                                        "form": {
+                                            "foo1": "config_bar1",
+                                            "foo2": "bar23",
+                                            "foo3": "bar21"
+                                        },
+                                        "headers": {
+                                            "host": "postman-echo.com",
+                                            "accept-encoding": "gzip, br",
+                                            "accept": "*/*",
+                                            "interfacetester-request-id": "interfacetester-ca30a2ab-98a0-43a5-b10d-0c4886975c9a-863321",
+                                            "x-forwarded-proto": "https",
+                                            "content-type": "application/x-www-form-urlencoded",
+                                            "content-length": "38",
+                                            "user-agent": "InterfaceTester/5.0.1",
+                                            "cookie": "******"
+                                        },
+                                        "json": {
+                                            "foo1": "config_bar1",
+                                            "foo2": "bar23",
+                                            "foo3": "bar21"
+                                        },
+                                        "url": "https://postman-echo.com/post"
+                                    }
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 942,
+                            "response_time_ms": 268.06,
+                            "elapsed_ms": 266.87
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 200,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "response status code should be 200",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.form.foo1",
+                                    "check_value": "config_bar1",
+                                    "expect": "$expect_foo1",
+                                    "expect_value": "config_bar1",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.form.foo2",
+                                    "check_value": "bar23",
+                                    "expect": "bar23",
+                                    "expect_value": "bar23",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.form.foo3",
+                                    "check_value": "bar21",
+                                    "expect": "bar21",
+                                    "expect_value": "bar21",
+                                    "message": "",
+                                    "check_result": "pass"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 0.26906514167785645,
+                    "content_size": 942,
+                    "export_vars": {},
+                    "attachment": ""
+                }
+            ]
+        }
+    ]
+}

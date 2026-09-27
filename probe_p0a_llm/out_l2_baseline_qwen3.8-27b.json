@@ -1,0 +1,113 @@
+{
+  "model": "qwen3.8:27b",
+  "docs": 3,
+  "docs_with_cases": 2,
+  "cases_produced": 2,
+  "l2_passed": 2,
+  "l2_pass_rate": 1.0,
+  "l2_note": "L2 对最终产物恒为 100%（装配器闸门在前），是重言式；有效信号是 slice_success_rate（送进模型的接口片 → 产出用例）",
+  "slices_total": 16,
+  "slices_skipped_non_interface": 14,
+  "slices_with_interface": 2,
+  "slices_produced": 1,
+  "slices_failed": 1,
+  "slice_success_rate": 0.5,
+  "source_tree_touched": [
+    [
+      "deploy.md",
+      25898
+    ],
+    [
+      "deploy.md",
+      26242
+    ],
+    [
+      "docs/interfacetester智能化改造方案8.md",
+      343017
+    ],
+    [
+      "docs/interfacetester智能化改造方案8.md",
+      348450
+    ],
+    [
+      "docs/矫正后的待办清单0924.md",
+      49885
+    ],
+    [
+      "docs/矫正后的待办清单0924.md",
+      52903
+    ]
+  ],
+  "entries": [
+    {
+      "tag": "G01_login",
+      "doc": "bench/golden/login.md",
+      "exit": 1,
+      "elapsed_s": 495.1,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run_qwen3.8-27b\\G01_login\\cases\\G01_login___POST__api_login.yml"
+      ],
+      "manifests": 4,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 0,
+      "slices_failed": 1,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 650,
+          "reason": null,
+          "bucket": null,
+          "yml": "G01_login___POST__api_login.yml",
+          "name": "G01_login___POST__api_login"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G02_order_create",
+      "doc": "bench/golden/order_create.md",
+      "exit": 0,
+      "elapsed_s": 206.1,
+      "cases": [],
+      "manifests": 2,
+      "failed_dirs": 1,
+      "slices_total": 5,
+      "slices_produced": 0,
+      "slices_failed": 0,
+      "slices_skipped": 5,
+      "l2": [],
+      "l2_pass": 0,
+      "l2_total": 0
+    },
+    {
+      "tag": "G03_user_info",
+      "doc": "bench/golden/user_info.md",
+      "exit": 0,
+      "elapsed_s": 91.1,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run_qwen3.8-27b\\G03_user_info\\cases\\G03_user_info___GET__api_user_info.yml"
+      ],
+      "manifests": 2,
+      "failed_dirs": 0,
+      "slices_total": 6,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 5,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 634,
+          "reason": null,
+          "bucket": null,
+          "yml": "G03_user_info___GET__api_user_info.yml",
+          "name": "G03_user_info___GET__api_user_info"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    }
+  ]
+}

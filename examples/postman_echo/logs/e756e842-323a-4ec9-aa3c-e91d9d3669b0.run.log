@@ -1,0 +1,234 @@
+2026-09-22 20:02:53.221 | INFO | Start to run testcase: thrift bad idl, TestCase ID: e756e842-323a-4ec9-aa3c-e91d9d3669b0
+2026-09-22 20:02:53.221 | INFO | run step begin: bad idl >>>>>>
+2026-09-22 20:02:53.221 | DEBUG | init thrift module: thrift_file=%s, module_name=%s
+2026-09-22 20:02:53.221 | ERROR | init thrift module and client failed: [Errno 2] No such file or directory: 'no_such_idl.thrift'
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pytest\__main__.py", line 9, in <module>
+    raise SystemExit(_console_main())
+                     └ <function _console_main at 0x0000029DA811C7C0>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\config\__init__.py", line 253, in _console_main
+    code = _main(prog=_get_prog_name(sys.argv))
+           │          │              │   └ ['interfacetester', 'run', 'case.yml', '--save-tests']
+           │          │              └ <module 'sys' (built-in)>
+           │          └ <function _get_prog_name at 0x0000029DA811C5E0>
+           └ <function _main at 0x0000029DA811C720>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\config\__init__.py", line 229, in _main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+         │                │      │    │                          └ <_pytest.config.Config object at 0x0000029DA7AB5580>
+         │                │      │    └ <HookCaller 'pytest_cmdline_main'>
+         │                │      └ <pluggy._hooks.HookRelay object at 0x0000029DA73E5AC0>
+         │                └ <_pytest.config.Config object at 0x0000029DA7AB5580>
+         └ <enum 'ExitCode'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'config': <_pytest.config.Config object at 0x0000029DA7AB5580>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_cmdline_main'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_cmdline_main'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_cmdline_main'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'config': <_pytest.config.Config object at 0x0000029DA7AB5580>}
+           │    │               │          └ [<HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages\\_p...
+           │    │               └ 'pytest_cmdline_main'
+           │    └ <function _multicall at 0x0000029DA78C6FC0>
+           └ <_pytest.config.PytestPluginManager object at 0x0000029DA743D250>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<_pytest.config.Config object at 0x0000029DA7AB5580>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages\\_py...
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\main.py", line 377, in pytest_cmdline_main
+    return wrap_session(config, _main)
+           │            │       └ <function _main at 0x0000029DA81D5940>
+           │            └ <_pytest.config.Config object at 0x0000029DA7AB5580>
+           └ <function wrap_session at 0x0000029DA81D5800>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\main.py", line 330, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+    │       │            │    │       └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=1685>
+    │       │            │    └ <_pytest.config.Config object at 0x0000029DA7AB5580>
+    │       │            └ <function _main at 0x0000029DA81D5940>
+    │       └ <ExitCode.OK: 0>
+    └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=1685>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\main.py", line 384, in _main
+    config.hook.pytest_runtestloop(session=session)
+    │      │    │                          └ <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=1685>
+    │      │    └ <HookCaller 'pytest_runtestloop'>
+    │      └ <pluggy._hooks.HookRelay object at 0x0000029DA73E5AC0>
+    └ <_pytest.config.Config object at 0x0000029DA7AB5580>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'session': <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=1685>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtestloop'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtestloop'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtestloop'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'session': <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=1685>}
+           │    │               │          └ [<HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages\\_p...
+           │    │               └ 'pytest_runtestloop'
+           │    └ <function _multicall at 0x0000029DA78C6FC0>
+           └ <_pytest.config.PytestPluginManager object at 0x0000029DA743D250>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=1685>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='main', plugin=<module '_pytest.main' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages\\_py...
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\main.py", line 408, in pytest_runtestloop
+    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
+    │    │                                        │              └ <TestCaseFunction test_success_path_still_builds_and_sends>
+    │    │                                        └ <TestCaseFunction test_step_fails_before_running_hooks>
+    │    └ <member 'config' of 'Node' objects>
+    └ <TestCaseFunction test_step_fails_before_running_hooks>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ True
+           │    │         │    │     │    │                  └ {'item': <TestCaseFunction test_step_fails_before_running_hooks>, 'nextitem': <TestCaseFunction test_success_path_still_build...
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtest_protocol'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtest_protocol'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtest_protocol'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ True
+           │    │               │          │        └ {'item': <TestCaseFunction test_step_fails_before_running_hooks>, 'nextitem': <TestCaseFunction test_success_path_still_build...
+           │    │               │          └ [<HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages...
+           │    │               └ 'pytest_runtest_protocol'
+           │    └ <function _multicall at 0x0000029DA78C6FC0>
+           └ <_pytest.config.PytestPluginManager object at 0x0000029DA743D250>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<TestCaseFunction test_step_fails_before_running_hooks>, <TestCaseFunction test_success_path_still_builds_and_sends>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages\...
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\runner.py", line 118, in pytest_runtest_protocol
+    runtestprotocol(item, nextitem=nextitem)
+    │               │              └ <TestCaseFunction test_success_path_still_builds_and_sends>
+    │               └ <TestCaseFunction test_step_fails_before_running_hooks>
+    └ <function runtestprotocol at 0x0000029DA81D49A0>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\runner.py", line 139, in runtestprotocol
+    reports.append(call_and_report(item, "call", log))
+    │       │      │               │             └ True
+    │       │      │               └ <TestCaseFunction test_step_fails_before_running_hooks>
+    │       │      └ <function call_and_report at 0x0000029DA81D4E00>
+    │       └ <method 'append' of 'list' objects>
+    └ [<TestReport 'tests/step_thrift_request_test.py::TestThriftClientInitSurfacesRootCause::test_step_fails_before_running_hooks'...
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\runner.py", line 249, in call_and_report
+    call = CallInfo.from_call(
+           │        └ <classmethod(<function CallInfo.from_call at 0x0000029DA81D51C0>)>
+           └ <class '_pytest.runner.CallInfo'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\runner.py", line 361, in from_call
+    result: TResult | None = func()
+            │                └ <function call_and_report.<locals>.<lambda> at 0x0000029DAE7F7A60>
+            └ +TResult
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\runner.py", line 250, in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            │                 │       └ {}
+            │                 └ <TestCaseFunction test_step_fails_before_running_hooks>
+            └ <HookCaller 'pytest_runtest_call'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           │    │         │    │     │    │                  │       └ False
+           │    │         │    │     │    │                  └ {'item': <TestCaseFunction test_step_fails_before_running_hooks>}
+           │    │         │    │     │    └ <member '_hookimpls' of 'HookCaller' objects>
+           │    │         │    │     └ <HookCaller 'pytest_runtest_call'>
+           │    │         │    └ <member 'name' of 'HookCaller' objects>
+           │    │         └ <HookCaller 'pytest_runtest_call'>
+           │    └ <member '_hookexec' of 'HookCaller' objects>
+           └ <HookCaller 'pytest_runtest_call'>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           │    │               │          │        │       └ False
+           │    │               │          │        └ {'item': <TestCaseFunction test_step_fails_before_running_hooks>}
+           │    │               │          └ [<HookImpl plugin_name='threadexception', plugin=<module '_pytest.threadexception' from 'D:\\learn\\interface-tester\\.venv\\...
+           │    │               └ 'pytest_runtest_call'
+           │    └ <function _multicall at 0x0000029DA78C6FC0>
+           └ <_pytest.config.PytestPluginManager object at 0x0000029DA743D250>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\pluggy\_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+          │         │         └ [<TestCaseFunction test_step_fails_before_running_hooks>]
+          │         └ <member 'function' of 'HookImpl' objects>
+          └ <HookImpl plugin_name='runner', plugin=<module '_pytest.runner' from 'D:\\learn\\interface-tester\\.venv\\Lib\\site-packages\...
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\runner.py", line 184, in pytest_runtest_call
+    item.runtest()
+    │    └ <function TestCaseFunction.runtest at 0x0000029DA843B240>
+    └ <TestCaseFunction test_step_fails_before_running_hooks>
+  File "D:\learn\interface-tester\.venv\Lib\site-packages\_pytest\unittest.py", line 410, in runtest
+    testcase(result=self)
+    │               └ <TestCaseFunction test_step_fails_before_running_hooks>
+    └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause testMethod=test_step_fails_before_running_hooks>
+  File "C:\python312\Lib\unittest\case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+           │    │    │       └ {'result': <TestCaseFunction test_step_fails_before_running_hooks>}
+           │    │    └ ()
+           │    └ <function TestCase.run at 0x0000029DA8427B00>
+           └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause testMethod=test_step_fails_before_running_hooks>
+  File "C:\python312\Lib\unittest\case.py", line 634, in run
+    self._callTestMethod(testMethod)
+    │    │               └ <bound method TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks of <step_thrift_request_test.TestThr...
+    │    └ <function TestCase._callTestMethod at 0x0000029DA8427920>
+    └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause testMethod=test_step_fails_before_running_hooks>
+  File "C:\python312\Lib\unittest\case.py", line 589, in _callTestMethod
+    if method() is not None:
+       └ <bound method TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks of <step_thrift_request_test.TestThr...
+
+  File "D:\learn\interface-tester\tests\step_thrift_request_test.py", line 1488, in test_step_fails_before_running_hooks
+    runner.test_start()
+    │      └ <function SessionRunner.test_start at 0x0000029DAB18B880>
+    └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks.<locals>._Case object at...
+
+  File "D:\learn\interface-tester\interfacetester\runner.py", line 707, in test_start
+    self.__run_step(step)
+    │               └ <interfacetester.step.Step object at 0x0000029DACCF7D70>
+    └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks.<locals>._Case object at...
+
+  File "D:\learn\interface-tester\interfacetester\runner.py", line 594, in __run_step
+    step_result: StepResult = step.run(self)
+                              │    │   └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks.<locals>._Case object at...
+                              │    └ <function Step.run at 0x0000029DAB361080>
+                              └ <interfacetester.step.Step object at 0x0000029DACCF7D70>
+
+  File "D:\learn\interface-tester\interfacetester\step.py", line 67, in run
+    return self.__step.run(runner)
+           │               └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks.<locals>._Case object at...
+           └ <interfacetester.step.Step object at 0x0000029DACCF7D70>
+
+  File "D:\learn\interface-tester\interfacetester\step_thrift_request.py", line 565, in run
+    return run_step_thrift_request(runner, self.__step)
+           │                       │       └ <interfacetester.step_thrift_request.RunThriftRequest object at 0x0000029DAE7CB9B0>
+           │                       └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks.<locals>._Case object at...
+           └ <function run_step_thrift_request at 0x0000029DAB347880>
+
+  File "D:\learn\interface-tester\interfacetester\step_thrift_request.py", line 287, in run_step_thrift_request
+    runner.thrift_client = ThriftClient(
+    │      │               └ <class 'interfacetester.thrift.thrift_client.ThriftClient'>
+    │      └ None
+    └ <step_thrift_request_test.TestThriftClientInitSurfacesRootCause.test_step_fails_before_running_hooks.<locals>._Case object at...
+
+> File "D:\learn\interface-tester\interfacetester\thrift\thrift_client.py", line 143, in __init__
+    self.thrift_module = thriftpy2.load(
+    │    │               │         └ <function _import_thrift_client_with_fake_thriftpy2.<locals>._load at 0x0000029DAE7F7F60>
+    │    │               └ <module 'thriftpy2'>
+    │    └ None
+    └ <interfacetester.thrift.thrift_client.ThriftClient object at 0x0000029DAE4C8620>
+
+  File "D:\learn\interface-tester\tests\step_thrift_request_test.py", line 1105, in _load
+    raise load_exc
+          └ FileNotFoundError(2, 'No such file or directory')
+
+FileNotFoundError: [Errno 2] No such file or directory: 'no_such_idl.thrift'
+2026-09-22 20:02:53.227 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\e756e842-323a-4ec9-aa3c-e91d9d3669b0.run.log

@@ -1,0 +1,302 @@
+==========================================================================
+文档：统一文件服务平台-接入应用接口文档.md
+==========================================================================
+
+① 可模拟：**129 条**，分族如下（通用性的边界在**族**，不在项目）
+  exist      30 条
+  format     58 条
+  limit       2 条
+  relation   21 条
+  required   18 条
+
+② 每条规则的**绑定**（绑错字段/阈值就是 bug，一眼可见）
+  --- exist ---
+    · exist：['dirName'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['fileName'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['fileName'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['versionId'] 不在种子数据里 → FILE_2005
+      原句：`FILE_2005` | 目标版本不存在 | 指定的版本记录不存在
+    · exist：['filename'] 不在种子数据里 → FILE_2003
+      原句：文件不存在时返回 `FILE_2003`
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['filename', 'fileSuffix', 'status'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['filename', 'fileSuffix', 'status'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['filename', 'fileSuffix', 'status'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['filename'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['version'] 不在种子数据里 → FILE_2005
+      原句：`FILE_2005` | 目标版本不存在 | 指定的版本记录不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['filename'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['sourceDirName', 'targetDirName'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['fileName'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['oldFileName', 'newFileName'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['path'] 不在种子数据里 → FILE_2001
+      原句：`FILE_2001` | 目录不存在 | 指定的目录不存在
+    · exist：['filename'] 不在种子数据里 → FILE_2003
+      原句：`FILE_2003` | 文件不存在 | 指定的文件不存在
+    · exist：['version'] 不在种子数据里 → FILE_2005
+      原句：`FILE_2005` | 目标版本不存在 | 指定的版本记录不存在
+  --- format ---
+    · format：`dirName` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`dirName` 违反「no_edge_space」→ FILE_4018
+      原句：目录名称开头和结尾不能有空格（`FILE_4018`）
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`fileName` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`fileName` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`fileName` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`fileName` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「no_edge_space」→ FILE_4018
+      原句：目录名称开头和结尾不能有空格（`FILE_4018`）
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`path` 违反「no_edge_space」→ FILE_4018
+      原句：目录名称开头和结尾不能有空格（`FILE_4018`）
+    · format：`sourceDirName` 违反「no_edge_space」→ FILE_4018
+      原句：目录名称开头和结尾不能有空格（`FILE_4018`）
+    · format：`sourceDirName` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`sourceDirName` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`fileName` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`fileName` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`path` 违反「no_edge_space」→ FILE_4018
+      原句：目录名称开头和结尾不能有空格（`FILE_4018`）
+    · format：`oldFileName` 违反「no_edge_space」→ FILE_4018
+      原句：文件名开头和结尾不能有空格（`FILE_4018`），文件名中间允许空格
+    · format：`newFileName` 违反「charset」→ FILE_4016
+      原句：新文件名不能包含非法字符：`\/:*?"<>|`（`FILE_4016`）
+    · format：`newFileName` 违反「no_edge_space」→ FILE_4018
+      原句：新文件名开头和结尾不能有空格（`FILE_4018`），文件名中间允许空格
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`path` 违反「slash_wrap」→ FILE_4001
+      原句：`FILE_4001` | 目录名称必须以/开头并以/结尾 | 路径格式错误
+    · format：`path` 违反「no_double_slash」→ FILE_4003
+      原句：`FILE_4003` | 目录名称不能包含连续的/ | 路径格式错误
+    · format：`filename` 违反「charset」→ FILE_4016
+      原句：`FILE_4016` | 文件名包含非法字符 | 文件名包含 \/:*?"<>| 等特殊字符
+    · format：`filename` 违反「no_edge_space」→ FILE_4018
+      原句：`FILE_4018` | 文件名开头和结尾不能有空格 | 文件名首尾存在空格
+  --- limit ---
+    · limit：`files` 超过 10个（逐个） → FILE_1016
+      原句：`FILE_1016` | 最多上传10个文件 | 上传文件数量超限
+    · limit：`files` 超过 5.24288e+07字节（逐个） → FILE_1021
+      原句：`FILE_1021` | 上传文件大小超过限制 | 单文件超过 50MB
+  --- relation ---
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：startTime > endTime → FILE_8002
+      原句：`FILE_8002` | 开始时间不能大于结束时间 | 元数据查询时间范围无效
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+    · relation：startTime > endTime → FILE_8002
+      原句：`startTime` 大于 `endTime` 时返回 `FILE_8002`
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+    · relation：startTime > endTime → FILE_8002
+      原句：`startTime` 大于 `endTime` 时返回 `FILE_8002`
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+    · relation：startTime > endTime → FILE_8002
+      原句：`startTime` 大于 `endTime` 时返回 `FILE_8002`
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+    · relation：path startswith X-Path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：sourceDirName == targetDirName → FILE_4009
+      原句：源目录名称和目标目录名称不能相同（`FILE_4009`）
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：newFileName == oldFileName → FILE_4013
+      原句：新文件名不能与原文件名相同（`FILE_4013`）
+    · relation：X-Path != path → FILE_1018
+      原句：注意**: `X-Path` 值必须与请求参数中的 `path` 字段完全一致，否则会返回 `FILE_1018` 错误
+    · relation：path != X-Path → FILE_1018
+      原句：`path` 必须与请求头 `X-Path` 完全一致，否则返回 `FILE_1018`
+  --- required ---
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `version`（必填）→ FILE_1008
+      原句：`FILE_1008` | 版本不能为空 | 版本参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `sourceDirName`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `files`（必填）→ FILE_1001
+      原句：`FILE_1001` | 文件列表不能为空 | 上传文件列表为空
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+    · required：缺 `version`（必填）→ FILE_1008
+      原句：`FILE_1008` | 版本不能为空 | 版本参数缺失
+    · required：缺 `path`（必填）→ FILE_1010
+      原句：`FILE_1010` | 目录路径不能为空 | 路径参数缺失
+
+③ 不模拟：**24 条** = **条件陈述 13 条**（能力边界 —— 要状态/业务状态，或请求里给不出事实）+ 示例碎片 11 条（JSON 里的错误码行，**不是**条件陈述）
+  ③-a 条件陈述（逐条点名，判不了的原因只有两类：要状态 / 请求里给不出事实）
+    · /api/file/upload：文件名不能包含特殊字符：`\/:*?"<>|`（`FILE_4016`）
+    · /api/file/upload：文件名开头和结尾不能有空格（`FILE_4018`），文件名中间允许空格
+    · /api/metadata/rename：同一目录下不能重命名为已存在的文件名（`FILE_4015`）
+    · /api/version/rollback：若目标版本已是当前版本，返回 `FILE_5001`
+    · (全篇未绑上)：`FILE_1007` | 版本ID不能为空 | 版本回滚/查询时未传版本号
+    · (全篇未绑上)：`FILE_1018` | 路径与Header不一致 | X-Path 校验失败
+    · (全篇未绑上)：`FILE_1020` | Header格式错误 | X-Path 格式不规范
+    · (全篇未绑上)：`FILE_1023` | 部分文件上传失败 | 上传存在部分成功部分失败
+    · (全篇未绑上)：`FILE_4012` | 目录下有文件，不能删除 | 删除非空目录
+    · (全篇未绑上)：`FILE_4015` | 同一目录下已存在同名文件 | 重命名时文件名冲突
+    · (全篇未绑上)：`FILE_5001` | 目标版本已是当前版本，无需回滚 | 版本回滚时目标版本即当前版本
+    · (全篇未绑上)：`FILE_6004` | 文件存储操作异常 | 服务器内部错误
+    · (全篇未绑上)：新文件后缀必须与原文件保持一致，不允许修改扩展名（`FILE_4014`）
+  ③-b 示例碎片（必然『不模拟』，列出来只为**不静默消失**）
+    · /api/directory/create："errorCode": "FILE_4001",
+    · /api/file/upload："errorCode": "FILE_1023",
+    · /api/file/download："errorCode": "FILE_2003",
+    · /api/file/download："errorCode": "FILE_2003",
+    · /api/metadata/rename："errorCode": "FILE_4015",
+    · /api/version/getList："errorCode": "FILE_1018",
+    · …（共 11 条）
+
+④ 种子数据（存在性族的判据）：168 个
+    //，/app1/，/app1//documents/，/app1/documents，/app1/documents/，/app1/documents/reports/，/app1/documents/reports_new/，/file/preview?token=abc123def456...，098f6bcd4621d373cade4e832627b4f6，1，10，2026-01-01…

@@ -1,0 +1,36 @@
+config:
+  name: 订单创建（业务错误码）
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 创建订单（正常路径）
+    request:
+      method: POST
+      url: /api/order/create
+      headers:
+        Content-Type: application/json
+      json:
+        sku: SKU-0001
+        quantity: 2
+    extract:
+      orderNo: body.data.orderNo
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.orderNo, "str"]
+      - greater_than: [body.data.amount, 0]
+
+  - name: 超量下单（业务错误码路径）
+    request:
+      method: POST
+      url: /api/order/create
+      headers:
+        Content-Type: application/json
+      json:
+        sku: SKU-0001
+        quantity: 100
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 1002]
+      - eq: [body.message, 数量非法]

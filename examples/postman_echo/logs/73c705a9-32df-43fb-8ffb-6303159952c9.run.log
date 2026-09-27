@@ -1,0 +1,6 @@
+2026-09-22 21:06:35.973 | INFO | Start to run testcase: no psm, TestCase ID: 73c705a9-32df-43fb-8ffb-6303159952c9
+2026-09-22 21:06:35.973 | INFO | run step begin: no psm >>>>>>
+2026-09-22 21:06:35.973 | INFO | Executing SQL: select 1
+2026-09-22 21:06:35.973 | INFO | run step end: no psm <<<<<<
+
+2026-09-22 21:06:35.973 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\73c705a9-32df-43fb-8ffb-6303159952c9.run.log

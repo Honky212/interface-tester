@@ -1,0 +1,13 @@
+2026-09-24 03:59:48.918 | INFO | Start to run testcase: sql step case, TestCase ID: ba765fa6-00af-4923-a5d0-a99d83cc117f
+2026-09-24 03:59:48.918 | INFO | run step begin: first db >>>>>>
+2026-09-24 03:59:48.918 | INFO | Executing SQL: select * from student
+2026-09-24 03:59:48.918 | INFO | assert [0].id equal 1(int)	==> pass
+2026-09-24 03:59:48.918 | INFO | run step end: first db <<<<<<
+
+2026-09-24 03:59:48.918 | INFO | run step begin: second db >>>>>>
+2026-09-24 03:59:48.918 | INFO | db_config changed, rebuild db engine: 10.0.0.2:3306/another
+2026-09-24 03:59:48.918 | INFO | Executing SQL: select * from teacher
+2026-09-24 03:59:48.918 | INFO | assert [0].id equal 1(int)	==> pass
+2026-09-24 03:59:48.920 | INFO | run step end: second db <<<<<<
+
+2026-09-24 03:59:48.920 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\ba765fa6-00af-4923-a5d0-a99d83cc117f.run.log

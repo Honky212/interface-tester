@@ -1,0 +1,11 @@
+2026-09-24 00:11:21.567 | INFO | Start to run testcase: sql fail fast, TestCase ID: f23a84c7-bee1-4c8c-8883-9d582d8d1f52
+2026-09-24 00:11:21.567 | INFO | run step begin: sql step >>>>>>
+2026-09-24 00:11:21.567 | ERROR | 
+    sql extension dependencies uninstalled, install first and try again.
+    install with pip:
+    $ pip install sqlalchemy pymysql
+
+    or you can install interfacetester with optional sql dependencies:
+    $ pip install "interfacetester[sql]"
+    
+2026-09-24 00:11:21.567 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\f23a84c7-bee1-4c8c-8883-9d582d8d1f52.run.log

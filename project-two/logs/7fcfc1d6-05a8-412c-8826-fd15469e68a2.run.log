@@ -1,0 +1,158 @@
+2026-09-22 23:02:22.686 | INFO | Start to run testcase: 登录拿 token 再带 token 调接口, TestCase ID: 7fcfc1d6-05a8-412c-8826-fd15469e68a2
+2026-09-22 23:02:22.686 | INFO | run step begin: 登录获取 token >>>>>>
+2026-09-22 23:02:22.686 | DEBUG | ====== request details ======
+url: http://127.0.0.1:8000/api/login
+method: POST
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Content-Type": "application/json",
+    "interfacetester-Request-ID": "interfacetester-7fcfc1d6-05a8-412c-8826-fd15469e68a2-342686"
+}
+json: {
+    "username": "admin",
+    "password": "******"
+}
+
+2026-09-22 23:02:22.693 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-22 23:02:22.694 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.POST
+url      : http://127.0.0.1:8000/api/login
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "interfacetester-Request-ID": "interfacetester-7fcfc1d6-05a8-412c-8826-fd15469e68a2-342686",
+    "Content-Length": "43"
+}
+cookies  : {}
+body     : {
+    "username": "admin",
+    "password": "******"
+}
+
+2026-09-22 23:02:22.694 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 15:02:22 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "72"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "code": 0,
+    "message": "ok",
+    "data": {
+        "token": "******"
+    }
+}
+
+2026-09-22 23:02:22.694 | INFO | status_code: 200, response_time(ms): 7.18 ms, response_length: 72 bytes
+2026-09-22 23:02:22.694 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 15:02:22 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "72"
+}
+body: {
+    "code": 0,
+    "message": "ok",
+    "data": {
+        "token": "******"
+    }
+}
+
+2026-09-22 23:02:22.694 | INFO | extract mapping: {'token': '******'}
+2026-09-22 23:02:22.695 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-22 23:02:22.695 | INFO | assert body.code equal 0(int)	==> pass
+2026-09-22 23:02:22.695 | INFO | run step end: 登录获取 token <<<<<<
+
+2026-09-22 23:02:22.695 | INFO | run step begin: 用 token 查询用户信息 >>>>>>
+2026-09-22 23:02:22.695 | DEBUG | ====== request details ======
+url: http://127.0.0.1:8000/api/user/info
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-7fcfc1d6-05a8-412c-8826-fd15469e68a2-342695"
+}
+json: None
+
+2026-09-22 23:02:22.710 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-22 23:02:22.710 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:8000/api/user/info
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-7fcfc1d6-05a8-412c-8826-fd15469e68a2-342695"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 23:02:22.710 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 15:02:22 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "89"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "code": 0,
+    "data": {
+        "username": "admin",
+        "role": "admin",
+        "email": "admin@example.com"
+    }
+}
+
+2026-09-22 23:02:22.710 | INFO | status_code: 200, response_time(ms): 14.94 ms, response_length: 89 bytes
+2026-09-22 23:02:22.710 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "BaseHTTP/0.6 Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 15:02:22 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "89"
+}
+body: {
+    "code": 0,
+    "data": {
+        "username": "admin",
+        "role": "admin",
+        "email": "admin@example.com"
+    }
+}
+
+2026-09-22 23:02:22.710 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-22 23:02:22.710 | INFO | assert body.code equal 0(int)	==> pass
+2026-09-22 23:02:22.710 | INFO | assert body.data.username equal admin(str)	==> pass
+2026-09-22 23:02:22.710 | INFO | assert body.data.role equal admin(str)	==> pass
+2026-09-22 23:02:22.710 | INFO | run step end: 用 token 查询用户信息 <<<<<<
+
+2026-09-22 23:02:22.710 | INFO | generate testcase log: D:\tester\project-two\logs\7fcfc1d6-05a8-412c-8826-fd15469e68a2.run.log

@@ -1,0 +1,5 @@
+2026-09-22 20:01:04.801 | INFO | Start to run testcase: thrift consistency case, TestCase ID: f5ab624a-10a8-400e-9960-98793d777a86
+2026-09-22 20:01:04.801 | INFO | run step begin: injected >>>>>>
+2026-09-22 20:01:04.801 | INFO | run step end: injected <<<<<<
+
+2026-09-22 20:01:04.801 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\f5ab624a-10a8-400e-9960-98793d777a86.run.log

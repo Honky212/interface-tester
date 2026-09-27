@@ -1,0 +1,64 @@
+2026-09-23 23:04:30.607 | INFO | Start to run testcase: parent, TestCase ID: e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6
+2026-09-23 23:04:30.608 | INFO | run step begin: call the skipped child >>>>>>
+2026-09-23 23:04:30.608 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\tester\examples\postman_echo\logs\e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6.run.log
+2026-09-23 23:04:30.608 | INFO | Start to run testcase: normal child, TestCase ID: e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6
+2026-09-23 23:04:30.608 | INFO | run step begin: child step runs >>>>>>
+2026-09-23 23:04:30.608 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6-870608"
+}
+json: None
+
+2026-09-23 23:04:30.618 | DEBUG | client IP: 127.0.0.1, Port: 59096
+2026-09-23 23:04:30.618 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-23 23:04:30.618 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6-870608"
+}
+cookies  : {}
+body     : None
+
+2026-09-23 23:04:30.619 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 15:04:30 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-23 23:04:30.619 | INFO | status_code: 200, response_time(ms): 3.0 ms, response_length: 0 bytes
+2026-09-23 23:04:30.619 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 15:04:30 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-23 23:04:30.619 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-23 23:04:30.619 | INFO | run step end: child step runs <<<<<<
+
+2026-09-23 23:04:30.619 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6.run.log
+2026-09-23 23:04:30.620 | INFO | run step end: call the skipped child <<<<<<
+
+2026-09-23 23:04:30.620 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\e5ce3f7d-58e5-4fb0-b5ca-7fab1d49c8f6.run.log

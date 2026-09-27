@@ -1,0 +1,176 @@
+2026-09-24 03:44:26.605 | INFO | Start to run testcase: parent case, TestCase ID: a70af216-7691-4ebc-890c-f278a59a9ce6
+2026-09-24 03:44:26.605 | INFO | run step begin: run child case >>>>>>
+2026-09-24 03:44:26.606 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\tester\examples\postman_echo\logs\a70af216-7691-4ebc-890c-f278a59a9ce6.run.log
+2026-09-24 03:44:26.606 | INFO | Start to run testcase: child case, TestCase ID: a70af216-7691-4ebc-890c-f278a59a9ce6
+2026-09-24 03:44:26.606 | INFO | run step begin: child step A >>>>>>
+2026-09-24 03:44:26.606 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-a70af216-7691-4ebc-890c-f278a59a9ce6-666606"
+}
+json: None
+
+2026-09-24 03:44:26.608 | DEBUG | client IP: 127.0.0.1, Port: 53844
+2026-09-24 03:44:26.608 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-24 03:44:26.608 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-a70af216-7691-4ebc-890c-f278a59a9ce6-666606"
+}
+cookies  : {}
+body     : None
+
+2026-09-24 03:44:26.608 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:44:26 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-24 03:44:26.608 | INFO | status_code: 200, response_time(ms): 2.0 ms, response_length: 0 bytes
+2026-09-24 03:44:26.609 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:44:26 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-24 03:44:26.609 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-24 03:44:26.609 | INFO | run step end: child step A <<<<<<
+
+2026-09-24 03:44:26.609 | INFO | run step begin: child step B >>>>>>
+2026-09-24 03:44:26.609 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/201
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-a70af216-7691-4ebc-890c-f278a59a9ce6-666609"
+}
+json: None
+
+2026-09-24 03:44:26.610 | DEBUG | client IP: 127.0.0.1, Port: 53844
+2026-09-24 03:44:26.610 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-24 03:44:26.610 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/201
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-a70af216-7691-4ebc-890c-f278a59a9ce6-666609"
+}
+cookies  : {}
+body     : None
+
+2026-09-24 03:44:26.611 | DEBUG | 
+================== response details ==================
+status_code : 201
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:44:26 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-24 03:44:26.611 | INFO | status_code: 201, response_time(ms): 1.0 ms, response_length: 0 bytes
+2026-09-24 03:44:26.611 | DEBUG | ====== response details ======
+status_code: 201
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:44:26 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-24 03:44:26.611 | INFO | assert status_code equal 201(int)	==> pass
+2026-09-24 03:44:26.611 | INFO | run step end: child step B <<<<<<
+
+2026-09-24 03:44:26.611 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\a70af216-7691-4ebc-890c-f278a59a9ce6.run.log
+2026-09-24 03:44:26.611 | INFO | run step end: run child case <<<<<<
+
+2026-09-24 03:44:26.611 | INFO | run step begin: parent step >>>>>>
+2026-09-24 03:44:26.611 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-a70af216-7691-4ebc-890c-f278a59a9ce6-666611"
+}
+json: None
+
+2026-09-24 03:44:26.613 | DEBUG | client IP: 127.0.0.1, Port: 53844
+2026-09-24 03:44:26.613 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-24 03:44:26.613 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-a70af216-7691-4ebc-890c-f278a59a9ce6-666611"
+}
+cookies  : {}
+body     : None
+
+2026-09-24 03:44:26.613 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:44:26 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-24 03:44:26.613 | INFO | status_code: 200, response_time(ms): 1.0 ms, response_length: 0 bytes
+2026-09-24 03:44:26.613 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:44:26 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-24 03:44:26.613 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-24 03:44:26.613 | INFO | run step end: parent step <<<<<<
+
+2026-09-24 03:44:26.613 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\a70af216-7691-4ebc-890c-f278a59a9ce6.run.log

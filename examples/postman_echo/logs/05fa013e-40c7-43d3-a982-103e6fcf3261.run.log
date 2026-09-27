@@ -1,0 +1,28 @@
+2026-09-24 03:59:48.923 | INFO | Start to run testcase: sql step type probe, TestCase ID: 05fa013e-40c7-43d3-a982-103e6fcf3261
+2026-09-24 03:59:48.923 | INFO | run step begin: fetch students >>>>>>
+2026-09-24 03:59:48.923 | INFO | Executing SQL: select * from student
+2026-09-24 03:59:48.923 | ERROR | assert [0].name equal not-alice(str)	==> fail
+check_item: [0].name
+check_value: alice(str)
+assert_method: equal
+expect_value: not-alice(str)
+2026-09-24 03:59:48.923 | ERROR | 
+******************************** SQL DETAILED REQUEST & RESPONSE ********************************
+====== sql request details ======
+sql: select * from student
+db_config: {'psm': None, 'user': 'tester', 'password': '******', 'ip': '127.0.0.1', 'port': 3306, 'database': 'school'}
+method: 'FETCHALL'
+sql: 'select * from student'
+size: 0
+
+====== sql response details ======
+count: 2
+----------------------------------
+id: 1
+name: 'alice'
+----------------------------------
+id: 2
+name: 'bob'
+----------------------------------
+
+2026-09-24 03:59:48.923 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\05fa013e-40c7-43d3-a982-103e6fcf3261.run.log

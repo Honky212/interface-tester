@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QueryResponse 的契约（对应 mock 的 `/svc/query`）。
+
+  NOTICE: 契约只描述 **Body 里的业务元素**（真实客户 XSD 也是这样），所以断言要**先定位再校验**：
+    xml_schema_match: ["body", {"xpath": "QueryResponse", "xsd": "schemas/query.xsd"}]
+  直接校验整个 Envelope 会失败：No matching global declaration available for the validation root。
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://demo.example.com/svc"
+           targetNamespace="http://demo.example.com/svc"
+           elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd"/>
+
+  <xs:element name="QueryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="code" type="tns:CodeType"/>
+        <xs:element name="message" type="xs:string"/>
+        <xs:element name="amount" type="xs:decimal"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

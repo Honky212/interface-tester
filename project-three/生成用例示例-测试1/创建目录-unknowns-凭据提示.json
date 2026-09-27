@@ -1,0 +1,35 @@
+{
+  "case": "_api_directory_create",
+  "count": 4,
+  "note": "以下条目**没有落入用例**：或是无据（降级），或是与文档表述冲突（拒绝）。请人工确认后回填；确认留痕见 .ai/reviews/（红线⑥）",
+  "items": [
+    {
+      "kind": "request-value",
+      "level": "degrade",
+      "where": "/api/directory/create",
+      "message": "以下字段是凭据 → 只写 `${ENV(名字)}`，**没有**抄文档里的示例值：\n      · `Authorization` → 环境变量 `AUTHORIZATION`（文档「说明」列写着：OAuth2.0 的 Bearer Token：`Bearer {access_token}`；取证方式见文档『认证方式（环境前提，不是待测接口）』节（第 32~45 行））\n      （运行期 `EnvNotFound` **响亮报错**；按上面的出处把值填进环境变量再转正）",
+      "hint": "请求值也**必须有出处**：文档给示例值最省事；否则请人工填好环境变量后再转正（`${ENV(TODO_…)}` 在运行期会**响亮报错**）"
+    },
+    {
+      "kind": "request-value",
+      "level": "degrade",
+      "where": "/api/directory/create",
+      "message": "以下请求头取自**公共请求头**节（跨接口契约，已按段归属继承到本接口）：Authorization、X-Path —— 若本接口其实不要这些头，请把该节拆开或在本节显式说明",
+      "hint": "请求值也**必须有出处**：文档给示例值最省事；否则请人工填好环境变量后再转正（`${ENV(TODO_…)}` 在运行期会**响亮报错**）"
+    },
+    {
+      "kind": "request-value",
+      "level": "degrade",
+      "where": "/api/directory/create",
+      "message": "以下请求值取自**本段的 curl 示例**（它是一次完整可跑的调用，优先于「示例值」列）：X-Path、Content-Type、path",
+      "hint": "请求值也**必须有出处**：文档给示例值最省事；否则请人工填好环境变量后再转正（`${ENV(TODO_…)}` 在运行期会**响亮报错**）"
+    },
+    {
+      "kind": "out-of-section",
+      "level": "degrade",
+      "where": "/api/directory/create",
+      "message": "本接口段（第 113~203 行）之外，还有 2 条断言的引用句**不属于本段**，已**丢弃**：body.success（第 64 行）、body.message（第 66 行）",
+      "hint": "归属不确定的断言**不进本条用例**——请确认它们属于哪个接口，或把文档拆成「一份文件一个接口」（§9.6 的归属闸门）"
+    }
+  ]
+}

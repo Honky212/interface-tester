@@ -1,0 +1,9 @@
+2026-09-22 22:24:18.060 | INFO | Start to run testcase: no config.thrift block, TestCase ID: 2cdcf224-7262-4934-bb37-5f11b2807b00
+2026-09-22 22:24:18.060 | INFO | run step begin: step-only thrift >>>>>>
+2026-09-22 22:24:18.060 | DEBUG | config.thrift is not set, fall back to TConfigThrift defaults (step-level fields still win)
+2026-09-22 22:24:18.060 | INFO | call hook actions: teardown request
+2026-09-22 22:24:18.060 | DEBUG | call hook function: ${_capture_thrift_request($thrift_request)}
+2026-09-22 22:24:18.060 | INFO | assert @ equal {'ok': True}(dict)	==> pass
+2026-09-22 22:24:18.060 | INFO | run step end: step-only thrift <<<<<<
+
+2026-09-22 22:24:18.060 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\2cdcf224-7262-4934-bb37-5f11b2807b00.run.log

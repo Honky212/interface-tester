@@ -1,0 +1,58 @@
+# 校准（只读）
+
+## 1. `filename` 的行级取证
+
+文档里名为 `filename` 的字段行共 **7** 条（每条的必填列原文与说明）：
+
+- 第 702 行：必填列='是' → (required=True, optional=False)
+  · 原文：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+- 第 791 行：必填列='是' → (required=True, optional=False)
+  · 原文：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+- 第 881 行：必填列='是' → (required=True, optional=False)
+  · 原文：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+- 第 955 行：必填列='是' → (required=True, optional=False)
+  · 原文：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+- 第 1038 行：必填列='否' → (required=False, optional=True)
+  · 原文：`| `filename` | String | 否 | 文件名（模糊匹配） | `report` |`
+- 第 1125 行：必填列='否' → (required=False, optional=True)
+  · 原文：`| `filename` | String | 否 | 文件名（模糊匹配） | `report` |`
+- 第 1217 行：必填列='否' → (required=False, optional=True)
+  · 原文：`| `filename` | String | 否 | 文件名（模糊匹配） | `report` |`
+
+推出的 `body.filename` 断言 4 条：
+- `type_match body.filename = 'str'`
+  · 引用句：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+  · 行号：702
+- `type_match body.filename = 'str'`
+  · 引用句：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+  · 行号：791
+- `type_match body.filename = 'str'`
+  · 引用句：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+  · 行号：881
+- `type_match body.filename = 'str'`
+  · 引用句：`| `filename` | String | 是 | 文件名 | `report.pdf` |`
+  · 行号：955
+
+★判定：如果**引用句/行号指向的是标 `是` 的那一行**，那就不是误报，
+而是**跨接口同名字段**（段落归属缺失）——同一个 `body.filename` 路径被两个接口共用。
+
+## 2. 人工用例条数的正确数法
+
+- 行首 `### TC-`：**8** 个
+- 行首 `##`~`####` + TC-：**92** 个
+- 任意位置的 `TC-XXX-000`：**184** 个
+- 表格里的 `**用例编号**` 单元格：**92** 个
+
+用例编号去重后：**92** 个；前 5：['TC-AUTH-001', 'TC-AUTH-002', 'TC-AUTH-003', 'TC-AUTH-004', 'TC-AUTH-005']
+文档里写"总计"的那行：['| **总计** | **92** | - |']
+
+## 3. 表格形态端点为什么没被认出来
+
+- 原文：`| **URL** | `POST /api/directory/create` |`
+- 原文：`| **URL** | `POST /api/directory/update` |`
+- 原文：`| **URL** | `GET /api/directory/query` |`
+- `ENDPOINT_RE` 的表达式：`^\s*[-*#>\s]*\b(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)\b\s+(\S+)`
+  对上面那一行匹配结果：None
+  对上面那一行匹配结果：None
+  对上面那一行匹配结果：None
+

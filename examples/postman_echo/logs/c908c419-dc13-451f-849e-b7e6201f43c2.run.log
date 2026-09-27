@@ -1,0 +1,8 @@
+2026-09-22 21:06:35.949 | INFO | Start to run testcase: sql step case, TestCase ID: c908c419-dc13-451f-849e-b7e6201f43c2
+2026-09-22 21:06:35.949 | INFO | run step begin: fetch students >>>>>>
+2026-09-22 21:06:35.949 | INFO | Executing SQL: select * from student
+2026-09-22 21:06:35.953 | INFO | extract mapping: {'first_student': 'alice'}
+2026-09-22 21:06:35.953 | INFO | assert [1].name equal bob(str)	==> pass
+2026-09-22 21:06:35.953 | INFO | run step end: fetch students <<<<<<
+
+2026-09-22 21:06:35.953 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\c908c419-dc13-451f-849e-b7e6201f43c2.run.log

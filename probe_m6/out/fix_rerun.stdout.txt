@@ -1,0 +1,58 @@
+# 用例自愈建议（由 interfacetester_ai.fix 生成）
+
+> **本命令只建议、不落地**：没有 `--apply`，也不会写任何用例文件。
+> 补丁在**输出之前**已过双前置（`load_testcase_file` + S 系列闸门，红线⑦）——
+> 过不了的补丁**不会**出现在这里；请自行判断后手工粘贴。
+
+- 共 **6** 条失败断言：**0** 条给出补丁 / **6** 条不给改
+
+## ⛔ 不给改 · 登录拿 token 再带 token 调接口 / 登录获取 token
+
+- 断言：`status_code`
+- 指针：`details[1].records[0].data.validators.validate_extractor[0]`
+- 理由：`status_code` 是**状态码/业务码类**检查项——按 §5.8 一律判「疑似真实缺陷、不给改」
+
+> ⚠️ 风险：它的值变化**更可能**意味着接口真的改了行为。给这类失败出「改断言」的建议，等于教人把 bug 当特性——请先跑 `haify analyze` 归因
+
+## ⛔ 不给改 · 登录拿 token 再带 token 调接口 / 登录获取 token
+
+- 断言：`body.code`
+- 指针：`details[1].records[0].data.validators.validate_extractor[1]`
+- 理由：`body.code` 是**状态码/业务码类**检查项——按 §5.8 一律判「疑似真实缺陷、不给改」
+
+> ⚠️ 风险：它的值变化**更可能**意味着接口真的改了行为。给这类失败出「改断言」的建议，等于教人把 bug 当特性——请先跑 `haify analyze` 归因
+
+## ⛔ 不给改 · request methods testcase with functions / get with params
+
+- 断言：`status_code`
+- 指针：`details[2].records[0].data.validators.validate_extractor[0]`
+- 理由：`status_code` 是**状态码/业务码类**检查项——按 §5.8 一律判「疑似真实缺陷、不给改」
+
+> ⚠️ 风险：它的值变化**更可能**意味着接口真的改了行为。给这类失败出「改断言」的建议，等于教人把 bug 当特性——请先跑 `haify analyze` 归因
+
+## ⛔ 不给改 · request methods testcase with functions / get with params
+
+- 断言：`body.args.foo1`
+- 指针：`details[2].records[0].data.validators.validate_extractor[1]`
+- 理由：找不到用例文件（D:\tester\examples\postman_echo\request_methods/request methods testcase with functions.yml）——定位不到 YAML 行，给不出补丁
+
+> ⚠️ 风险：文件可能不在 `cases/`，或用例名与文件名不一致
+
+## ⛔ 不给改 · request methods testcase with functions / get with params
+
+- 断言：`body.args.sum_v`
+- 指针：`details[2].records[0].data.validators.validate_extractor[2]`
+- 理由：找不到用例文件（D:\tester\examples\postman_echo\request_methods/request methods testcase with functions.yml）——定位不到 YAML 行，给不出补丁
+
+> ⚠️ 风险：文件可能不在 `cases/`，或用例名与文件名不一致
+
+## ⛔ 不给改 · request methods testcase with functions / get with params
+
+- 断言：`body.args.foo2`
+- 指针：`details[2].records[0].data.validators.validate_extractor[3]`
+- 理由：找不到用例文件（D:\tester\examples\postman_echo\request_methods/request methods testcase with functions.yml）——定位不到 YAML 行，给不出补丁
+
+> ⚠️ 风险：文件可能不在 `cases/`，或用例名与文件名不一致
+
+------------------------------------------------------------------
+[haify fix] 共 6 条：给出补丁 0 条 / 不给改 6 条　（**只建议、不落地**；请自行判断后手工粘贴）

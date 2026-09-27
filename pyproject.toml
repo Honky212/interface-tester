@@ -1,0 +1,123 @@
+# InterfaceTester 构建与项目元数据（唯一事实来源）
+#
+# 说明：
+# - 本项目原始上游用 poetry 做构建后端；本机未安装 poetry，且开发/部署链路以 pip 为准，
+#   因此这里统一改为 setuptools 后端（PEP 621 + PEP 639）。
+# - 依赖、入口点、包发现规则均在本文件声明；requirements.txt 仅作为离线/复现部署的锁版本清单。
+# - 开发方式：改源码（interfacetester/ 目录）→ pip install -e . → 直接生效；
+#   发布/交付：python -m build --wheel → dist/*.whl。
+
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interfacetester"
+# 版本号唯一事实来源为 interfacetester/__init__.py 的 __version__，
+# 这里用 dynamic 读取，避免 pyproject 与包内版本号双份维护而漂移。
+dynamic = ["version"]
+description = "One-stop solution for HTTP(S) API testing."
+requires-python = ">=3.8"
+license = "Apache-2.0"
+# NOTICE 必须与 LICENSE 一起分发：本包是 HttpRunner 4.3.5 的衍生作品，
+# `NOTICE` 里写明来源与商标约束（Apache-2.0 第 4(d) 条要求随附 NOTICE）。
+# 修复前这里只有 "LICENSE"，而 `NOTICE` 连 git 都没跟踪 —— 结果**克隆仓库与安装
+# wheel 两条路径都拿不到它**，合规声明在最需要它的两个场景同时缺席。
+# 护栏：tests/dependency_consistency_test.py / wheel_content_test.py
+license-files = ["LICENSE", "NOTICE"]
+keywords = ["api", "testing", "automation", "http", "pytest", "hrun"]
+classifiers = [
+    # 注意：license 已用 SPDX 表达式声明（PEP 639），
+    # setuptools>=77 禁止再出现 "License ::" 分类器，勿加回。
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Testing",
+]
+
+# 运行时依赖（与 wheel 内 METADATA 的 Requires-Dist 保持一致）
+dependencies = [
+    "pydantic>=2.0,<3",
+    "loguru>=0.4.1",
+    "jmespath>=0.9.5",
+    "black>=22.3",
+    "pytest>=7.1",
+    "pytest-html>=3.1",
+    "brotli>=1.0.9",
+    "jinja2>=3.0.3",
+    "toml>=0.10.2",
+    "pyyaml>=6.0.1",
+    "requests>=2.31",
+    "urllib3>=1.26,<3",
+    # jsonschema：内置算子 jsonschema_match（第 19 个）依赖它。
+    # 纯 Python（唯一的二进制依赖 rpds-py 有全平台通用 wheel），因此直接进主依赖——
+    # 避免再出现「装了框架但算子用不了」的不一致（见评估文档 3.1 的依赖策略）。
+    "jsonschema>=4.0,<5",
+    # python-dotenv：`.env` 解析（0919-2 / L34）。纯 Python、无必需运行时依赖、约 22KB。
+    # NOTICE 版本口径：1.0.1 是最后一个支持 `>=3.8` 的版本（1.1.0 起要 >=3.9，
+    # 1.2.2 起要 >=3.10），而上限本文件声明的是 `>=3.8`。写 `>=1.0,<2` 让 pip
+    # 按各自解释器自动选（3.8 拿 1.0.1、3.12 拿 1.2.x）——不需要手工钉上限。
+    # 代价要记住：3.8/3.9 上装到的是与 CI（只跑 3.12）不同的版本，
+    # 所以解析行为必须由仓库自己的用例守住（见 tests/dot_env_test.py），
+    # 不能依赖「库自身行为一致」这个假设。
+    "python-dotenv>=1.0,<2",
+]
+
+# 可选扩展：按需安装，例：pip install -e ".[sql,upload]"
+[project.optional-dependencies]
+allure = ["allure-pytest>=2.8.16"]
+sql = ["sqlalchemy>=2.0", "pymysql>=1.0.2"]
+# NOTICE: thrift 仅在 Linux/macOS 上可用——Windows 上 RunThriftRequest 会在构造时
+# 直接抛 RuntimeError（见 step_thrift_request.ensure_thrift_platform_supported），
+# 该 extra 提供的是 Linux/macOS 侧依赖（cython/thrift 需要编译工具链）。
+thrift = ["cython>=0.29.28", "thrift>=0.16.0", "thriftpy2>=0.4.14"]
+upload = ["requests-toolbelt>=0.10.1", "filetype>=1.0.7"]
+# XML/XPath 断言（A2-1）：内置算子 xpath_match / xpath_count 依赖 lxml。
+# NOTICE: lxml 是**二进制依赖**（离线镜像与平台矩阵都要多带 wheel），所以不进主依赖；
+# 需要 XML 断言时装：pip install -e ".[xml]"。缺依赖时算子会给可操作的安装提示
+# （而不是 ModuleNotFoundError 堆栈），退路是标准库版算子 examples/soap/debugtalk.py。
+xml = ["lxml>=5,<7"]
+# 本地开发/打包所需工具
+dev = ["setuptools>=77.0", "wheel>=0.42", "build>=1.0"]
+# 跑**本仓库自己的 tests/** 才需要的测试运行器工具（**不是**框架运行期依赖）：
+#   · pytest-randomly：随机化用例顺序，把「顺序依赖」从"时红时绿"变成可复现
+#     （本仓已出现过两次：`sub`/`projB3` 裸包名留在 sys.modules 里，
+#      其 __path__ 指向随后被 rmtree 的临时目录 → 后续测试 ModuleNotFoundError；
+#      固定顺序下永远不暴露。详见 docs/架构与调用链.md §7 第 57 条）；
+#   · pytest-xdist：`-n auto` 并行跑，套件从约 90s 压到十几秒。
+# NOTICE: 单独成一个 extra 而不是塞进 `dev` —— `dev` 是**打包工具**
+# （setuptools/wheel/build），与"怎么跑测试"是两回事；混在一起会让
+# "只想 build 一个 wheel"的人被迫装上 xdist。
+# 用法：pip install -e ".[test]"  然后  pytest tests -n auto（并行）
+#      或  pytest tests（装了就默认随机顺序；定位问题用 -p no:randomly）
+# NOTICE: `execnet` 是 pytest-xdist 的运行时依赖，正常由 pip 自动带上；
+# 这里显式列入是为了让 `requirements.txt` 的离线锁版本清单能逐条对上
+# （那条 S1/S3 双向对齐判据要求两边的**名字**一致），并不代表它被直接使用。
+test = [
+    "pytest-randomly>=3.15",
+    "pytest-xdist>=3.5",
+    "execnet>=2.1",
+]
+
+[project.scripts]
+interfacetester = "interfacetester.cli:main"
+hrun = "interfacetester.cli:main_hrun_alias"
+hmake = "interfacetester.cli:main_make_alias"
+# 导入器（P3-a）：把 curl / HAR 转成标准 YAML 用例
+hconvert = "interfacetester.cli:main_convert_alias"
+
+[tool.setuptools]
+# database/ 与 thrift/ 下没有 __init__.py，属 PEP 420 namespace 包，
+# 必须开启 namespace 发现才能被打进 wheel。
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["interfacetester*"]
+namespaces = true
+
+[tool.setuptools.dynamic]
+# 静态读取 __init__.py 里的 __version__ 字面量（不 import 包，避免构建期拉起依赖）
+version = { attr = "interfacetester.__version__" }

@@ -1,0 +1,9 @@
+2026-09-22 19:53:40.361 | INFO | Start to run testcase: parent, TestCase ID: f8dbcd76-74d1-4ff1-8e38-d5f2173f3c86
+2026-09-22 19:53:40.364 | INFO | run step begin: call the skipped child >>>>>>
+2026-09-22 19:53:40.364 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\learn\interface-tester\examples\postman_echo\logs\f8dbcd76-74d1-4ff1-8e38-d5f2173f3c86.run.log
+2026-09-22 19:53:40.364 | INFO | Start to run testcase: skipped child logged, TestCase ID: f8dbcd76-74d1-4ff1-8e38-d5f2173f3c86
+2026-09-22 19:53:40.364 | WARNING | 被引用用例 `skipped child logged` 声明了 `config.skip`（'还没就绪'）→ **已跳过它的步骤**（pytest 的 skip 标记对『被引用』这种直接调用无效，所以由运行期执行；若你确实要跑它，请删掉该用例的 `config.skip`）
+2026-09-22 19:53:40.364 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\f8dbcd76-74d1-4ff1-8e38-d5f2173f3c86.run.log
+2026-09-22 19:53:40.364 | INFO | run step end: call the skipped child <<<<<<
+
+2026-09-22 19:53:40.364 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\f8dbcd76-74d1-4ff1-8e38-d5f2173f3c86.run.log

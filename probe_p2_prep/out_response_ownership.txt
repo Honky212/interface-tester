@@ -1,0 +1,123 @@
+==============================================================================
+A. 确定性通路（`derive_assertions`）—— 归属闸门会摘掉哪些 `body.X`
+==============================================================================
+
+auth_token_flow.md
+  响应侧字段名（6）：code, data, expiresIn, role, token, userId
+  保住 body.X（0）：
+  **摘掉**（2）：body.username, body.password
+  其他（0）：
+
+biz_error_order.md
+  响应侧字段名（5）：amount, code, data, message, orderNo
+  保住 body.X（0）：
+  **摘掉**（4）：body.sku, body.quantity, body.quantity, body.quantity
+  其他（0）：
+
+create_user_schema.md
+  响应侧字段名（5）：code, data, nickname, tags, userId
+  保住 body.X（0）：
+  **摘掉**（2）：body.username, body.email
+  其他（0）：
+
+delete_session.md
+  响应侧字段名（0）：
+  保住 body.X（0）：
+  **摘掉**（0）：
+  其他（0）：
+
+get_user_profile.md
+  响应侧字段名（6）：avatarUrl, code, data, message, nickname, userId
+  保住 body.X（3）：body.code, body.data.userId, body.data.nickname
+  **摘掉**（0）：
+  其他（1）：params.userId
+
+legacy_gbk_doc.md
+  响应侧字段名（0）：
+  保住 body.X（0）：
+  **摘掉**（0）：
+  其他（0）：
+
+login.md
+  响应侧字段名（5）：code, data, message, token, userId
+  保住 body.X（3）：body.code, body.data.token, body.data.userId
+  **摘掉**（2）：body.username, body.password
+  其他（0）：
+
+order_create.md
+  响应侧字段名（4）：code, data, orderId, status
+  保住 body.X（3）：body.orderId, body.status, body.status
+  **摘掉**（2）：body.price, body.price
+  其他（0）：
+
+paged_product_list.md
+  响应侧字段名（6）：code, data, list, price, sku, total
+  保住 body.X（2）：body.data.total, body.data.list
+  **摘掉**（0）：
+  其他（5）：params.page, params.page, params.pageSize, params.pageSize, params.pageSize
+
+search_products.md
+  响应侧字段名（5）：code, data, hits, keyword, list
+  保住 body.X（2）：body.data.hits, body.data.list
+  **摘掉**（0）：
+  其他（1）：params.keyword
+
+soap_user_service.md
+  响应侧字段名（0）：
+  保住 body.X（0）：
+  **摘掉**（0）：
+  其他（0）：
+
+update_order_status.md
+  响应侧字段名（4）：code, data, orderNo, status
+  保住 body.X（2）：body.status, body.status
+  **摘掉**（0）：
+  其他（1）：params.orderNo
+
+user_info.md
+  响应侧字段名（5）：code, data, email, role, username
+  保住 body.X（0）：
+  **摘掉**（0）：
+  其他（0）：
+
+utf8_bom_doc.md
+  响应侧字段名（4）：code, data, state, taskId
+  保住 body.X（2）：body.data.taskId, body.data.state
+  **摘掉**（4）：body.scope, body.scope, body.format, body.format
+  其他（0）：
+
+webhook_notify.md
+  响应侧字段名（4）：attempt, code, data, delivered
+  保住 body.X（2）：body.data.delivered, body.data.attempt
+  **摘掉**（5）：body.event, body.event, body.payload, body.payload.orderNo, body.payload.amount
+  其他（0）：
+
+统一文件服务平台-接入应用接口文档.md
+  响应侧字段名（31）：access_token, bucketId, createBy, createTime, current, data, dirLogicalPath, dirName, dirPath, directoryName, errorCode, etag, expires_in, fail
+  保住 body.X（20）：body.path, body.path, body.path, body.path, body.fileName, body.path, body.fileName, body.path, body.fileName, body.path
+  **摘掉**（9）：body.sourceDirName, body.targetDirName, body.files, body.oldFileName, body.newFileName, body.filename, body.filename, body.filename, body.filename
+  其他（9）：body, body, body, body, body, body
+
+==============================================================================
+B. 模型通路（那次真实复跑的 17 份 YAML）—— 逐条 `- check:` 归类
+==============================================================================
+响应侧字段名（真实文档）：access_token, bucketId, createBy, createTime, current, data, dirLogicalPath, dirName, dirPath, directoryName, errorCode, etag, expires_in, fail, fileEtag, fileName, fileSize, fileStatus, fileSuffix, message, pages, path, records, size, status, success, token_type, total, updateBy, updateTime, version
+  T1_2_认证方式.yml                保住  1 / 摘掉  2   摘掉者：body, status_code
+  T2_1_创建目录.yml                保住  1 / 摘掉  3   摘掉者：body, status_code, str
+  T2_2_更新目录.yml                保住  1 / 摘掉  6   摘掉者：body.sourceDirName, body.targetDirName, status_code, str, true
+  T2_3_查询目录.yml                保住  2 / 摘掉  3   摘掉者：null, status_code, true
+  T2_4_删除目录.yml                保住  2 / 摘掉  3   摘掉者：null, status_code, true
+  T3_1_文件上传.yml                保住  4 / 摘掉  6   摘掉者：FILE_1023, false, null, status_code, true
+  T3_2_文件下载.yml                保住  2 / 摘掉  4   摘掉者：headers, status_code, str
+  T3_3_文件删除.yml                保住  3 / 摘掉  4   摘掉者：status_code, str, true
+  T3_4_文件预览.yml                保住  2 / 摘掉  4   摘掉者：body, status_code, str
+  T3_5_文件重命名.yml               保住  0 / 摘掉 12   摘掉者：FILE_4013, FILE_4014, FILE_4015, FILE_4016, FILE_4018, body
+  T4_1_获取版本列表.yml              保住  1 / 摘掉  5   摘掉者：body, body.filename, status_code, str
+  T4_2_获取版本详情.yml              保住  2 / 摘掉  4   摘掉者：false, status_code, true
+  T4_3_版本回滚.yml                保住  0 / 摘掉  7   摘掉者：FILE_1018, FILE_5001, body, status_code
+  T5_1_获取元数据.yml               保住  0 / 摘掉  4   摘掉者：body, status_code
+  T5_2_获取元数据列表.yml             保住  1 / 摘掉  3   摘掉者：body, status_code, str
+  T5_3_递归查询元数据.yml             保住  0 / 摘掉  5   摘掉者：FILE_1018, FILE_8002, body, status_code
+  T5_4_分页递归查询元数据.yml           保住  0 / 摘掉  5   摘掉者：FILE_1018, FILE_8002, body, status_code
+
+  合计：保住 22 / 摘掉 80

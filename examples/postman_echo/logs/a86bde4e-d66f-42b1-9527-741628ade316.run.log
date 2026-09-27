@@ -1,0 +1,60 @@
+2026-09-22 19:53:40.367 | INFO | Start to run testcase: standalone skipped, TestCase ID: a86bde4e-d66f-42b1-9527-741628ade316
+2026-09-22 19:53:40.367 | INFO | run step begin: a step that must not run when referenced >>>>>>
+2026-09-22 19:53:40.367 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-a86bde4e-d66f-42b1-9527-741628ade316-020367"
+}
+json: None
+
+2026-09-22 19:53:40.372 | DEBUG | client IP: 127.0.0.1, Port: 54337
+2026-09-22 19:53:40.372 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-22 19:53:40.372 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-a86bde4e-d66f-42b1-9527-741628ade316-020367"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 19:53:40.372 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 11:53:40 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-22 19:53:40.372 | INFO | status_code: 200, response_time(ms): 3.56 ms, response_length: 0 bytes
+2026-09-22 19:53:40.372 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 11:53:40 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-22 19:53:40.372 | ERROR | assert status_code equal 599(int)	==> fail
+check_item: status_code
+check_value: 200(int)
+assert_method: equal
+expect_value: 599(int)
+2026-09-22 19:53:40.372 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\a86bde4e-d66f-42b1-9527-741628ade316.run.log

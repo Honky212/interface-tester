@@ -1,0 +1,37 @@
+# 交付仓 .gitignore（2026-09-27 首次立仓时定）
+#
+# 立仓纪律：**只忽略「可再生」与「不该外传」的东西，不忽略证据。**
+#   · 可再生   → 虚拟环境 / 字节码 / pytest 缓存 / 构建产物（一条命令就能重造）
+#   · 不该外传 → `.env`（含 base_url 与 key）、运行期日志与报告、AI 层的缓存与草稿
+#   · **证据不忽略** → `probe_*` 与 `project-*/logs`（文档与探针都逐条引用它们，
+#     例如 `probe_p2_prep/out_analyze_models.txt`、
+#     `project-two/logs/probe_silent.summary.json`（`probe_analyze_models.py` 的输入））
+#
+# ★只忽略**根目录**的 logs / reports（`/logs/` 带前导斜杠）：项目目录下的 logs 是证据，
+#   `.ai/` 才是运行期状态（草稿/缓存/manifest），任何深度都可忽略。
+
+# 1) 虚拟环境与字节码
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 2) 构建产物：wheel 由 `python -m build --wheel` 现产，不把上一次的产物当源码
+build/
+dist/
+dist_*/
+*.whl
+
+# 3) 运行期产物（都能重跑出来：日志、报告、AI 协作层的草稿与缓存）
+/logs/
+/reports/
+.ai/
+
+# 4) 凭据：README / deploy 都要求走环境变量，配置文件**不进仓**
+.env
+.env.*
+!.env.example
+
+# 5) 临时工作区（前缀即约定；本次立仓之前的工作残留）
+.tmp_*

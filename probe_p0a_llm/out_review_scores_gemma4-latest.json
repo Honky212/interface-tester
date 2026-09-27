@@ -1,0 +1,36 @@
+{
+  "model": "gemma4:latest",
+  "scored_at": "2026-09-26T16:31:24",
+  "sheets": [
+    {
+      "sheet": "A",
+      "rows": 52,
+      "ok": 52,
+      "bad": 0,
+      "unknown": 0,
+      "unjudged": 0,
+      "judged": 52,
+      "pass_rate": 1.0
+    },
+    {
+      "sheet": "B",
+      "rows": 8,
+      "ok": 0,
+      "bad": 0,
+      "unknown": 0,
+      "unjudged": 8,
+      "judged": 0,
+      "pass_rate": null
+    },
+    {
+      "sheet": "C",
+      "rows": 56,
+      "ok": 0,
+      "bad": 0,
+      "unknown": 0,
+      "unjudged": 56,
+      "judged": 0,
+      "pass_rate": null
+    }
+  ]
+}

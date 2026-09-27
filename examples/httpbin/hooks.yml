@@ -1,0 +1,39 @@
+config:
+    name: basic test with httpbin
+    base_url: ${get_httpbin_server()}
+    # NOTICE: config 级 setup_hooks / teardown_hooks 不受支持——HttpRunner v4 起只有 step 级 hook，
+    # 本框架沿用该设计（models.TConfig 里没有这两个字段，写了会被忽略）。
+    # 原来这里的 ${hook_print(setup)} / ${hook_print(teardown)} 是 v2/v3 写法，一直没有生效；
+    # 现已挪到步骤级：用例开始前打印标记放到第一个步骤的 setup_hooks，用例结束后放到最后一个步骤的
+    # teardown_hooks。真正的「用例级 / 会话级前置后置」请用同目录的 conftest.py fixture。
+
+teststeps:
+-
+    name: headers
+    variables:
+        a: 123
+    request:
+        url: /headers
+        method: GET
+    setup_hooks:
+        - ${hook_print(setup)}
+        - ${setup_hook_add_kwargs($request)}
+        - ${setup_hook_remove_kwargs($request)}
+    teardown_hooks:
+        - ${teardown_hook_sleep_N_secs($response, 1)}
+    validate:
+        - eq: ["status_code", 200]
+        - contained_by: [body.headers.Host, "${get_httpbin_server()}"]
+
+-
+    name: alter response
+    request:
+        url: /headers
+        method: GET
+    teardown_hooks:
+        - ${alter_response($response)}
+        - ${hook_print(teardown)}
+    validate:
+        - eq: ["status_code", 500]
+        - eq: [headers."Content-Type", "html/text"]
+        - eq: [body.headers.Host, "127.0.0.1:8888"]

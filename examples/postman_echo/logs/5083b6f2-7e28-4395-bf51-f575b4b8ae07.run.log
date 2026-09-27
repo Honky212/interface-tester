@@ -1,0 +1,5 @@
+2026-09-24 00:11:35.961 | INFO | Start to run testcase: thrift consistency case, TestCase ID: 5083b6f2-7e28-4395-bf51-f575b4b8ae07
+2026-09-24 00:11:35.961 | INFO | run step begin: no explicit port >>>>>>
+2026-09-24 00:11:35.961 | INFO | run step end: no explicit port <<<<<<
+
+2026-09-24 00:11:35.961 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\5083b6f2-7e28-4395-bf51-f575b4b8ae07.run.log

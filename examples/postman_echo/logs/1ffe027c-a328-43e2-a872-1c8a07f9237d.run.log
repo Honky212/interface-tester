@@ -1,0 +1,17 @@
+2026-09-24 03:59:48.834 | INFO | Start to run testcase: env timeout, TestCase ID: 1ffe027c-a328-43e2-a872-1c8a07f9237d
+2026-09-24 03:59:48.834 | INFO | run step begin: env timeout >>>>>>
+2026-09-24 03:59:48.835 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+timeout: 3.0
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-1ffe027c-a328-43e2-a872-1c8a07f9237d-588834"
+}
+json: None
+
+2026-09-24 03:59:48.835 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\1ffe027c-a328-43e2-a872-1c8a07f9237d.run.log

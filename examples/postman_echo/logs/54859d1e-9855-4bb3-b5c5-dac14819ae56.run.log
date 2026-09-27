@@ -1,0 +1,11 @@
+2026-09-24 03:59:48.959 | INFO | Start to run testcase: sql data isolation, TestCase ID: 54859d1e-9855-4bb3-b5c5-dac14819ae56
+2026-09-24 03:59:48.959 | INFO | run step begin: sql 1 >>>>>>
+2026-09-24 03:59:48.959 | INFO | Executing SQL: select * from student
+2026-09-24 03:59:48.959 | INFO | run step end: sql 1 <<<<<<
+
+2026-09-24 03:59:48.959 | INFO | run step begin: sql 2 >>>>>>
+2026-09-24 03:59:48.959 | INFO | Executing SQL: select * from student
+2026-09-24 03:59:48.959 | INFO | assert [0].name equal alice(str)	==> pass
+2026-09-24 03:59:48.959 | INFO | run step end: sql 2 <<<<<<
+
+2026-09-24 03:59:48.959 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\54859d1e-9855-4bb3-b5c5-dac14819ae56.run.log

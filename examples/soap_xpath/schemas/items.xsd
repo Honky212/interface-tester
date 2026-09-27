@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ItemsResponse 的契约（对应 mock 的 `/svc/items`）：1~3 条明细、每条必带 `id` 属性。
+
+  演示两件 XPath 断言写不出来的事：
+  1. `maxOccurs="3"`、属性必填、子元素顺序 —— 契约里一次写清，用例里不必堆 `xpath_count`；
+  2. **明细用全局元素 + 命名类型**（`ref="tns:item"`），于是**单个 item 也能被单独校验**：
+       xml_schema_match: ["body", {"xpath": "(//ns1:item)[2]", "xsd": "schemas/items.xsd"}]
+     （若把 item 写成本地内联声明，这个断言会报 No matching global declaration —— 实测）
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://demo.example.com/svc"
+           targetNamespace="http://demo.example.com/svc"
+           elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd"/>
+
+  <xs:complexType name="ItemType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+  </xs:complexType>
+
+  <!-- 全局声明：可整条校验，也可单独校验某一个 item -->
+  <xs:element name="item" type="tns:ItemType"/>
+
+  <xs:element name="ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tns:item" minOccurs="1" maxOccurs="3"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

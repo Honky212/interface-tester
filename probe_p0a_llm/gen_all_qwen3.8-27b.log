@@ -1,0 +1,127 @@
+
+===== G01_login ===== exit=1 elapsed=495.1s
+[haify gen] 文档  ：D:\tester\bench\golden\login.md（382 字符）
+[haify gen] 模型  ：qwen3.8:27b @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G01_login___用户登录接口　（# 用户登录接口）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✗ G01_login___POST__api_login　（# 用户登录接口 > ## POST /api/login）
+    · 第 1 轮：l2-emit
+    · 第 2 轮：l2-emit
+    · 第 3 轮：l2-emit
+- G01_login___请求体（JSON）　（# 用户登录接口 > ## POST /api/login > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G01_login___响应　（# 用户登录接口 > ## POST /api/login > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G01_login___业务规则　（# 用户登录接口 > ## POST /api/login > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 0/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；1 片失败。模型调用审计 3 条（.ai/manifest/）
+[haify gen] 另有 1 片**还没走到装配**（l2-emit）——这类**没有** NEEDS_HUMAN.md；模型的原始响应留在 `.ai/manifest/` 里（按时间倒序，最新一条是最后一轮），照它判断是模型能力问题还是切片/prompt 问题。
+
+--- stderr ---
+acetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:31:29.078 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G01_login\.ai\draft\G01_login___POST__api_login.yml
+2026-09-25 18:31:29.080 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G01_login\.ai\draft\G01_login___POST__api_login_test.py
+2026-09-25 18:31:29.080 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_qwen3.8-27b\G01_login\.ai\draft\G01_login___POST__api_login_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+2026-09-25 18:33:34.821 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:33:34.822 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G01_login\.ai\draft\G01_login___POST__api_login.yml
+2026-09-25 18:33:34.822 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+All done! ✨ 🍰 ✨
+1 file left unchanged.
+2026-09-25 18:33:35.286 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:33:35.287 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G01_login\.ai\draft\G01_login___POST__api_login.yml
+2026-09-25 18:33:35.287 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+All done! ✨ 🍰 ✨
+1 file left unchanged.
+
+===== G02_order_create ===== exit=0 elapsed=206.1s
+[haify gen] 文档  ：D:\tester\bench\golden\order_create.md（413 字符）
+[haify gen] 模型  ：qwen3.8:27b @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G02_order_create___订单接口　（# 订单接口）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G02_order_create___POST__api_order　（# 订单接口 > ## POST /api/order）
+    · 第 1 轮：gate
+    · 第 2 轮：skip-model
+    · 已跳过（不是失败）：模型判断本节没有可测的接口（steps 为空）
+    · 断言 0 条 / 覆盖字段 0 个（文档声明字段 3 个）；本次降级/拒掉 0 条
+    · 需人工 ：.ai/failed/G02_order_create___POST__api_order/NEEDS_HUMAN.md
+- G02_order_create___请求体（JSON）　（# 订单接口 > ## POST /api/order > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G02_order_create___响应　（# 订单接口 > ## POST /api/order > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G02_order_create___业务规则　（# 订单接口 > ## POST /api/order > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 0/5 片产出用例；另有 5 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 2 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-25 18:35:43.472 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:35:43.476 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G02_order_create\.ai\draft\G02_order_create___POST__api_order.yml
+2026-09-25 18:35:43.483 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G02_order_create\.ai\draft\G02_order_create___POST__api_order_test.py
+2026-09-25 18:35:43.483 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_qwen3.8-27b\G02_order_create\.ai\draft\G02_order_create___POST__api_order_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G03_user_info ===== exit=0 elapsed=91.1s
+[haify gen] 文档  ：D:\tester\bench\golden\user_info.md（365 字符）
+[haify gen] 模型  ：qwen3.8:27b @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G03_user_info___用户信息查询　（# 用户信息查询）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G03_user_info___前置　（# 用户信息查询 > ## 前置）
+    · 第 1 轮：skip-model
+    · 已跳过（不是失败）：模型判断本节没有可测的接口（steps 为空）
+✓ G03_user_info___GET__api_user_info　（# 用户信息查询 > ## GET /api/user/info）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 1 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G03_user_info___GET__api_user_info.yml
+    · unknowns：.ai/draft/G03_user_info___GET__api_user_info.unknowns.json
+- G03_user_info___请求头　（# 用户信息查询 > ## GET /api/user/info > ### 请求头）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G03_user_info___响应　（# 用户信息查询 > ## GET /api/user/info > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G03_user_info___业务规则　（# 用户信息查询 > ## GET /api/user/info > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/6 片产出用例；另有 5 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 2 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-25 18:38:34.177 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:38:34.181 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G03_user_info\.ai\draft\G03_user_info___GET__api_user_info.yml
+2026-09-25 18:38:34.182 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_qwen3.8-27b\G03_user_info\.ai\draft\G03_user_info___GET__api_user_info_test.py
+2026-09-25 18:38:34.182 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_qwen3.8-27b\G03_user_info\.ai\draft\G03_user_info___GET__api_user_info_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.

@@ -1,0 +1,64 @@
+2026-09-22 21:15:50.854 | INFO | Start to run testcase: parent, TestCase ID: bcdb70dc-5507-4653-a3e7-d4bfab4904e8
+2026-09-22 21:15:50.854 | INFO | run step begin: call the skipped child >>>>>>
+2026-09-22 21:15:50.854 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\learn\interface-tester\examples\postman_echo\logs\bcdb70dc-5507-4653-a3e7-d4bfab4904e8.run.log
+2026-09-22 21:15:50.854 | INFO | Start to run testcase: normal child, TestCase ID: bcdb70dc-5507-4653-a3e7-d4bfab4904e8
+2026-09-22 21:15:50.854 | INFO | run step begin: child step runs >>>>>>
+2026-09-22 21:15:50.854 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-bcdb70dc-5507-4653-a3e7-d4bfab4904e8-950854"
+}
+json: None
+
+2026-09-22 21:15:50.857 | DEBUG | client IP: 127.0.0.1, Port: 56457
+2026-09-22 21:15:50.857 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-22 21:15:50.857 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-bcdb70dc-5507-4653-a3e7-d4bfab4904e8-950854"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 21:15:50.857 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 13:15:50 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-22 21:15:50.857 | INFO | status_code: 200, response_time(ms): 2.96 ms, response_length: 0 bytes
+2026-09-22 21:15:50.857 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 13:15:50 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-22 21:15:50.857 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-22 21:15:50.859 | INFO | run step end: child step runs <<<<<<
+
+2026-09-22 21:15:50.859 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\bcdb70dc-5507-4653-a3e7-d4bfab4904e8.run.log
+2026-09-22 21:15:50.859 | INFO | run step end: call the skipped child <<<<<<
+
+2026-09-22 21:15:50.859 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\bcdb70dc-5507-4653-a3e7-d4bfab4904e8.run.log

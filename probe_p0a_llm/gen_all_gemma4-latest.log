@@ -1,0 +1,558 @@
+
+===== G01_auth_token_flow ===== exit=0 elapsed=46.6s
+[haify gen] 文档  ：D:\tester\bench\golden\auth_token_flow.md（540 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G01_auth_token_flow___登录与当前用户接口　（# 登录与当前用户接口）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G01_auth_token_flow___POST__api_login　（# 登录与当前用户接口 > ## POST /api/login）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 4 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G01_auth_token_flow___POST__api_login.yml
+    · unknowns：.ai/draft/G01_auth_token_flow___POST__api_login.unknowns.json
+- G01_auth_token_flow___请求体（JSON）　（# 登录与当前用户接口 > ## POST /api/login > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G01_auth_token_flow___响应　（# 登录与当前用户接口 > ## POST /api/login > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G01_auth_token_flow___GET__api_user_me　（# 登录与当前用户接口 > ## GET /api/user/me）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 4 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G01_auth_token_flow___GET__api_user_me.yml
+    · unknowns：.ai/draft/G01_auth_token_flow___GET__api_user_me.unknowns.json
+- G01_auth_token_flow___请求头　（# 登录与当前用户接口 > ## GET /api/user/me > ### 请求头）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G01_auth_token_flow___响应　（# 登录与当前用户接口 > ## GET /api/user/me > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G01_auth_token_flow___业务规则　（# 登录与当前用户接口 > ## GET /api/user/me > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 2/8 片产出用例；另有 6 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 2 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:43:36.972 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:43:36.973 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G01_auth_token_flow\.ai\draft\G01_auth_token_flow___POST__api_login.yml
+2026-09-26 13:43:36.975 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G01_auth_token_flow\.ai\draft\G01_auth_token_flow___POST__api_login_test.py
+2026-09-26 13:43:36.975 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G01_auth_token_flow\.ai\draft\G01_auth_token_flow___POST__api_login_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+2026-09-26 13:43:51.709 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:43:51.709 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G01_auth_token_flow\.ai\draft\G01_auth_token_flow___GET__api_user_me.yml
+2026-09-26 13:43:51.709 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G01_auth_token_flow\.ai\draft\G01_auth_token_flow___GET__api_user_me_test.py
+2026-09-26 13:43:51.709 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G01_auth_token_flow\.ai\draft\G01_auth_token_flow___GET__api_user_me_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G02_biz_error_order ===== exit=0 elapsed=25.4s
+[haify gen] 文档  ：D:\tester\bench\golden\biz_error_order.md（426 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G02_biz_error_order___订单（业务错误码）　（# 订单（业务错误码））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G02_biz_error_order___POST__api_order_create　（# 订单（业务错误码） > ## POST /api/order/create）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 2 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G02_biz_error_order___POST__api_order_create.yml
+    · unknowns：.ai/draft/G02_biz_error_order___POST__api_order_create.unknowns.json
+- G02_biz_error_order___请求体（JSON）　（# 订单（业务错误码） > ## POST /api/order/create > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G02_biz_error_order___响应　（# 订单（业务错误码） > ## POST /api/order/create > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G02_biz_error_order___业务规则　（# 订单（业务错误码） > ## POST /api/order/create > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:44:17.957 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:44:17.962 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G02_biz_error_order\.ai\draft\G02_biz_error_order___POST__api_order_create.yml
+2026-09-26 13:44:17.962 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G02_biz_error_order\.ai\draft\G02_biz_error_order___POST__api_order_create_test.py
+2026-09-26 13:44:17.962 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G02_biz_error_order\.ai\draft\G02_biz_error_order___POST__api_order_create_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G03_create_user_schema ===== exit=0 elapsed=13.8s
+[haify gen] 文档  ：D:\tester\bench\golden\create_user_schema.md（410 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G03_create_user_schema___创建用户接口（带 schema 契约）　（# 创建用户接口（带 schema 契约））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G03_create_user_schema___POST__api_user　（# 创建用户接口（带 schema 契约） > ## POST /api/user）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 3 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G03_create_user_schema___POST__api_user.yml
+    · unknowns：.ai/draft/G03_create_user_schema___POST__api_user.unknowns.json
+- G03_create_user_schema___请求体（JSON）　（# 创建用户接口（带 schema 契约） > ## POST /api/user > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G03_create_user_schema___响应　（# 创建用户接口（带 schema 契约） > ## POST /api/user > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G03_create_user_schema___业务规则　（# 创建用户接口（带 schema 契约） > ## POST /api/user > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:44:31.978 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:44:31.989 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G03_create_user_schema\.ai\draft\G03_create_user_schema___POST__api_user.yml
+2026-09-26 13:44:31.990 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G03_create_user_schema\.ai\draft\G03_create_user_schema___POST__api_user_test.py
+2026-09-26 13:44:31.990 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G03_create_user_schema\.ai\draft\G03_create_user_schema___POST__api_user_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G04_delete_session ===== exit=4 elapsed=0.2s
+[haify gen] 文档  ：D:\tester\bench\golden\delete_session.md（245 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+
+--- stderr ---
+
+[无法生成 · 退出码 4]
+文档体检未通过（1 项必改；清单：reports/NEEDS_DOC_FIX.md）——先改文档，重试生成没有意义
+
+===== G05_get_user_profile ===== exit=0 elapsed=15.0s
+[haify gen] 文档  ：D:\tester\bench\golden\get_user_profile.md（501 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G05_get_user_profile___用户档案接口　（# 用户档案接口）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G05_get_user_profile___GET__api_user_profile　（# 用户档案接口 > ## GET /api/user/profile）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 2 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G05_get_user_profile___GET__api_user_profile.yml
+    · unknowns：.ai/draft/G05_get_user_profile___GET__api_user_profile.unknowns.json
+- G05_get_user_profile___查询参数　（# 用户档案接口 > ## GET /api/user/profile > ### 查询参数）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G05_get_user_profile___响应　（# 用户档案接口 > ## GET /api/user/profile > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G05_get_user_profile___业务规则　（# 用户档案接口 > ## GET /api/user/profile > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:44:47.392 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:44:47.393 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G05_get_user_profile\.ai\draft\G05_get_user_profile___GET__api_user_profile.yml
+2026-09-26 13:44:47.395 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G05_get_user_profile\.ai\draft\G05_get_user_profile___GET__api_user_profile_test.py
+2026-09-26 13:44:47.395 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G05_get_user_profile\.ai\draft\G05_get_user_profile___GET__api_user_profile_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G06_legacy_gbk_doc ===== exit=1 elapsed=35.0s
+[haify gen] 文档  ：D:\tester\bench\golden\legacy_gbk_doc.md（507 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G06_legacy_gbk_doc___旧系统用户信息接口（GBK 编码文档样本）　（# 旧系统用户信息接口（GBK 编码文档样本））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✗ G06_legacy_gbk_doc___GET__api_legacy_user_info　（# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info）
+    · 第 1 轮：gate
+    · 第 2 轮：gate
+    · 第 3 轮：gate
+    · 断言 0 条 / 覆盖字段 0 个（文档声明字段 1 个）；本次降级/拒掉 0 条
+    · unknowns：.ai/draft/G06_legacy_gbk_doc___GET__api_legacy_user_info.unknowns.json
+    · 需人工 ：.ai/failed/G06_legacy_gbk_doc___GET__api_legacy_user_info/NEEDS_HUMAN.md
+- G06_legacy_gbk_doc___查询参数　（# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info > ### 查询参数）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G06_legacy_gbk_doc___响应　（# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G06_legacy_gbk_doc___业务规则　（# 旧系统用户信息接口（GBK 编码文档样本） > ## GET /api/legacy/user/info > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 0/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；1 片失败。模型调用审计 3 条（.ai/manifest/）
+[haify gen] 被**写盘前置闸门**拒掉的切片：.ai/failed/<用例>/NEEDS_HUMAN.md 里写了**人接着要做什么**。
+
+--- stderr ---
+ke_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G06_legacy_gbk_doc\.ai\draft\G06_legacy_gbk_doc___GET__api_legacy_user_info.yml
+2026-09-26 13:45:00.647 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G06_legacy_gbk_doc\.ai\draft\G06_legacy_gbk_doc___GET__api_legacy_user_info_test.py
+2026-09-26 13:45:00.647 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G06_legacy_gbk_doc\.ai\draft\G06_legacy_gbk_doc___GET__api_legacy_user_info_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+2026-09-26 13:45:22.478 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:45:22.478 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G06_legacy_gbk_doc\.ai\draft\G06_legacy_gbk_doc___GET__api_legacy_user_info.yml
+2026-09-26 13:45:22.478 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+All done! ✨ 🍰 ✨
+1 file left unchanged.
+2026-09-26 13:45:22.675 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:45:22.675 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G06_legacy_gbk_doc\.ai\draft\G06_legacy_gbk_doc___GET__api_legacy_user_info.yml
+2026-09-26 13:45:22.675 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+All done! ✨ 🍰 ✨
+1 file left unchanged.
+
+===== G07_login ===== exit=0 elapsed=16.9s
+[haify gen] 文档  ：D:\tester\bench\golden\login.md（382 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G07_login___用户登录接口　（# 用户登录接口）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G07_login___POST__api_login　（# 用户登录接口 > ## POST /api/login）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 2 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G07_login___POST__api_login.yml
+    · unknowns：.ai/draft/G07_login___POST__api_login.unknowns.json
+- G07_login___请求体（JSON）　（# 用户登录接口 > ## POST /api/login > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G07_login___响应　（# 用户登录接口 > ## POST /api/login > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G07_login___业务规则　（# 用户登录接口 > ## POST /api/login > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:45:39.525 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:45:39.528 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G07_login\.ai\draft\G07_login___POST__api_login.yml
+2026-09-26 13:45:39.528 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G07_login\.ai\draft\G07_login___POST__api_login_test.py
+2026-09-26 13:45:39.528 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G07_login\.ai\draft\G07_login___POST__api_login_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G08_order_create ===== exit=0 elapsed=18.8s
+[haify gen] 文档  ：D:\tester\bench\golden\order_create.md（413 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G08_order_create___订单接口　（# 订单接口）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G08_order_create___POST__api_order　（# 订单接口 > ## POST /api/order）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 3 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G08_order_create___POST__api_order.yml
+    · unknowns：.ai/draft/G08_order_create___POST__api_order.unknowns.json
+- G08_order_create___请求体（JSON）　（# 订单接口 > ## POST /api/order > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G08_order_create___响应　（# 订单接口 > ## POST /api/order > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G08_order_create___业务规则　（# 订单接口 > ## POST /api/order > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:45:58.530 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:45:58.536 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G08_order_create\.ai\draft\G08_order_create___POST__api_order.yml
+2026-09-26 13:45:58.539 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G08_order_create\.ai\draft\G08_order_create___POST__api_order_test.py
+2026-09-26 13:45:58.540 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G08_order_create\.ai\draft\G08_order_create___POST__api_order_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G09_paged_product_list ===== exit=0 elapsed=16.7s
+[haify gen] 文档  ：D:\tester\bench\golden\paged_product_list.md（434 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G09_paged_product_list___商品列表（分页）　（# 商品列表（分页））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G09_paged_product_list___GET__api_product_list　（# 商品列表（分页） > ## GET /api/product/list）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 2 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G09_paged_product_list___GET__api_product_list.yml
+    · unknowns：.ai/draft/G09_paged_product_list___GET__api_product_list.unknowns.json
+- G09_paged_product_list___查询参数　（# 商品列表（分页） > ## GET /api/product/list > ### 查询参数）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G09_paged_product_list___响应　（# 商品列表（分页） > ## GET /api/product/list > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G09_paged_product_list___业务规则　（# 商品列表（分页） > ## GET /api/product/list > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:46:15.558 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:46:15.564 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G09_paged_product_list\.ai\draft\G09_paged_product_list___GET__api_product_list.yml
+2026-09-26 13:46:15.564 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G09_paged_product_list\.ai\draft\G09_paged_product_list___GET__api_product_list_test.py
+2026-09-26 13:46:15.564 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G09_paged_product_list\.ai\draft\G09_paged_product_list___GET__api_product_list_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G10_search_products ===== exit=0 elapsed=10.9s
+[haify gen] 文档  ：D:\tester\bench\golden\search_products.md（395 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G10_search_products___商品搜索　（# 商品搜索）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G10_search_products___GET__api_product_search　（# 商品搜索 > ## GET /api/product/search）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 3 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G10_search_products___GET__api_product_search.yml
+    · unknowns：.ai/draft/G10_search_products___GET__api_product_search.unknowns.json
+- G10_search_products___查询参数　（# 商品搜索 > ## GET /api/product/search > ### 查询参数）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G10_search_products___响应　（# 商品搜索 > ## GET /api/product/search > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G10_search_products___业务规则　（# 商品搜索 > ## GET /api/product/search > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:46:26.716 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:46:26.719 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G10_search_products\.ai\draft\G10_search_products___GET__api_product_search.yml
+2026-09-26 13:46:26.721 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G10_search_products\.ai\draft\G10_search_products___GET__api_product_search_test.py
+2026-09-26 13:46:26.721 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G10_search_products\.ai\draft\G10_search_products___GET__api_product_search_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G11_soap_user_service ===== exit=4 elapsed=0.1s
+[haify gen] 文档  ：D:\tester\bench\golden\soap_user_service.md（525 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+
+--- stderr ---
+
+[无法生成 · 退出码 4]
+文档体检未通过（1 项必改；清单：reports/NEEDS_DOC_FIX.md）——先改文档，重试生成没有意义
+
+===== G12_update_order_status ===== exit=0 elapsed=16.8s
+[haify gen] 文档  ：D:\tester\bench\golden\update_order_status.md（413 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G12_update_order_status___更新订单状态　（# 更新订单状态）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G12_update_order_status___PUT__api_order__orderNo__status　（# 更新订单状态 > ## PUT /api/order/{orderNo}/status）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 2 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G12_update_order_status___PUT__api_order__orderNo__status.yml
+    · unknowns：.ai/draft/G12_update_order_status___PUT__api_order__orderNo__status.unknowns.json
+- G12_update_order_status___路径参数　（# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 路径参数）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G12_update_order_status___请求体（JSON）　（# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G12_update_order_status___响应　（# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G12_update_order_status___业务规则　（# 更新订单状态 > ## PUT /api/order/{orderNo}/status > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/6 片产出用例；另有 5 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:46:43.835 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:46:43.836 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G12_update_order_status\.ai\draft\G12_update_order_status___PUT__api_order__orderNo__status.yml
+2026-09-26 13:46:43.836 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G12_update_order_status\.ai\draft\G12_update_order_status___PUT__api_order__orderNo__status_test.py
+2026-09-26 13:46:43.836 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G12_update_order_status\.ai\draft\G12_update_order_status___PUT__api_order__orderNo__status_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G13_user_info ===== exit=0 elapsed=29.3s
+[haify gen] 文档  ：D:\tester\bench\golden\user_info.md（365 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G13_user_info___用户信息查询　（# 用户信息查询）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G13_user_info___前置　（# 用户信息查询 > ## 前置）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 1 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G13_user_info___前置.yml
+    · unknowns：.ai/draft/G13_user_info___前置.unknowns.json
+✓ G13_user_info___GET__api_user_info　（# 用户信息查询 > ## GET /api/user/info）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 1 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G13_user_info___GET__api_user_info.yml
+    · unknowns：.ai/draft/G13_user_info___GET__api_user_info.unknowns.json
+- G13_user_info___请求头　（# 用户信息查询 > ## GET /api/user/info > ### 请求头）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G13_user_info___响应　（# 用户信息查询 > ## GET /api/user/info > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G13_user_info___业务规则　（# 用户信息查询 > ## GET /api/user/info > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 2/6 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 2 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:47:02.024 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:47:02.026 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G13_user_info\.ai\draft\G13_user_info___前置.yml
+2026-09-26 13:47:02.028 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G13_user_info\.ai\draft\G13_user_info___前置_test.py
+2026-09-26 13:47:02.028 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G13_user_info\.ai\draft\G13_user_info___前置_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+2026-09-26 13:47:13.399 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:47:13.399 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G13_user_info\.ai\draft\G13_user_info___GET__api_user_info.yml
+2026-09-26 13:47:13.405 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G13_user_info\.ai\draft\G13_user_info___GET__api_user_info_test.py
+2026-09-26 13:47:13.405 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G13_user_info\.ai\draft\G13_user_info___GET__api_user_info_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G14_utf8_bom_doc ===== exit=0 elapsed=38.7s
+[haify gen] 文档  ：D:\tester\bench\golden\utf8_bom_doc.md（567 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G14_utf8_bom_doc___导出接口（BOM 编码文档样本）　（# 导出接口（BOM 编码文档样本））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G14_utf8_bom_doc___POST__api_export_tasks　（# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks）
+    · 第 1 轮：gate
+    · 第 2 轮：skip-model
+    · 已跳过（不是失败）：模型判断本节没有可测的接口（steps 为空）
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 2 个）；本次降级/拒掉 1 条
+    · unknowns：.ai/draft/G14_utf8_bom_doc___POST__api_export_tasks.unknowns.json
+    · 需人工 ：.ai/failed/G14_utf8_bom_doc___POST__api_export_tasks/NEEDS_HUMAN.md
+- G14_utf8_bom_doc___请求体（JSON）　（# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G14_utf8_bom_doc___响应　（# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G14_utf8_bom_doc___业务规则　（# 导出接口（BOM 编码文档样本） > ## POST /api/export/tasks > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 0/5 片产出用例；另有 5 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 2 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:47:34.473 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:47:34.479 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G14_utf8_bom_doc\.ai\draft\G14_utf8_bom_doc___POST__api_export_tasks.yml
+2026-09-26 13:47:34.481 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G14_utf8_bom_doc\.ai\draft\G14_utf8_bom_doc___POST__api_export_tasks_test.py
+2026-09-26 13:47:34.481 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G14_utf8_bom_doc\.ai\draft\G14_utf8_bom_doc___POST__api_export_tasks_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+
+===== G15_webhook_notify ===== exit=0 elapsed=20.5s
+[haify gen] 文档  ：D:\tester\bench\golden\webhook_notify.md（510 字符）
+[haify gen] 模型  ：gemma4:latest @ http://127.0.0.1:11434/v1
+[haify gen] 通道  ：实调（L3 闸门：需 SANDBOX=on，回环免白名单）
+[haify gen] 预算  ：12000 字节/次；修正环 ≤ 2 轮
+------------------------------------------------------------------
+- G15_webhook_notify___回调通知（Webhook）　（# 回调通知（Webhook））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+✓ G15_webhook_notify___POST__api_webhook_notify　（# 回调通知（Webhook） > ## POST /api/webhook/notify）
+    · 第 1 轮：ok
+    · 断言 1 条 / 覆盖字段 0 个（文档声明字段 4 个）；本次降级/拒掉 0 条；另有**协议级断言** 1 条（status_code —— 不计入文档字段覆盖）
+    · 用例   ：cases/G15_webhook_notify___POST__api_webhook_notify.yml
+    · unknowns：.ai/draft/G15_webhook_notify___POST__api_webhook_notify.unknowns.json
+- G15_webhook_notify___请求体（JSON）　（# 回调通知（Webhook） > ## POST /api/webhook/notify > ### 请求体（JSON））
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G15_webhook_notify___响应　（# 回调通知（Webhook） > ## POST /api/webhook/notify > ### 响应）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+- G15_webhook_notify___业务规则　（# 回调通知（Webhook） > ## POST /api/webhook/notify > ### 业务规则）
+    · 第 1 轮：skip-static
+    · 已跳过（不是失败）：本节没有 `METHOD /path` 形态的端点（标题 / 概述 / 字段表 / 附录这类章节不描述具体接口），已跳过；用 `--no-skip-non-interface` 可强制送模型
+------------------------------------------------------------------
+[haify gen] 1/5 片产出用例；另有 4 片**本就没有接口**（已跳过，不算失败）；0 片失败。模型调用审计 1 条（.ai/manifest/）
+
+--- stderr ---
+2026-09-26 13:48:13.178 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-26 13:48:13.178 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G15_webhook_notify\.ai\draft\G15_webhook_notify___POST__api_webhook_notify.yml
+2026-09-26 13:48:13.182 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_run_gemma4-latest\G15_webhook_notify\.ai\draft\G15_webhook_notify___POST__api_webhook_notify_test.py
+2026-09-26 13:48:13.182 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+Ignoring user configuration directory due to RuntimeError('Could not determine home directory.')
+reformatted D:\tester\.tmp_p0a_run_gemma4-latest\G15_webhook_notify\.ai\draft\G15_webhook_notify___POST__api_webhook_notify_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.

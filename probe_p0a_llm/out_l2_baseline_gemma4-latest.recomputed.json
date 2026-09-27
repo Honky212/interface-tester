@@ -1,0 +1,17 @@
+{
+  "model": "gemma4:latest",
+  "docs": 15,
+  "docs_with_cases": 11,
+  "cases_produced": 13,
+  "l2_pass_rate": 1.0,
+  "source_tree_touched": [],
+  "slices_total": 70,
+  "slices_skipped_non_interface": 56,
+  "slices_with_interface": 14,
+  "slices_produced": 13,
+  "slices_failed": 1,
+  "slice_success_rate": 0.9286,
+  "recomputed_from": "gen_all_gemma4-latest.log",
+  "recomputed_rows": 13,
+  "note": "由 recompute_from_log.py 从 CLI stdout 日志重算（原 json 的 slices_* 为 null：measure_p0a_l2.py 的正则曾把「片产出用例」误写成「片产出一用例」）"
+}

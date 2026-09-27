@@ -1,0 +1,9 @@
+2026-09-22 20:30:36.045 | INFO | Start to run testcase: sql hooks case, TestCase ID: 67657500-22a3-473f-ad92-2ae68d84862e
+2026-09-22 20:30:36.045 | INFO | run step begin: fetch with hook >>>>>>
+2026-09-22 20:30:36.049 | INFO | Executing SQL: select * from student
+2026-09-22 20:30:36.049 | INFO | call hook actions: teardown request
+2026-09-22 20:30:36.049 | DEBUG | call hook function: ${record_sql_response($sql_response)}
+2026-09-22 20:30:36.049 | INFO | assert [0].name equal alice(str)	==> pass
+2026-09-22 20:30:36.049 | INFO | run step end: fetch with hook <<<<<<
+
+2026-09-22 20:30:36.049 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\67657500-22a3-473f-ad92-2ae68d84862e.run.log

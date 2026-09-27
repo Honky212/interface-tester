@@ -1,0 +1,40 @@
+==============================================================================
+响应头成为可判据事实（§9.33）：文档声明 → 断言 → 真跑 + 牙齿对照
+工作区：C:\Users\10503\AppData\Local\Temp\ai_respheader_probe
+==============================================================================
+
+① 确定性通路退出码 = 0
+   [haify gen --assertions-only] 落点：**按接口段逐片**（每段一条草稿；段外断言不进本条）
+   [haify gen --assertions-only] 1/1 条**接口段**产出草稿（★每段一条；转正仍需 `haify review --approve` —— 退出码 0 ≠ 可直接进 CI）
+
+② 草稿里的响应头断言（_api_file_metadata.yml）
+   · equal: [headers.X-Api-Version, v1]
+   · contained_by: [headers.Cache-Control, no-store、max-age=60]
+   · 点名（**推导层**直取；草稿 `unknowns` 里**还看不到** → 登记项 3）：以下响应头文档**声明了但没有可判据事实**（既没标「固定值」、也没给「枚举取值」）→ **不产断言**（认下这个事实）：Date —— 响应头值多半**易变**（`Date` / `X-Request-Id` 这类），要断请让文档补「固定值」或「取值」
+
+③ 转正 + 真跑（mock 按文档下发这些响应头）
+   · promote：True（ok）
+   · hrun 退出码 = 0
+     ======================== 1 passed, 1 warning in 0.07s =========================
+   · mock：[mock] 响应头：**按文档下发 3 个**（X-Api-Version: v1、Cache-Control: no-store、Date: mock-Date）
+   · mock：[mock] 依据文档推出 1 条路由（header_fixture.md）：
+
+④ 逐步断言（run.log 原文：响应头那两条）
+   2026-09-27 17:38:54.675 | INFO | assert headers."X-Api-Version" equal v1(str)	==> pass
+   27 17:38:54.675 | INFO | assert headers."Cache-Control" contained_by ['no-store', 'max-age=60'](list)	==> pass
+
+⑤ 牙齿对照（同一份用例 + **不下发响应头**的 mock → 必须变红）
+   · hrun 退出码 = 1（期望 **≠0**：判据有牙）
+     E   check_value: None(NoneType)
+     E   assert_method: equal
+     E   assert headers."Cache-Control" contained_by ['no-store', 'max-age=60'](list)	==> fail
+     E   check_value: None(NoneType)
+     E   assert_method: contained_by
+     check_value: None(NoneType)
+     check_value: None(NoneType)
+     ============================== 1 failed in 0.11s ==============================
+
+■ 结论
+  · 文档里的**响应头表**（`头` 打头 + 无「必填」列 + 附近有『响应』字样）被认下 ✓
+  · 有可判据事实的（固定值 / 枚举）→ 产 `equal` / `contained_by` ✓；其余**逐条点名** ✓
+  · mock **按同一份判据**下发这些头 → 断言真跑绿 ✓；**不下发** → 必须变红（有牙）✓

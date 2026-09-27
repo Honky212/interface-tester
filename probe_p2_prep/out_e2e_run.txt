@@ -1,0 +1,81 @@
+==========================================================================
+工作区：C:\Users\10503\AppData\Local\Temp\ai_e2e_model13
+草稿源：C:\Users\10503\AppData\Local\Temp\ai_raw_new5\.ai\draft
+目标  ：http://127.0.0.1:8899
+==========================================================================
+
+① 搬入 34 个文件（草稿 + unknowns）
+② 补 `base_url` 到 0/17 份草稿（= 人工转正时的编辑）
+
+③ 转正（`haify review --approve`）
+  OK  T1_2_认证方式                      exit=0  处置=unknown-critical
+  NO  T2_1_创建目录                      exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  OK  T2_2_更新目录                      exit=0  处置=unknown-critical
+  OK  T2_3_查询目录                      exit=0  处置=unknown-critical
+  NO  T2_4_删除目录                      exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  OK  T3_1_文件上传                      exit=0  处置=unknown-critical
+  NO  T3_2_文件下载                      exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  OK  T3_3_文件删除                      exit=0  处置=unknown-critical
+  NO  T3_4_文件预览                      exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  NO  T3_5_文件重命名                     exit=1  处置=unknown-critical        ⚠ **闸门拒**（structure-rejected）→ 这是**硬结论**：`--resolve-blocker` 覆盖不了；按 `.ai/failed/<用例>
+  NO  T4_1_获取版本列表                    exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  OK  T4_2_获取版本详情                    exit=0  处置=unknown-critical
+  NO  T4_3_版本回滚                      exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  NO  T5_1_获取元数据                     exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  NO  T5_2_获取元数据列表                   exit=1  处置=unknown-critical        ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+  NO  T5_3_递归查询元数据                   exit=1  处置=unknown-critical        ⚠ **闸门拒**（structure-rejected）→ 这是**硬结论**：`--resolve-blocker` 覆盖不了；按 `.ai/failed/<用例>
+  NO  T5_4_分页递归查询元数据                 exit=1  处置=unknown-critical        ⚠ **闸门拒**（structure-rejected）→ 这是**硬结论**：`--resolve-blocker` 覆盖不了；按 `.ai/failed/<用例>
+
+④ 真跑（`haify run`）—— 共 6 条
+  PASS T1_2_认证方式                      exit=0
+  PASS T2_2_更新目录                      exit=0
+  PASS T2_3_查询目录                      exit=0
+  FAIL T3_1_文件上传                      exit=1
+  PASS T3_3_文件删除                      exit=0
+  PASS T4_2_获取版本详情                    exit=0
+
+⑤ 失败明细（1 条，内核 pytest 输出尾部 + **本用例的步骤名**）
+    ★步骤名要一起看：像「路径不匹配时返回错误码」这种**负例步骤**，mock 只照文档的**成功响应**应答 → 它**跑不绿是服务端没模拟错误条件**，不是断言写错了（当前这条链还没做「按错误条件触发失败」）。
+
+  --- T3_1_文件上传 ---
+    步骤：上传多个有效文件并验证成功 / 上传包含超大文件的混合批次并验证部分失败
+    E   hint: 这类算子只对**字符串**取值有意义。取值为 None 通常意味着**字段不存在或下标越界**（jmespath 对「缺字段」与「值为 null」都返回 None，框架无法区分）；若响应体不是 JSON（XML/HTML 时 `body` 是 bytes），请断在 `text` 
+    E     使用本守卫的算子：string_equals / startswith / endswith / regex_match。
+    2026-09-27 13:48:52.658 | INFO | assert status_code equal 200(int)	==> pass
+    2026-09-27 13:48:52.658 | INFO | assert status_code equal 200(int)	==> pass
+    2026-09-27 13:48:52.658 | ERROR | assert body.errorCode string_equals FILE_1023(str)	==> fail
+    assert_method: string_equals
+    FAILED cases/T3_1_文件上传_test.py::TestCaseT31文件上传::test_start - interfacetester.exceptions.ValidationFailure: assert body.errorCode string_equals FILE_1
+    ============================== 1 failed in 0.10s ==============================
+
+⑥ **请求侧回读**（mock 照录到的请求：10 条）
+  带文档声明的请求头（X-Path / Authorization / Content-Type）：10 条
+  带请求体：2 条
+  ★本节是「**参数真的发出去了**」的唯一证明：mock **不校验**参数，所以「没发参数」在跑分上照样是**绿**的（静默假通过）——只能靠回读。
+  ★条数是**累计**的（⑤ 的失败明细会把用例再跑一遍）。
+  POST  /oauth2/token?grant_type=client_credentials&   headers=['Accept', 'Content-Type', 'interfacetester-Request-ID'] body=（无）
+  POST  /api/directory/update                          headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body={"sourceDirName": "/app1/documents/reports/", "targetDirName": "/app1/
+  GET   /api/directory/query?path=%2Fapp1%2F&dirName   headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  POST  /api/file/upload?path=%2Fapp1%2Fdocuments%2F   headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  POST  /api/file/upload?path=%2Fapp1%2Fdocuments%2F   headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  POST  /api/file/delete                               headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body={"fileName": "report.pdf", "path": "/app1/documents/"}
+  GET   /api/version/getInfo?path=%2Fapp1%2F&filenam   headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  GET   /api/version/getInfo?path=%2Fapp1%2F&filenam   headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+
+⑦ **错误条件（负例可验证性）**
+  含负例步的用例：2 条（真跑通过 1）；纯正例用例：4 条（真跑通过 4）
+  ★负例步跑不绿**不等于用例错**：要看服务端有没有按文档的错误条件返回失败响应。
+  ★§9.21/§9.22 错误条件引擎：**可模拟 129 条**（16 个接口；五族：关系/非空/上限/存在性/格式）；**不模拟 24 条** = **条件陈述 13 条**（能力边界）+ 示例碎片 11 条
+      · 不模拟（条件陈述）：文件名不能包含特殊字符：`\/:*?"<>|`（`FILE_4016`）
+      · 不模拟（条件陈述）：文件名开头和结尾不能有空格（`FILE_4018`），文件名中间允许空格
+      · 不模拟（条件陈述）：同一目录下不能重命名为已存在的文件名（`FILE_4015`）
+      · 不模拟（条件陈述）：若目标版本已是当前版本，返回 `FILE_5001`
+      · 不模拟（条件陈述）：`FILE_1007` | 版本ID不能为空 | 版本回滚/查询时未传版本号
+      · 不模拟（条件陈述）：`FILE_1018` | 路径与Header不一致 | X-Path 校验失败
+  ★mock 本次**实际命中**的错误条件 1 次（照录在回读文件里）：
+      · FILE_2005 ← `FILE_2005` | 目标版本不存在 | 指定的版本记录不存在
+
+## 汇总
+  转正成功      ：6/17
+  **真跑通过**  ：5/6（83%）
+  通过名单      ：T1_2_认证方式, T2_2_更新目录, T2_3_查询目录, T3_3_文件删除, T4_2_获取版本详情

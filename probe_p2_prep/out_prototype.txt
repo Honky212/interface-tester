@@ -1,0 +1,93 @@
+# 逐片原型的量化验证（只读；不是改动）
+
+- `split_document()` 切出 **33** 片
+
+## 1. 端点：**17** 片能取到端点（现状：整篇只取到 1 个）
+
+- `POST /oauth2/token`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 1. 接口概述 > ### 1.2 认证方式（行 21~45）
+- `POST /api/directory/create`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 2. 目录服务接口 > ### 2.1 创建目录（行 119~183）
+- `POST /api/directory/update`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 2. 目录服务接口 > ### 2.2 更新目录（行 185~240）
+- `GET /api/directory/query`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 2. 目录服务接口 > ### 2.3 查询目录（行 242~310）
+- `POST /api/directory/delete`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 2. 目录服务接口 > ### 2.4 删除目录（行 312~361）
+- `POST /api/file/upload`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 3. 文件服务接口 > ### 3.1 文件上传（行 365~443）
+- `GET /api/file/download`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 3. 文件服务接口 > ### 3.2 文件下载（行 445~496）
+- `POST /api/file/delete`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 3. 文件服务接口 > ### 3.3 文件删除（行 498~547）
+- `GET /api/file/previewUrl`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 3. 文件服务接口 > ### 3.4 文件预览（行 549~603）
+- `POST /api/metadata/rename`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 3. 文件服务接口 > ### 3.5 文件重命名（行 605~675）
+- `GET /api/version/getList`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 4. 版本服务接口 > ### 4.1 获取版本列表（行 679~766）
+- `GET /api/version/getInfo`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 4. 版本服务接口 > ### 4.2 获取版本详情（行 768~856）
+- `POST /api/version/rollback`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 4. 版本服务接口 > ### 4.3 版本回滚（行 858~926）
+- `GET /api/metadata/get`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 5. 元数据服务接口 > ### 5.1 获取元数据（行 932~1013）
+- `GET /api/metadata/list`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 5. 元数据服务接口 > ### 5.2 获取元数据列表（行 1015~1100）
+- `GET /api/metadata/query`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 5. 元数据服务接口 > ### 5.3 递归查询元数据（行 1102~1192）
+- `GET /api/metadata/queryPage`　←　片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 5. 元数据服务接口 > ### 5.4 分页递归查询元数据（行 1194~1293）
+
+## 2. 断言归属：每片自己的字段断言（验证「不再混装」）
+
+- `POST /oauth2/token`：断言 **0** 条 / 字段 0 个（跳过 1）
+  · 字段：[]
+  · 带行号的断言 0 条，其中**落在本片内** 0 条
+- `POST /api/directory/create`：断言 **1** 条 / 字段 1 个（跳过 2）
+  · 字段：['body.path']
+  · 带行号的断言 1 条，其中**落在本片内** 1 条
+- `POST /api/directory/update`：断言 **2** 条 / 字段 2 个（跳过 2）
+  · 字段：['body.sourceDirName', 'body.targetDirName']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `GET /api/directory/query`：断言 **1** 条 / 字段 1 个（跳过 12）
+  · 字段：['body.path']
+  · 带行号的断言 1 条，其中**落在本片内** 1 条
+- `POST /api/directory/delete`：断言 **1** 条 / 字段 1 个（跳过 2）
+  · 字段：['body.path']
+  · 带行号的断言 1 条，其中**落在本片内** 1 条
+- `POST /api/file/upload`：断言 **2** 条 / 字段 2 个（跳过 4）
+  · 字段：['body.files', 'body.path']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `GET /api/file/download`：断言 **2** 条 / 字段 2 个（跳过 3）
+  · 字段：['body.fileName', 'body.path']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `POST /api/file/delete`：断言 **2** 条 / 字段 2 个（跳过 2）
+  · 字段：['body.fileName', 'body.path']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `GET /api/file/previewUrl`：断言 **2** 条 / 字段 2 个（跳过 3）
+  · 字段：['body.fileName', 'body.path']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `POST /api/metadata/rename`：断言 **3** 条 / 字段 3 个（跳过 2）
+  · 字段：['body.newFileName', 'body.oldFileName', 'body.path']
+  · 带行号的断言 3 条，其中**落在本片内** 3 条
+- `GET /api/version/getList`：断言 **2** 条 / 字段 2 个（跳过 6）
+  · 字段：['body.filename', 'body.path']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `GET /api/version/getInfo`：断言 **3** 条 / 字段 3 个（跳过 13）
+  · 字段：['body.filename', 'body.path', 'body.version']
+  · 带行号的断言 3 条，其中**落在本片内** 3 条
+- `POST /api/version/rollback`：断言 **3** 条 / 字段 3 个（跳过 2）
+  · 字段：['body.filename', 'body.path', 'body.version']
+  · 带行号的断言 3 条，其中**落在本片内** 3 条
+- `GET /api/metadata/get`：断言 **2** 条 / 字段 2 个（跳过 10）
+  · 字段：['body.filename', 'body.path']
+  · 带行号的断言 2 条，其中**落在本片内** 2 条
+- `GET /api/metadata/list`：断言 **1** 条 / 字段 1 个（跳过 14）
+  · 字段：['body.path']
+  · 带行号的断言 1 条，其中**落在本片内** 1 条
+- `GET /api/metadata/query`：断言 **1** 条 / 字段 1 个（跳过 15）
+  · 字段：['body.path']
+  · 带行号的断言 1 条，其中**落在本片内** 1 条
+- `GET /api/metadata/queryPage`：断言 **1** 条 / 字段 1 个（跳过 22）
+  · 字段：['body.path']
+  · 带行号的断言 1 条，其中**落在本片内** 1 条
+
+### 2b. 那两个字段现在落在哪几片
+
+- `body.path` 出现在：**15** 片 → ['/api/directory/create', '/api/directory/query', '/api/directory/delete', '/api/file/upload', '/api/file/download', '/api/file/delete', '/api/file/previewUrl', '/api/metadata/rename', '/api/version/getList', '/api/version/getInfo', '/api/version/rollback', '/api/metadata/get', '/api/metadata/list', '/api/metadata/query', '/api/metadata/queryPage']
+- `body.files` 出现在：**1** 片 → ['/api/file/upload']
+
+> ★注意：`body.path` 出现在 15 片**不是缺陷**——文档里 **15 个接口的请求体各自都有**
+> 一个叫 `path` 的字段（它是每个接口自己的路径参数）。逐片之后它们各自归属正确；
+> 整篇通路的问题恰恰是「把它们全塞进同一条用例」。
+> （★测量教训：**名字级交叉 ≠ 语义级判定**——本报告已两次踩到同一坑。）
+
+## 3. `/oauth2/token` 那一段自己有没有字段断言
+
+- 片标题：# 统一文件服务平台 - 接入应用接口文档 > ## 1. 接口概述 > ### 1.2 认证方式；断言 **0** 条
+- 字段：[]
+

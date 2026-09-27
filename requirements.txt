@@ -1,0 +1,74 @@
+# InterfaceTester 运行时依赖清单（锁版本，供离线/复现部署）
+#
+# 常规开发不需要用它：依赖已在 pyproject.toml 的 [project.dependencies] 中声明，
+#   pip install -e .  会自动安装。
+#
+# 离线部署用法：
+#   1) 有网络的环境下载 wheel：
+#        pip download -r requirements.txt -d ./wheels
+#   2) 离线环境安装：
+#        pip install --no-index --find-links=./wheels -r requirements.txt
+#
+# 版本取自本机已验证环境（.venv / Python 3.12）。
+pydantic==2.13.5
+loguru==0.7.3
+jmespath==1.1.0
+black==26.5.1
+pytest==9.1.1
+pytest-html==4.2.0
+brotli==1.2.0
+Jinja2==3.1.6
+toml==0.10.2
+PyYAML==6.0.3
+requests==2.34.2
+urllib3==2.8.0
+# jsonschema：内置算子 jsonschema_match 依赖（P2-b 起进主依赖）
+# 它的传递依赖（attrs/jsonschema-specifications/referencing/rpds-py）由 pip download 自动带上；
+# 离线安装时注意 rpds-py 是二进制包，需要目标平台对应的 wheel。
+jsonschema==4.26.0
+# python-dotenv：`.env` 解析（0919-2 / L34）。纯 Python、无传递依赖，直接进主依赖。
+# NOTICE：本文件是 Python 3.12 的锁版本清单；3.12 上 python-dotenv 最新版即可。
+# 但 pyproject 声明的是 `python-dotenv>=1.0,<2`，因为 1.0.1 才是最后一个支持
+# `>=3.8` 的版本（1.1.0 起要 >=3.9，1.2.2 起要 >=3.10）——在 3.8/3.9 环境上
+# pip 会自动回退到较低版本，**不要**把这个锁版本当成跨解释器下限。
+python-dotenv==1.2.3
+
+# ---- 可选扩展（按需取消注释）----
+#
+# NOTICE: 下面这一区的包**都不是**框架运行期依赖，不能放到上面的主清单里
+# —— `tests/dependency_consistency_test.py` 的 S1 判据要求
+# 「requirements.txt 的主清单」与「pyproject 的 [project.dependencies]」**双向一致**，
+# 往主清单里加一个框架不用的包会立刻变红（那正是为了防"锁清单里躺着一个白装的包"）。
+# 每个 extra 的用法：pip install -e ".[<extra 名>]"
+
+# --- extra `test`（未发布到 PyPI 的测试运行器工具；**仅**跑本仓 tests/ 时需要）---
+# 何时需要装：只有当你要跑**本仓库自己的回归测试**（pytest tests）时才装。
+#             用框架跑自己的接口用例（hrun/…）**完全不需要**这两个包。
+# pytest-randomly：随机化用例执行顺序 → 暴露「顺序依赖」。
+#   本仓已两次出现这类缺陷，且都只在整仓一起跑时现形（`sub`/`projB3` 裸包名
+#   留在 sys.modules、其 __path__ 钉在随后被 rmtree 的临时目录上 → ModuleNotFoundError）；
+#   默认（固定）顺序下**永远不暴露**，会表现为"时红时绿"的假抽风。
+#   用法：装了就默认生效（每次会打印 seed）；复现某次：--randomly-seed=<seed>；
+#         定位问题时关掉它：-p no:randomly。
+#   NOTICE: README「六、测试与质量」的基线数字是在**默认顺序**下测的。
+#   随机顺序可能让原本侥幸通过的用例变红 —— 那不是回归，是它终于暴露了。
+# pytest-xdist：并行跑（-n auto），约 90s → 十几秒，让"改一行跑全量"在本地可行。
+#   NOTICE: 并行时每个 worker 是独立进程，**不会**互相污染，但也会**掩盖**
+#   只在同一进程内才暴露的顺序缺陷。所以并行用于快速回归，
+#   判断顺序问题时请用单进程（或加 --randomly）跑。
+# NOTICE: 这三个都是 `==` 锁定形态（S4 判据），离线部署可 pip download 带走。
+# pytest-randomly==5.0.0
+# pytest-xdist==3.8.0
+# execnet==2.1.2               # pytest-xdist 的运行时依赖（pip 会自动带上；显式列出只为离线锁版本）
+
+# --- 其它 extras ---
+# allure-pytest>=2.8.16        # allure 报告（extra `allure`）
+# sqlalchemy>=2.0              # SQL 请求（extra `sql`）
+# pymysql>=1.0.2               # SQL 请求（MySQL 驱动，extra `sql`）
+# requests-toolbelt>=0.10.1    # 文件上传（extra `upload`）
+# filetype>=1.0.7              # 文件上传（extra `upload`）
+# cython>=0.29.28              # thrift 请求（extra `thrift`）
+# thrift>=0.16.0               # thrift 请求（extra `thrift`）
+# thriftpy2>=0.4.14            # thrift 请求（extra `thrift`）
+# lxml>=5,<7                   # XML/XPath 断言（A2-1，extra `xml`）：xpath_match / xpath_count
+#                              # 二进制包，离线部署要按目标平台带 wheel

@@ -1,0 +1,7 @@
+2026-09-24 03:59:48.893 | INFO | Start to run testcase: sql step case, TestCase ID: 8cc7b74b-96ee-4b1d-ba91-f8fca32342db
+2026-09-24 03:59:48.893 | INFO | run step begin: fetch students >>>>>>
+2026-09-24 03:59:48.893 | INFO | Executing SQL: select * from student
+2026-09-24 03:59:48.893 | INFO | assert [0].name equal alice(str)	==> pass
+2026-09-24 03:59:48.893 | INFO | run step end: fetch students <<<<<<
+
+2026-09-24 03:59:48.893 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\8cc7b74b-96ee-4b1d-ba91-f8fca32342db.run.log

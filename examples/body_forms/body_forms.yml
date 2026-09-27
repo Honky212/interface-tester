@@ -1,0 +1,108 @@
+config:
+    name: body forms demo (json / params / urlencoded / upload / raw)
+    base_url: ${get_httpbin_server()}
+
+# 五种请求体/传参形态各一步，全部打到本地 mock httpbin 的回显接口上：
+#   1) JSON 通过 body 传参            -> request.json
+#   2) Query String 通过 params 传参  -> request.params
+#   3) 获取 token：body 的 x-www-form-urlencoded -> request.data（字符串）+ Content-Type
+#   4) 上传文件：body 的 form-data    -> request.upload（需要 [upload] extra）
+#   5) 删除文件：body 的 raw 传参     -> request.data（原样字符串）+ Content-Type
+#
+# 回显接口的语义（与 httpbin 一致）：
+#   args   = 查询串（**值全是字符串**，page: 1 回显成 "1"）
+#   json   = Content-Type 含 json 且体是合法 JSON 时的解析结果
+#   form   = Content-Type 是 x-www-form-urlencoded 时的键值对
+#   data   = 原始请求体字符串（raw 体在这里断言）
+#   headers= 请求头原样回显（注意：带 - 的头名在 jmespath 里要加引号）
+teststeps:
+-
+    name: JSON body - 创建用户
+    request:
+        method: POST
+        url: /post
+        json:
+            username: demo
+            age: 20
+            tags: [admin, vip]
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.method", "POST"]
+        - eq: ["body.json.username", "demo"]
+        - eq: ["body.json.tags", ['admin', 'vip']]
+        # 框架对 json: 自动设置（无 charset）
+        - eq: ['body.headers."Content-Type"', "application/json"]
+    extract:
+        # 演示链路：把 JSON 体里的值提出来，给第 5 步的 raw 体引用
+        creator: body.json.username
+
+-
+    name: Query String - params 传参
+    request:
+        method: GET
+        url: /get
+        params:
+            page: 1
+            size: 20
+            keyword: "测试文件"
+    validate:
+        - eq: ["status_code", 200]
+        # 回显的 query 值全是字符串（httpbin 语义）
+        - eq: ["body.args.page", "1"]
+        - eq: ["body.args.size", "20"]
+        # 中文值由框架做 URL 编码、mock 按解码后的值回显
+        - eq: ["body.args.keyword", "测试文件"]
+
+-
+    name: token - body 的 x-www-form-urlencoded
+    # 真实场景（对接真 OAuth2 服务）用框架内置能力更省事，见本目录 README：
+    #   config.oauth2 会自动发 form-urlencoded 的 token 请求并给后续请求注入 Bearer。
+    # 这里用回显接口演示「手写 urlencoded 体」的报文形态本身。
+    request:
+        method: POST
+        url: /post
+        headers:
+            Content-Type: application/x-www-form-urlencoded
+        data: "grant_type=client_credentials&client_id=demo_client&client_secret=demo_secret"
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ['body.headers."Content-Type"', "application/x-www-form-urlencoded"]
+        - eq: ["body.form.grant_type", "client_credentials"]
+        - eq: ["body.form.client_id", "demo_client"]
+    extract:
+        # 真实 token 接口这里提取的是 body.access_token
+        demo_token: body.form.client_id
+
+-
+    name: 上传文件 - body 的 form-data
+    # upload 里的「路径值」按文件字段上传；「标量值」按普通表单字段发送
+    # （0918-8 / L24：int/str 标量不会被误当路径）。
+    # NOTICE: upload 与 data 互斥——prepare_upload_step 会用 multipart 编码器
+    # 整体替换 data，所以普通表单字段要写进 upload 里（如这里的 scene）。
+    request:
+        method: POST
+        url: /post
+        upload:
+            file: "files/demo.txt"
+            scene: avatar
+    validate:
+        - eq: ["status_code", 200]
+        # 框架自动设置 multipart 的 Content-Type（含 boundary）
+        - startswith: ['body.headers."Content-Type"', "multipart/form-data"]
+
+-
+    name: 删除文件 - body 的 raw 传参
+    # data 给**字符串**就是 raw 体：框架原样发送、不碰内容；
+    # Content-Type 按体的真实格式写（这里体是 JSON 文本，也可以是 text/plain 等）。
+    # $creator 来自第 1 步的 extract，演示「raw 体里也能引用变量」。
+    request:
+        method: DELETE
+        url: /delete
+        headers:
+            Content-Type: application/json
+        data: '{"file_ids": ["f-1", "f-2"], "operator": "$creator"}'
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.method", "DELETE"]
+        # mock 在 data 字段原样回显 raw 体（$creator 已替换成 demo）
+        - eq: ["body.data", '{"file_ids": ["f-1", "f-2"], "operator": "demo"}']

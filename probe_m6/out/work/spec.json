@@ -1,0 +1,18 @@
+{
+  "name": "sign_params",
+  "args": [
+    "params"
+  ],
+  "body": "把 params 按 key 排序拼成 `k=v&...` 查询串，再取 md5 十六进制小写",
+  "vectors": [
+    {
+      "args": [
+        {
+          "b": 2,
+          "a": 1
+        }
+      ],
+      "expect": "ed04c91cf6f6ab5a01a31c0295c5da34"
+    }
+  ]
+}

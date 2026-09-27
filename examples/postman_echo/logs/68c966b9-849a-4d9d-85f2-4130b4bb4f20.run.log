@@ -1,0 +1,3 @@
+2026-09-22 20:01:04.898 | INFO | Start to run testcase: thrift data isolation case, TestCase ID: 68c966b9-849a-4d9d-85f2-4130b4bb4f20
+2026-09-22 20:01:04.898 | INFO | run step begin: gate step >>>>>>
+2026-09-22 20:01:04.898 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\68c966b9-849a-4d9d-85f2-4130b4bb4f20.run.log

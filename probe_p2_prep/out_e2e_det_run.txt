@@ -1,0 +1,73 @@
+==========================================================================
+工作区：C:\Users\10503\AppData\Local\Temp\ai_e2e_det12
+草稿源：C:\Users\10503\AppData\Local\Temp\det_gen4\.ai\draft
+目标  ：http://127.0.0.1:8899
+==========================================================================
+
+① 搬入 34 个文件（草稿 + unknowns）
+② 补 `base_url` 到 0/17 份草稿（= 人工转正时的编辑）
+
+③ 转正（`haify review --approve`）
+  OK  _api_directory_create          exit=0  处置=unknown-critical
+  OK  _api_directory_delete          exit=0  处置=unknown-critical
+  OK  _api_directory_query           exit=0  处置=unknown-critical
+  OK  _api_directory_update          exit=0  处置=unknown-critical
+  OK  _api_file_delete               exit=0  处置=unknown-critical
+  NO  _api_file_download             exit=1  处置=unknown-critical        ⚠ **闸门拒**（structure-rejected）→ 这是**硬结论**：`--resolve-blocker` 覆盖不了；按 `.ai/failed/<用例>
+  OK  _api_file_previewUrl           exit=0  处置=unknown-critical
+  NO  _api_file_upload               exit=1  处置=unknown-critical        ⚠ **未处置**：todo-placeholder → 转正会被拒；处置请加 `--resolve-blocker todo-placeholder`
+  OK  _api_metadata_get              exit=0  处置=unknown-critical
+  OK  _api_metadata_list             exit=0  处置=unknown-critical
+  OK  _api_metadata_query            exit=0  处置=unknown-critical
+  OK  _api_metadata_queryPage        exit=0  处置=unknown-critical
+  OK  _api_metadata_rename           exit=0  处置=unknown-critical
+  OK  _api_version_getInfo           exit=0  处置=unknown-critical
+  OK  _api_version_getList           exit=0  处置=unknown-critical
+  OK  _api_version_rollback          exit=0  处置=unknown-critical
+  NO  _oauth2_token                  exit=1  处置=unknown-critical        ⚠ **闸门拒**（structure-rejected）→ 这是**硬结论**：`--resolve-blocker` 覆盖不了；按 `.ai/failed/<用例>
+
+④ 真跑（`haify run`）—— 共 14 条
+  PASS _api_directory_create          exit=0
+  PASS _api_directory_delete          exit=0
+  PASS _api_directory_query           exit=0
+  PASS _api_directory_update          exit=0
+  PASS _api_file_delete               exit=0
+  PASS _api_file_previewUrl           exit=0
+  PASS _api_metadata_get              exit=0
+  PASS _api_metadata_list             exit=0
+  PASS _api_metadata_query            exit=0
+  PASS _api_metadata_queryPage        exit=0
+  PASS _api_metadata_rename           exit=0
+  PASS _api_version_getInfo           exit=0
+  PASS _api_version_getList           exit=0
+  PASS _api_version_rollback          exit=0
+
+⑥ **请求侧回读**（mock 照录到的请求：14 条）
+  带文档声明的请求头（X-Path / Authorization / Content-Type）：14 条
+  带请求体：6 条
+  ★本节是「**参数真的发出去了**」的唯一证明：mock **不校验**参数，所以「没发参数」在跑分上照样是**绿**的（静默假通过）——只能靠回读。
+  ★条数是**累计**的（⑤ 的失败明细会把用例再跑一遍）。
+  POST  /api/directory/create                          headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body={"path": "/app1/documents/reports/"}
+  POST  /api/directory/delete                          headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body={"path": "/app1/documents/reports/"}
+  GET   /api/directory/query?path=%2Fapp1%2F           headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  POST  /api/directory/update                          headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body={"sourceDirName": "/app1/documents/reports/", "targetDirName": "/app1/
+  POST  /api/file/delete                               headers=['Accept', 'Authorization', 'Content-Type', 'X-Path', 'interfacetester-Request-ID'] body={"fileName": "report.pdf", "path": "/app1/documents/"}
+  GET   /api/file/previewUrl?fileName=report.pdf&pat   headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  GET   /api/metadata/get?path=%2Fapp1%2Fdocuments%2   headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+  GET   /api/metadata/list?path=%2Fapp1%2Fdocuments%   headers=['Accept', 'Authorization', 'X-Path', 'interfacetester-Request-ID'] body=（无）
+
+⑦ **错误条件（负例可验证性）**
+  含负例步的用例：0 条（真跑通过 0）；纯正例用例：14 条（真跑通过 14）
+  ★负例步跑不绿**不等于用例错**：要看服务端有没有按文档的错误条件返回失败响应。
+  ★§9.21/§9.22 错误条件引擎：**可模拟 129 条**（16 个接口；五族：关系/非空/上限/存在性/格式）；**不模拟 24 条** = **条件陈述 13 条**（能力边界）+ 示例碎片 11 条
+      · 不模拟（条件陈述）：文件名不能包含特殊字符：`\/:*?"<>|`（`FILE_4016`）
+      · 不模拟（条件陈述）：文件名开头和结尾不能有空格（`FILE_4018`），文件名中间允许空格
+      · 不模拟（条件陈述）：同一目录下不能重命名为已存在的文件名（`FILE_4015`）
+      · 不模拟（条件陈述）：若目标版本已是当前版本，返回 `FILE_5001`
+      · 不模拟（条件陈述）：`FILE_1007` | 版本ID不能为空 | 版本回滚/查询时未传版本号
+      · 不模拟（条件陈述）：`FILE_1018` | 路径与Header不一致 | X-Path 校验失败
+
+## 汇总
+  转正成功      ：14/17
+  **真跑通过**  ：14/14（100%）
+  通过名单      ：_api_directory_create, _api_directory_delete, _api_directory_query, _api_directory_update, _api_file_delete, _api_file_previewUrl, _api_metadata_get, _api_metadata_list, _api_metadata_query, _api_metadata_queryPage, _api_metadata_rename, _api_version_getInfo, _api_version_getList, _api_version_rollback

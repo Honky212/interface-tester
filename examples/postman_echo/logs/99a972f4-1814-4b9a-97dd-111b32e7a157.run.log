@@ -1,0 +1,9 @@
+2026-09-24 03:44:26.870 | INFO | Start to run testcase: thrift data isolation case, TestCase ID: 99a972f4-1814-4b9a-97dd-111b32e7a157
+2026-09-24 03:44:26.870 | INFO | run step begin: thrift 1 >>>>>>
+2026-09-24 03:44:26.870 | INFO | run step end: thrift 1 <<<<<<
+
+2026-09-24 03:44:26.870 | INFO | run step begin: thrift 2 >>>>>>
+2026-09-24 03:44:26.870 | INFO | assert ok equal True(bool)	==> pass
+2026-09-24 03:44:26.870 | INFO | run step end: thrift 2 <<<<<<
+
+2026-09-24 03:44:26.870 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\99a972f4-1814-4b9a-97dd-111b32e7a157.run.log

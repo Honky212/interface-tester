@@ -1,0 +1,16 @@
+2026-09-22 21:15:45.348 | INFO | Start to run testcase: req id, TestCase ID: 8c4d4049-02a8-44c9-bfcd-3ecf61de3ec8
+2026-09-22 21:15:45.348 | INFO | run step begin: req id case >>>>>>
+2026-09-22 21:15:45.348 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/headers
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "user-provided-id"
+}
+json: None
+
+2026-09-22 21:15:45.348 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\8c4d4049-02a8-44c9-bfcd-3ecf61de3ec8.run.log

@@ -1,0 +1,33 @@
+config:
+  name: 创建用户接口
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 创建用户
+    request:
+      method: POST
+      url: /api/user
+      headers:
+        Content-Type: application/json
+      json:
+        username: ${ENV(TODO_NEW_USERNAME)}
+        email: someone@example.com
+        age: 30
+    extract:
+      userId: body.data.userId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.userId, "str"]
+      - jsonschema_match:
+          - body.data
+          - type: object
+            required: [userId, nickname, tags]
+            properties:
+              userId:
+                type: string
+              nickname:
+                type: string
+              tags:
+                type: array

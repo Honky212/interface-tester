@@ -1,0 +1,64 @@
+2026-09-23 22:44:13.383 | INFO | Start to run testcase: parent, TestCase ID: 2576b0a2-d882-4067-8f2a-78e047928723
+2026-09-23 22:44:13.383 | INFO | run step begin: call the skipped child >>>>>>
+2026-09-23 22:44:13.383 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\tester\examples\postman_echo\logs\2576b0a2-d882-4067-8f2a-78e047928723.run.log
+2026-09-23 22:44:13.383 | INFO | Start to run testcase: normal child, TestCase ID: 2576b0a2-d882-4067-8f2a-78e047928723
+2026-09-23 22:44:13.383 | INFO | run step begin: child step runs >>>>>>
+2026-09-23 22:44:13.383 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-2576b0a2-d882-4067-8f2a-78e047928723-653383"
+}
+json: None
+
+2026-09-23 22:44:13.403 | DEBUG | client IP: 127.0.0.1, Port: 63964
+2026-09-23 22:44:13.403 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-23 22:44:13.403 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-2576b0a2-d882-4067-8f2a-78e047928723-653383"
+}
+cookies  : {}
+body     : None
+
+2026-09-23 22:44:13.403 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 14:44:13 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-23 22:44:13.403 | INFO | status_code: 200, response_time(ms): 17.72 ms, response_length: 0 bytes
+2026-09-23 22:44:13.403 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 14:44:13 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-23 22:44:13.404 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-23 22:44:13.404 | INFO | run step end: child step runs <<<<<<
+
+2026-09-23 22:44:13.404 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\2576b0a2-d882-4067-8f2a-78e047928723.run.log
+2026-09-23 22:44:13.404 | INFO | run step end: call the skipped child <<<<<<
+
+2026-09-23 22:44:13.404 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\2576b0a2-d882-4067-8f2a-78e047928723.run.log

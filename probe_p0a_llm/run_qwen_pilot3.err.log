@@ -1,0 +1,16 @@
+2026-09-25 18:33:36.691 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:33:36.699 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_l2_qwen3.8-27b\G01_login\G01_login___POST__api_login\G01_login___POST__api_login.yml
+2026-09-25 18:33:36.743 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_l2_qwen3.8-27b\G01_login\G01_login___POST__api_login\G01_login___POST__api_login_test.py
+2026-09-25 18:33:36.744 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+reformatted D:\tester\.tmp_p0a_l2_qwen3.8-27b\G01_login\G01_login___POST__api_login\G01_login___POST__api_login_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+2026-09-25 18:38:34.462 | INFO     | interfacetester.compat:ensure_testcase_v4:416 - ensure compatibility with testcase format v2/v3
+2026-09-25 18:38:34.462 | INFO     | interfacetester.make:make_testcase:2131 - start to make testcase: D:\tester\.tmp_p0a_l2_qwen3.8-27b\G03_user_info\G03_user_info___GET__api_user_info\G03_user_info___GET__api_user_info.yml
+2026-09-25 18:38:34.464 | INFO     | interfacetester.make:make_testcase:2489 - generated testcase: D:\tester\.tmp_p0a_l2_qwen3.8-27b\G03_user_info\G03_user_info___GET__api_user_info\G03_user_info___GET__api_user_info_test.py
+2026-09-25 18:38:34.464 | INFO     | interfacetester.make:format_pytest_with_black:1366 - format pytest cases with black ...
+reformatted D:\tester\.tmp_p0a_l2_qwen3.8-27b\G03_user_info\G03_user_info___GET__api_user_info\G03_user_info___GET__api_user_info_test.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.

@@ -1,0 +1,5 @@
+2026-09-22 21:06:41.665 | INFO | Start to run testcase: thrift consistency case, TestCase ID: a234e788-daa3-4f79-8c77-b9e82a4b9763
+2026-09-22 21:06:41.665 | INFO | run step begin: no explicit timeout >>>>>>
+2026-09-22 21:06:41.665 | INFO | run step end: no explicit timeout <<<<<<
+
+2026-09-22 21:06:41.665 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\a234e788-daa3-4f79-8c77-b9e82a4b9763.run.log

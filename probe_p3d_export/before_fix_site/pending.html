@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>待确认项</title>
+<style>:root { color-scheme: light dark; --fg:#1f2328; --bg:#fff; --mut:#57606a;
+        --line:#d0d7de; --ok:#1a7f37; --err:#c62828; --na:#6e7781; }
+@media (prefers-color-scheme: dark) {
+  :root { --fg:#e6edf3; --bg:#0d1117; --mut:#8b949e; --line:#30363d;
+          --ok:#3fb950; --err:#f85149; --na:#8b949e; } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:14px/1.55 ui-sans-serif,system-ui,"Microsoft YaHei",sans-serif; }
+header { display:flex; gap:16px; align-items:center; padding:10px 20px;
+         border-bottom:1px solid var(--line); }
+header .brand { font-weight:700; }
+header nav a { margin-right:12px; }
+main { padding:16px 20px 40px; max-width:1200px; }
+h1 { font-size:20px; margin:8px 0 4px; }
+h2 { font-size:16px; margin:22px 0 6px; }
+a { color:inherit; }
+.subtitle { color:var(--mut); margin:0 0 12px; }
+code, .mono { font-family:ui-monospace,Consolas,monospace; font-size:12.5px; }
+table { border-collapse:collapse; width:100%; margin-top:8px; }
+th, td { border:1px solid var(--line); padding:5px 8px; text-align:left;
+         vertical-align:top; }
+th { background:rgba(127,127,127,.09); }
+.state-pass { color:var(--ok); font-weight:700; }
+.state-error { color:var(--err); font-weight:700; }
+.state-na { color:var(--na); }
+.banner { border:1px solid var(--line); border-left:5px solid var(--err);
+          padding:10px 14px; margin:12px 0; }
+.banner.pass { border-left-color:var(--ok); }
+.banner.na { border-left-color:var(--na); }
+.muted { color:var(--mut); }
+.editor { width:100%; min-height:6em; font-family:ui-monospace,Consolas,monospace;
+          font-size:12.5px; line-height:1.45; white-space:pre; }
+button { font:inherit; padding:4px 12px; cursor:pointer; }
+footer { border-top:1px solid var(--line); padding:12px 20px; color:var(--mut); }
+</style>
+</head>
+<body>
+<header><a class="brand" href="/">haify 看板（只读）</a><nav><a href="/">运行列表</a><a href="/metrics">度量</a><a href="/audit">审计</a><a href="/pending">待确认</a><a href="/jobs">作业</a></nav></header>
+<main>
+<h1>待确认项</h1>
+<p class="subtitle">只读列出 + 一个提交模板：**填完你的名字**，点提交才落痕</p>
+<div class="banner na"><b>待确认项是「语义判断」</b>——闸门不替用户下结论（§3.4）。填好后点「提交确认」，留痕会写进 <span class="mono">.ai/reviews/</span>；回填内容也会原样列出来，**由你复制进文档或用例**。</div><h2 class="mono">.ai/pending/T1_2_认证方式.pending.json</h2><table><thead><tr><th>code</th><th>severity</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td class="mono">S4</td><td>pending</td><td class="mono">&lt;inline&gt;.teststeps[0]</td><td>`extract` 提取的 &#x27;access_token&#x27; 没有被任何断言校验，也没有被任何 `$` 变量使用。
+      它取不到值时是 None，后续 `$access_token` 会**静默拿到 None**。</td></tr></tbody></table><p class="muted">用例名：<span class="mono">T1_2_认证方式</span>（1 条）</p><textarea class="editor" id="cf-body" rows="14">{
+  &quot;case&quot;: &quot;T1_2_认证方式&quot;,
+  &quot;approver&quot;: &quot;&quot;,
+  &quot;decisions&quot;: [
+    {
+      &quot;target&quot;: &quot;pending:S4:0&quot;,
+      &quot;action&quot;: &quot;accept&quot;,
+      &quot;reason&quot;: &quot;&quot;,
+      &quot;fill&quot;: {
+        &quot;expect&quot;: &quot;&quot;
+      }
+    }
+  ],
+  &quot;notes&quot;: &quot;&quot;,
+  &quot;target_path&quot;: &quot;.ai/pending/T1_2_认证方式.pending.json&quot;,
+  &quot;target_text&quot;: &quot;[{\&quot;code\&quot;: \&quot;S4\&quot;, \&quot;hint\&quot;: \&quot;改法：补一条可判定的断言，如 `type_match: [access_token, \\\&quot;str\\\&quot;]`；或让下游步骤使用 `$access_token`（headers/params/body/url 均可）；若确实容忍缺失，请在此处留注释说明。\&quot;, \&quot;message\&quot;: \&quot;`extract` 提取的 &#x27;access_token&#x27; 没有被任何断言校验，也没有被任何 `$` 变量使用。\\n      它取不到值时是 None，后续 `$access_token` 会**静默拿到 None**。\&quot;, \&quot;severity\&quot;: \&quot;pending\&quot;, \&quot;where\&quot;: \&quot;&lt;inline&gt;.teststeps[0]\&quot;}]&quot;
+}</textarea><p><button onclick="haifyConfirm()">提交 T1_2_认证方式 的确认</button> <span id="cf-msg" class="muted"></span></p><p class="muted">★本页**不会自动刷新**：刷新或切页会<b>清空</b>你正在改的内容——所以请一次填完再提交，或先把答案复制到别处。</p><script>function haifyConfirm(){var msg=document.getElementById('cf-msg');msg.textContent='提交中…';fetch('/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:document.getElementById('cf-body').value}).then(function(r){return r.text().then(function(t){document.open();document.write(t);document.close();});}).catch(function(e){msg.textContent='提交失败：'+e;});}</script>
+</main>
+<footer>只读看板（§5.8 P3a）：<b>零写盘、零执行</b>、只监听回环；页面不做判定——判定以 CLI 退出码与产物文件为准。</footer>
+</body>
+</html>

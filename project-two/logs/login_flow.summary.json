@@ -1,0 +1,232 @@
+{
+    "success": true,
+    "stat": {
+        "testcases": {
+            "total": 1,
+            "success": 1,
+            "fail": 0
+        },
+        "teststeps": {
+            "total": 2,
+            "failures": 0,
+            "successes": 2
+        }
+    },
+    "time": {
+        "start_at": 1790089342.6866713,
+        "duration": 0.02413630485534668
+    },
+    "platform": {
+        "interfacetester_version": "5.0.1",
+        "python_version": "CPython 3.12.10",
+        "platform": "Windows-11-10.0.26200-SP0"
+    },
+    "details": [
+        {
+            "name": "登录拿 token 再带 token 调接口",
+            "success": true,
+            "case_id": "7fcfc1d6-05a8-412c-8826-fd15469e68a2",
+            "time": {
+                "start_at": 1790089342.6866713,
+                "start_at_iso_format": "2026-09-22T15:02:22.686671",
+                "duration": 0.02413630485534668
+            },
+            "in_out": {
+                "config_vars": {},
+                "export_vars": {}
+            },
+            "log": "D:\\tester\\project-two\\logs\\7fcfc1d6-05a8-412c-8826-fd15469e68a2.run.log",
+            "records": [
+                {
+                    "name": "登录获取 token",
+                    "step_type": "request",
+                    "success": true,
+                    "data": {
+                        "success": true,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "POST",
+                                    "url": "http://127.0.0.1:8000/api/login",
+                                    "headers": {
+                                        "User-Agent": "python-requests/2.34.2",
+                                        "Accept-Encoding": "gzip, deflate, br",
+                                        "Accept": "*/*",
+                                        "Connection": "keep-alive",
+                                        "Content-Type": "application/json",
+                                        "interfacetester-Request-ID": "interfacetester-7fcfc1d6-05a8-412c-8826-fd15469e68a2-342686",
+                                        "Content-Length": "43"
+                                    },
+                                    "cookies": {},
+                                    "body": {
+                                        "username": "admin",
+                                        "password": "******"
+                                    }
+                                },
+                                "response": {
+                                    "status_code": 200,
+                                    "headers": {
+                                        "Server": "BaseHTTP/0.6 Python/3.12.10",
+                                        "Date": "Tue, 22 Sep 2026 15:02:22 GMT",
+                                        "Content-Type": "application/json; charset=utf-8",
+                                        "Content-Length": "72"
+                                    },
+                                    "cookies": {},
+                                    "encoding": "utf-8",
+                                    "content_type": "application/json; charset=utf-8",
+                                    "body": {
+                                        "code": 0,
+                                        "message": "ok",
+                                        "data": {
+                                            "token": "******"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 72,
+                            "response_time_ms": 7.18,
+                            "elapsed_ms": 1.69
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 200,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.code",
+                                    "check_value": 0,
+                                    "expect": 0,
+                                    "expect_value": 0,
+                                    "message": "",
+                                    "check_result": "pass"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 0.009198188781738281,
+                    "content_size": 72,
+                    "export_vars": {
+                        "token": "******"
+                    },
+                    "attachment": ""
+                },
+                {
+                    "name": "用 token 查询用户信息",
+                    "step_type": "request",
+                    "success": true,
+                    "data": {
+                        "success": true,
+                        "req_resps": [
+                            {
+                                "request": {
+                                    "method": "GET",
+                                    "url": "http://127.0.0.1:8000/api/user/info",
+                                    "headers": {
+                                        "User-Agent": "python-requests/2.34.2",
+                                        "Accept-Encoding": "gzip, deflate, br",
+                                        "Accept": "*/*",
+                                        "Connection": "keep-alive",
+                                        "Authorization": "******",
+                                        "interfacetester-Request-ID": "interfacetester-7fcfc1d6-05a8-412c-8826-fd15469e68a2-342695"
+                                    },
+                                    "cookies": {},
+                                    "body": null
+                                },
+                                "response": {
+                                    "status_code": 200,
+                                    "headers": {
+                                        "Server": "BaseHTTP/0.6 Python/3.12.10",
+                                        "Date": "Tue, 22 Sep 2026 15:02:22 GMT",
+                                        "Content-Type": "application/json; charset=utf-8",
+                                        "Content-Length": "89"
+                                    },
+                                    "cookies": {},
+                                    "encoding": "utf-8",
+                                    "content_type": "application/json; charset=utf-8",
+                                    "body": {
+                                        "code": 0,
+                                        "data": {
+                                            "username": "admin",
+                                            "role": "admin",
+                                            "email": "admin@example.com"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "stat": {
+                            "content_size": 89,
+                            "response_time_ms": 14.94,
+                            "elapsed_ms": 14.53
+                        },
+                        "address": {
+                            "client_ip": "N/A",
+                            "client_port": 0,
+                            "server_ip": "N/A",
+                            "server_port": 0
+                        },
+                        "validators": {
+                            "validate_extractor": [
+                                {
+                                    "comparator": "equal",
+                                    "check": "status_code",
+                                    "check_value": 200,
+                                    "expect": 200,
+                                    "expect_value": 200,
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.code",
+                                    "check_value": 0,
+                                    "expect": 0,
+                                    "expect_value": 0,
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.data.username",
+                                    "check_value": "admin",
+                                    "expect": "admin",
+                                    "expect_value": "admin",
+                                    "message": "",
+                                    "check_result": "pass"
+                                },
+                                {
+                                    "comparator": "equal",
+                                    "check": "body.data.role",
+                                    "check_value": "admin",
+                                    "expect": "admin",
+                                    "expect_value": "admin",
+                                    "message": "",
+                                    "check_result": "pass"
+                                }
+                            ]
+                        }
+                    },
+                    "elapsed": 0.014938116073608398,
+                    "content_size": 89,
+                    "export_vars": {},
+                    "attachment": ""
+                }
+            ]
+        }
+    ]
+}

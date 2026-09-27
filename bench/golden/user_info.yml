@@ -1,0 +1,32 @@
+config:
+  name: 登录后查询用户信息
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 登录获取 token
+    request:
+      method: POST
+      url: /api/login
+      headers:
+        Content-Type: application/json
+      json:
+        username: ${ENV(USERNAME)}
+        password: ${ENV(PASSWORD)}
+    extract:
+      token: body.data.token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+
+  - name: 用 token 查询用户信息
+    request:
+      method: GET
+      url: /api/user/info
+      headers:
+        Authorization: "Bearer $token"
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.username, "str"]
+      - eq: [body.data.role, admin]

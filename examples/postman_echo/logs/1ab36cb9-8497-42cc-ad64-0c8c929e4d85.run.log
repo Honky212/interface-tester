@@ -1,0 +1,6 @@
+2026-09-22 21:15:45.457 | INFO | Start to run testcase: sql db_config defaults, TestCase ID: 1ab36cb9-8497-42cc-ad64-0c8c929e4d85
+2026-09-22 21:15:45.457 | INFO | run step begin: no explicit port >>>>>>
+2026-09-22 21:15:45.457 | INFO | Executing SQL: select 1
+2026-09-22 21:15:45.457 | INFO | run step end: no explicit port <<<<<<
+
+2026-09-22 21:15:45.457 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\1ab36cb9-8497-42cc-ad64-0c8c929e4d85.run.log

@@ -1,0 +1,28 @@
+config:
+  name: 注销会话
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 登录取 token
+    request:
+      method: POST
+      url: /api/login
+      headers:
+        Content-Type: application/json
+      json:
+        username: ${ENV(USERNAME)}
+        password: ${ENV(PASSWORD)}
+    extract:
+      token: body.data.token
+    validate:
+      - eq: [status_code, 200]
+
+  - name: 注销会话
+    request:
+      method: DELETE
+      url: /api/session
+      headers:
+        Authorization: Bearer $token
+    validate:
+      - eq: [status_code, 204]

@@ -1,0 +1,5 @@
+2026-09-23 22:44:13.457 | INFO | Start to run testcase: thrift consistency case, TestCase ID: 6b1ada15-3cb1-470b-be82-99937c0dd47f
+2026-09-23 22:44:13.457 | INFO | run step begin: explicit zero >>>>>>
+2026-09-23 22:44:13.457 | INFO | run step end: explicit zero <<<<<<
+
+2026-09-23 22:44:13.457 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\6b1ada15-3cb1-470b-be82-99937c0dd47f.run.log

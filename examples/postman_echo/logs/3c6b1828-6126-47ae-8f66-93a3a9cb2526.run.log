@@ -1,0 +1,60 @@
+2026-09-24 03:59:58.118 | INFO | Start to run testcase: standalone skipped, TestCase ID: 3c6b1828-6126-47ae-8f66-93a3a9cb2526
+2026-09-24 03:59:58.119 | INFO | run step begin: a step that must not run when referenced >>>>>>
+2026-09-24 03:59:58.119 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/status/200
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-3c6b1828-6126-47ae-8f66-93a3a9cb2526-598119"
+}
+json: None
+
+2026-09-24 03:59:58.120 | DEBUG | client IP: 127.0.0.1, Port: 56026
+2026-09-24 03:59:58.120 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-24 03:59:58.120 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/status/200
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-3c6b1828-6126-47ae-8f66-93a3a9cb2526-598119"
+}
+cookies  : {}
+body     : None
+
+2026-09-24 03:59:58.120 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:59:58 GMT",
+    "Content-Length": "0"
+}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-24 03:59:58.120 | INFO | status_code: 200, response_time(ms): 1.0 ms, response_length: 0 bytes
+2026-09-24 03:59:58.120 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 19:59:58 GMT",
+    "Content-Length": "0"
+}
+body: b''
+
+2026-09-24 03:59:58.121 | ERROR | assert status_code equal 599(int)	==> fail
+check_item: status_code
+check_value: 200(int)
+assert_method: equal
+expect_value: 599(int)
+2026-09-24 03:59:58.121 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\3c6b1828-6126-47ae-8f66-93a3a9cb2526.run.log

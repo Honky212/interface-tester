@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "D:\tester\interfacetester_ai\llm.py", line 332, in parse_json_response
+    return json.loads(candidate)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\python312\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\python312\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\python312\Lib\json\decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\tester\interfacetester_ai\cli.py", line 799, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "D:\tester\interfacetester_ai\cli.py", line 754, in main
+    return int(args.func(args))
+               ^^^^^^^^^^^^^^^
+  File "D:\tester\interfacetester_ai\cli.py", line 314, in cmd_analyze
+    result = analyze_summary(
+             ^^^^^^^^^^^^^^^^
+  File "D:\tester\interfacetester_ai\analyze.py", line 310, in analyze_summary
+    parse_diagnoses(response.text), packs, doc_text=doc_text
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\interfacetester_ai\analyze.py", line 141, in parse_diagnoses
+    payload = parse_json_response(text)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\interfacetester_ai\llm.py", line 341, in parse_json_response
+    raise LLMResponseFormatError(f"响应不是合法 JSON（前 200 字符）：{preview}")
+interfacetester_ai.llm.LLMResponseFormatError: 响应不是合法 JSON（前 200 字符）：<unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50><unused50>

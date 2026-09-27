@@ -1,0 +1,3 @@
+[haify analyze] summary：D:\tester\project-two\logs\probe_silent.summary.json
+[haify analyze] 通道：实调（L3 闸门：需 SANDBOX=on，回环免白名单）（transport 注入；`--fake` 只回放不出网）
+------------------------------------------------------------------

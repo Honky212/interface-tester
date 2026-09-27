@@ -1,0 +1,7 @@
+2026-09-22 21:15:50.932 | INFO | Start to run testcase: thrift consistency case, TestCase ID: b80125d6-1eea-4d5d-a30f-97fce65e1aec
+2026-09-22 21:15:50.932 | INFO | run step begin: no explicit env/cluster >>>>>>
+2026-09-22 21:15:50.932 | INFO | call hook actions: teardown request
+2026-09-22 21:15:50.932 | DEBUG | call hook function: ${_capture_thrift_request($thrift_request)}
+2026-09-22 21:15:50.934 | INFO | run step end: no explicit env/cluster <<<<<<
+
+2026-09-22 21:15:50.934 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\b80125d6-1eea-4d5d-a30f-97fce65e1aec.run.log

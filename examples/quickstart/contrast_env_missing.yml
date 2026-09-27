@@ -1,0 +1,24 @@
+# 对照演示（**默认被 conftest.py 跳过**：文件名以 contrast 开头）
+#
+# 目的：让你亲眼看到「用例**自己**没跑起来」和「接口不符合期望」的区别——
+#       两者的排查方向完全不同。
+# 手动跑：
+#     $env:QUICKSTART_RUN_CONTRAST=1; hrun examples/quickstart/contrast_env_missing.yml   # Windows PowerShell
+#     QUICKSTART_RUN_CONTRAST=1 hrun examples/quickstart/contrast_env_missing.yml         # Linux / macOS
+# 期望：**1 failed**，失败信息里是 `EnvNotFound: NOT_DEFINED_ON_PURPOSE`
+#
+# 为什么会红：这里故意引用了一个**从来没定义过**的环境变量。
+#   看到这类失败要往「用例/配置写错了」查（名字拼错？没建 .env？没设环境变量？），
+#   而不是去怀疑接口——请求**一次都没发出去**。
+#
+# 这和上一条对照的区别：上一条是「请求发出去了，但结果对不上」。
+config:
+  name: "对照：引用了不存在的环境变量（FAILED / 请求未发出）"
+
+teststeps:
+  - name: 地址里引用了没定义过的环境变量
+    request:
+      method: GET
+      url: ${ENV(NOT_DEFINED_ON_PURPOSE)}/get   # ← 故意：这个名字没人定义
+    validate:
+      - eq: [status_code, 200]

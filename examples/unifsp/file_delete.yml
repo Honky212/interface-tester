@@ -1,0 +1,49 @@
+# ============================================================
+# 删除文件：完整流程（创建目录 -> 上传 -> 删除）
+# 对应原用例：TC-DEL-001（删除已存在的文件）
+# 运行：hrun examples/unifsp/file_delete.yml
+# ============================================================
+config:
+    name: 删除文件
+    base_url: ${api_base()}
+    verify: false
+    variables:
+        app_path: ${app_path()}
+        test_dir: ${test_dir()}
+    oauth2:
+        token_url: ${token_url()}
+        client_id: ${ENV(UNIFSP_CLIENT_ID)}
+        client_secret: ${ENV(UNIFSP_CLIENT_SECRET)}
+
+teststeps:
+  - name: 创建测试目录
+    request:
+        url: /api/directory/create
+        method: POST
+        x_path: $app_path
+        json:
+            path: $test_dir
+    validate:
+        - eq: [body.success, true]
+
+  - name: 上传文件
+    request:
+        url: /api/file/upload
+        method: POST
+        x_path: $test_dir
+        upload:
+            path: $test_dir
+            files: test_files/测试文件.txt
+    validate:
+        - eq: [body.success, true]
+
+  - name: 删除文件
+    request:
+        url: /api/file/delete
+        method: POST
+        x_path: $test_dir            # 必须与 path 完全一致
+        json:
+            fileName: 测试文件.txt
+            path: $test_dir          # 目录路径，带末尾斜杠，与 X-Path 一致
+    validate:
+        - eq: [body.success, true]

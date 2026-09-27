@@ -1,0 +1,26 @@
+==============================================================================
+上传路径真跑（§9.26）：真发 multipart 文件 vs 只给文件名
+工作区：C:\Users\10503\AppData\Local\Temp\ai_upload_probe
+夹具文档：C:\Users\10503\AppData\Local\Temp\ai_upload_probe\upload_fixture.md（限额 1KB，便于判据跑得动）
+==============================================================================
+
+① 前提：`UPLOAD_READY = True`（缺 `filetype` 时会是 False）
+
+② `upload_with_file` 真跑退出码 = 0（0 = 用例通过）
+     ======================== 1 passed, 1 warning in 0.16s =========================
+
+② `upload_names_only` 真跑退出码 = 1（0 = 用例通过）
+     check_item: body.errorCode
+     expect_value: FILE_9001(str)
+     ============================== 1 failed in 0.10s ==============================
+
+③ 回读（mock 照录到的请求：2 条）
+     POST  /api/file/upload?path=%2Fapp1%2F                 请求体=multipart ✓ ｜命中=FILE_9001 ← `FILE_9001` | 单文件超过 1KB | 上传
+     POST  /api/file/upload?path=%2Fapp1%2F&files=%40big_   请求体=NoneType    ｜命中=（未命中）
+
+■ 结论
+  · 带文件那次：请求体是 multipart ✓（1 条）、mock **命中**大小规则（共 1 次命中）→ 用例退出码 0（0 = **负例步骤真绿**）
+  · 只给名字那次：**没有** multipart 体、**没有**命中 → 用例退出码 1（≠0 正如预期：**请求里没有事实，服务端判不了**）
+
+★这一对就是 §9.26 要固化的形态：「**大小这个事实在不在请求里**」决定了上传类负例步骤
+能不能被验证 —— 与「模型提示词写得好不好」无关。

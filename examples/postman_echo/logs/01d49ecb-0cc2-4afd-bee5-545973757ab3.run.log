@@ -1,0 +1,5 @@
+2026-09-25 16:17:48.455 | INFO | Start to run testcase: thrift consistency case, TestCase ID: 01d49ecb-0cc2-4afd-bee5-545973757ab3
+2026-09-25 16:17:48.456 | INFO | run step begin: allure attachment >>>>>>
+2026-09-25 16:17:48.456 | INFO | run step end: allure attachment <<<<<<
+
+2026-09-25 16:17:48.456 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\01d49ecb-0cc2-4afd-bee5-545973757ab3.run.log

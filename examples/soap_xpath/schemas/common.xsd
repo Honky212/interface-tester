@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  被 include 的公共定义（演示**多文件 XSD**）：
+  `query.xsd` / `items.xsd` 用 <xs:include schemaLocation="common.xsd"/> 引它。
+
+  NOTICE: 相对路径按 **XSD 文件所在目录** 解析（实测通过）——所以 XSD 只能用**文件路径**引用，
+  内联字符串形态解析不了 include（见 docs/A2-2开发记录.md）。
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://demo.example.com/svc"
+           targetNamespace="http://demo.example.com/svc"
+           elementFormDefault="qualified">
+
+  <!-- 业务码：4 位、以 0 开头（mock 的正常响应是 0000；违例演示用 1002） -->
+  <xs:simpleType name="CodeType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="0[0-9]{3}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

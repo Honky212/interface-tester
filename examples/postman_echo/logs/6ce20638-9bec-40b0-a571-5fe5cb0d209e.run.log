@@ -1,0 +1,7 @@
+2026-09-22 20:30:41.895 | INFO | Start to run testcase: thrift scalar response, TestCase ID: 6ce20638-9bec-40b0-a571-5fe5cb0d209e
+2026-09-22 20:30:41.896 | INFO | run step begin: scalar response >>>>>>
+2026-09-22 20:30:41.896 | DEBUG | config.thrift is not set, fall back to TConfigThrift defaults (step-level fields still win)
+2026-09-22 20:30:41.896 | INFO | assert @ equal 5(int)	==> pass
+2026-09-22 20:30:41.896 | INFO | run step end: scalar response <<<<<<
+
+2026-09-22 20:30:41.896 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\6ce20638-9bec-40b0-a571-5fe5cb0d209e.run.log

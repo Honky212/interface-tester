@@ -1,0 +1,66 @@
+2026-09-22 23:02:30.485 | INFO | Start to run testcase: 登录拿 token 再带 token 调接口, TestCase ID: dd52377b-d7ad-49e6-b09d-ee4e3affb3b1
+2026-09-22 23:02:30.485 | INFO | run step begin: 登录获取 token >>>>>>
+2026-09-22 23:02:30.485 | DEBUG | ====== request details ======
+url: http://127.0.0.1:8000/api/login
+method: POST
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Content-Type": "application/json",
+    "interfacetester-Request-ID": "interfacetester-dd52377b-d7ad-49e6-b09d-ee4e3affb3b1-350485"
+}
+json: {
+    "username": "admin",
+    "password": "******"
+}
+
+2026-09-22 23:02:32.515 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-22 23:02:32.515 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.POST
+url      : http://127.0.0.1:8000/api/login
+headers  : {
+    "Content-Type": "application/json",
+    "interfacetester-Request-ID": "interfacetester-dd52377b-d7ad-49e6-b09d-ee4e3affb3b1-350485",
+    "Content-Length": "43"
+}
+cookies  : {}
+body     : {
+    "username": "admin",
+    "password": "******"
+}
+
+2026-09-22 23:02:32.515 | DEBUG | 
+================== response details ==================
+status_code : 0
+headers  : {}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-22 23:02:32.515 | ERROR | HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/login (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+2026-09-22 23:02:32.515 | DEBUG | ====== response details ======
+status_code: 0
+headers: {}
+body: None
+
+2026-09-22 23:02:32.515 | WARNING | extract 的 'token'：取值表达式 'body.data.token' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  后续步骤引用该变量时会拿到 None。
+2026-09-22 23:02:32.515 | INFO | extract mapping: {'token': '******'}
+2026-09-22 23:02:32.515 | ERROR | assert status_code equal 200(int)	==> fail
+check_item: status_code
+check_value: 0(int)
+assert_method: equal
+expect_value: 200(int)
+2026-09-22 23:02:32.518 | WARNING | equal 的 check 位置：取值表达式 'body.code' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.code, ""]`）。
+2026-09-22 23:02:32.518 | ERROR | assert body.code equal 0(int)	==> fail
+check_item: body.code
+check_value: None(NoneType)
+assert_method: equal
+expect_value: 0(int)
+2026-09-22 23:02:32.518 | INFO | generate testcase log: D:\tester\project-two\logs\dd52377b-d7ad-49e6-b09d-ee4e3affb3b1.run.log

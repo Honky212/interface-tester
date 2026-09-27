@@ -1,0 +1,20 @@
+config:
+  name: 商品搜索
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 按关键词与标签搜索
+    request:
+      method: GET
+      url: /api/product/search
+      params:
+        keyword: phone
+        tags: red,cheap
+        sort: price_asc
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.hits, "int"]
+      - length_greater_or_equals: [body.data.list, 0]
+      - startswith: [body.data.keyword, ph]

@@ -1,0 +1,90 @@
+2026-09-26 18:40:15.944 | INFO | Start to run testcase: request methods testcase: reference testcase, TestCase ID: 2025524a-3c8e-4296-a439-3a54b6b9f387
+2026-09-26 18:40:15.944 | INFO | run step begin: request with functions >>>>>>
+2026-09-26 18:40:15.944 | INFO | call hook actions: setup testcase
+2026-09-26 18:40:15.944 | DEBUG | call hook function: ${sleep(0.1)}
+2026-09-26 18:40:16.047 | DEBUG | reuse log sink of the same .run.log (referenced testcase): D:\tester\examples\postman_echo\logs\2025524a-3c8e-4296-a439-3a54b6b9f387.run.log
+2026-09-26 18:40:16.048 | INFO | Start to run testcase: request methods testcase with functions, TestCase ID: 2025524a-3c8e-4296-a439-3a54b6b9f387
+2026-09-26 18:40:16.053 | INFO | run step begin: get with params >>>>>>
+2026-09-26 18:40:16.055 | DEBUG | ====== request details ======
+url: https://postman-echo.com/get
+method: GET
+params: {
+    "foo1": "bar11",
+    "foo2": "bar21",
+    "sum_v": 3
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "X-Request-ID": "interfacetester-93613b08-6327-40e0-bfc6-f18132910f8a-1",
+    "interfacetester-Request-ID": "interfacetester-2025524a-3c8e-4296-a439-3a54b6b9f387-216053"
+}
+json: None
+
+2026-09-26 18:40:16.055 | WARNING | 本次运行**不会校验 HTTPS 证书**（`verify=False`）——这是框架的**默认值**（沿用上游 HttpRunner 的取向），且 `InsecureRequestWarning` 已被全局关闭，所以证书错误（自签名 / 过期 / 中间人）**不会被发现**。
+  触发请求: https://postman-echo.com/get
+  要校验证书：在用例 `config` 里写 `verify: true`，或给该 step 写 `request: {verify: true}`（step 级优先）；Python API 用 `Config(...).verify(True)`。
+  只有**测试环境**（自签名证书）才应该保持关闭；测生产地址时请务必打开。
+  NOTICE: 本提示每个进程只出现一次，且不影响任何行为（仅提示）。
+2026-09-26 18:40:38.741 | DEBUG | client/server address unavailable: raw socket is not accessible
+2026-09-26 18:40:38.741 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : https://postman-echo.com/get?foo1=bar11&foo2=bar21&sum_v=3
+headers  : {
+    "User-Agent": "InterfaceTester/5.0.1",
+    "X-Request-ID": "interfacetester-93613b08-6327-40e0-bfc6-f18132910f8a-1",
+    "interfacetester-Request-ID": "interfacetester-2025524a-3c8e-4296-a439-3a54b6b9f387-216053"
+}
+cookies  : {}
+body     : None
+
+2026-09-26 18:40:38.741 | DEBUG | 
+================== response details ==================
+status_code : 0
+headers  : {}
+cookies  : {}
+encoding : None
+content_type : 
+body     : 
+
+2026-09-26 18:40:38.741 | ERROR | ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-09-26 18:40:38.741 | DEBUG | ====== response details ======
+status_code: 0
+headers: {}
+body: None
+
+2026-09-26 18:40:38.741 | WARNING | extract 的 'foo3'：取值表达式 'body.args.foo2' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  后续步骤引用该变量时会拿到 None。
+2026-09-26 18:40:38.741 | INFO | extract mapping: {'foo3': None}
+2026-09-26 18:40:38.741 | ERROR | assert status_code equal 200(int)	==> fail
+check_item: status_code
+check_value: 0(int)
+assert_method: equal
+expect_value: 200(int)
+2026-09-26 18:40:38.741 | WARNING | equal 的 check 位置：取值表达式 'body.args.foo1' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.foo1, ""]`）。
+2026-09-26 18:40:38.741 | ERROR | assert body.args.foo1 equal bar11(str)	==> fail
+check_item: body.args.foo1
+check_value: None(NoneType)
+assert_method: equal
+expect_value: bar11(str)
+2026-09-26 18:40:38.741 | WARNING | equal 的 check 位置：取值表达式 'body.args.sum_v' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.sum_v, ""]`）。
+2026-09-26 18:40:38.741 | ERROR | assert body.args.sum_v equal 3(str)	==> fail
+check_item: body.args.sum_v
+check_value: None(NoneType)
+assert_method: equal
+expect_value: 3(str)
+2026-09-26 18:40:38.741 | WARNING | equal 的 check 位置：取值表达式 'body.args.foo2' 的结果是 None——字段不存在、下标越界，或字段值就是 null（jmespath 对三者都返回 None，框架无法区分）。
+  若这条断言本意是「字段存在且非空」，它可能因此被**静默满足**；请核对字段名与响应结构（响应详情见同目录的 .run.log）。  这条断言在「取值未命中」时可能被判为**通过**（如 `not_equal: [body.args.foo2, ""]`）。
+2026-09-26 18:40:38.741 | ERROR | assert body.args.foo2 equal bar21(str)	==> fail
+check_item: body.args.foo2
+check_value: None(NoneType)
+assert_method: equal
+expect_value: bar21(str)
+2026-09-26 18:40:38.741 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\2025524a-3c8e-4296-a439-3a54b6b9f387.run.log
+2026-09-26 18:40:38.741 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\2025524a-3c8e-4296-a439-3a54b6b9f387.run.log

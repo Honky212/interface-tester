@@ -1,0 +1,17 @@
+2026-09-22 20:04:35.956 | INFO | Start to run testcase: step timeout wins, TestCase ID: d7eeb6e3-c2b2-4992-9333-680367893664
+2026-09-22 20:04:35.956 | INFO | run step begin: step timeout >>>>>>
+2026-09-22 20:04:35.958 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+timeout: 1.0
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-d7eeb6e3-c2b2-4992-9333-680367893664-675956"
+}
+json: None
+
+2026-09-22 20:04:35.958 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\d7eeb6e3-c2b2-4992-9333-680367893664.run.log

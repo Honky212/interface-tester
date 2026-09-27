@@ -1,0 +1,17 @@
+--- ① 登录步骤只有 extract、无 validate（多步链路常见写法） ---
+  findings: []
+  REJECT count: 0  PENDING count: 0
+  闸门结果: 通过
+
+--- ② 按闸门建议写 validate: []（显式声明只是取 token） ---
+  findings: ['S3']
+  REJECT count: 0  PENDING count: 1
+    [pending] S3 @ <probe>.teststeps[0]: 请求步骤 '登录并提取 token（该步骤只负责取 token）' 显式声明**不做断言**（`validate: []`）。
+        提示: 若属疏漏，请补一条可判定断言（如 `eq: [status_code, 200]`）。
+  闸门结果: 通过
+
+--- ③ 对照：登录步骤补一条 eq: [status_code, 200] ---
+  findings: []
+  REJECT count: 0  PENDING count: 0
+  闸门结果: 通过
+

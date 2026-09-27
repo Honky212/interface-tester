@@ -1,0 +1,17 @@
+2026-09-22 20:04:35.978 | INFO | Start to run testcase: header case, TestCase ID: 766fc2a3-91c2-47bc-a9e8-9c726fb495b2
+2026-09-22 20:04:35.978 | INFO | run step begin: header case >>>>>>
+2026-09-22 20:04:35.978 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/headers
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-766fc2a3-91c2-47bc-a9e8-9c726fb495b2-675978"
+}
+json: None
+
+2026-09-22 20:04:35.978 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\766fc2a3-91c2-47bc-a9e8-9c726fb495b2.run.log

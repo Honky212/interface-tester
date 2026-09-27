@@ -1,0 +1,97 @@
+2026-09-23 22:43:30.064 | INFO | Start to run testcase: sql data isolation, TestCase ID: f5400d76-0663-4e37-a824-955e9db70096
+2026-09-23 22:43:30.064 | INFO | run step begin: http step >>>>>>
+2026-09-23 22:43:30.064 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-f5400d76-0663-4e37-a824-955e9db70096-610064"
+}
+json: None
+
+2026-09-23 22:43:30.067 | DEBUG | client IP: 127.0.0.1, Port: 52638
+2026-09-23 22:43:30.067 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-23 22:43:30.067 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/get
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-f5400d76-0663-4e37-a824-955e9db70096-610064"
+}
+cookies  : {}
+body     : None
+
+2026-09-23 22:43:30.067 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 14:43:30 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json
+body     : {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-f5400d76-0663-4e37-a824-955e9db70096-610064"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-23 22:43:30.067 | INFO | status_code: 200, response_time(ms): 1.51 ms, response_length: 386 bytes
+2026-09-23 22:43:30.067 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Wed, 23 Sep 2026 14:43:30 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+body: {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-f5400d76-0663-4e37-a824-955e9db70096-610064"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-23 22:43:30.068 | INFO | run step end: http step <<<<<<
+
+2026-09-23 22:43:30.068 | INFO | run step begin: sql step >>>>>>
+2026-09-23 22:43:30.068 | INFO | Executing SQL: select * from student
+2026-09-23 22:43:30.068 | INFO | run step end: sql step <<<<<<
+
+2026-09-23 22:43:30.068 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\f5400d76-0663-4e37-a824-955e9db70096.run.log

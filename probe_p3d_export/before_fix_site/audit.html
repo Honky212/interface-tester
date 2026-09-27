@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>审计时间线</title>
+<style>:root { color-scheme: light dark; --fg:#1f2328; --bg:#fff; --mut:#57606a;
+        --line:#d0d7de; --ok:#1a7f37; --err:#c62828; --na:#6e7781; }
+@media (prefers-color-scheme: dark) {
+  :root { --fg:#e6edf3; --bg:#0d1117; --mut:#8b949e; --line:#30363d;
+          --ok:#3fb950; --err:#f85149; --na:#8b949e; } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+       font:14px/1.55 ui-sans-serif,system-ui,"Microsoft YaHei",sans-serif; }
+header { display:flex; gap:16px; align-items:center; padding:10px 20px;
+         border-bottom:1px solid var(--line); }
+header .brand { font-weight:700; }
+header nav a { margin-right:12px; }
+main { padding:16px 20px 40px; max-width:1200px; }
+h1 { font-size:20px; margin:8px 0 4px; }
+h2 { font-size:16px; margin:22px 0 6px; }
+a { color:inherit; }
+.subtitle { color:var(--mut); margin:0 0 12px; }
+code, .mono { font-family:ui-monospace,Consolas,monospace; font-size:12.5px; }
+table { border-collapse:collapse; width:100%; margin-top:8px; }
+th, td { border:1px solid var(--line); padding:5px 8px; text-align:left;
+         vertical-align:top; }
+th { background:rgba(127,127,127,.09); }
+.state-pass { color:var(--ok); font-weight:700; }
+.state-error { color:var(--err); font-weight:700; }
+.state-na { color:var(--na); }
+.banner { border:1px solid var(--line); border-left:5px solid var(--err);
+          padding:10px 14px; margin:12px 0; }
+.banner.pass { border-left-color:var(--ok); }
+.banner.na { border-left-color:var(--na); }
+.muted { color:var(--mut); }
+.editor { width:100%; min-height:6em; font-family:ui-monospace,Consolas,monospace;
+          font-size:12.5px; line-height:1.45; white-space:pre; }
+button { font:inherit; padding:4px 12px; cursor:pointer; }
+footer { border-top:1px solid var(--line); padding:12px 20px; color:var(--mut); }
+</style>
+</head>
+<body>
+<header><a class="brand" href="/">haify 看板（只读）</a><nav><a href="/">运行列表</a><a href="/metrics">度量</a><a href="/audit">审计</a><a href="/pending">待确认</a><a href="/jobs">作业</a></nav></header>
+<main>
+<h1>审计时间线</h1>
+<p class="subtitle">投影自既有证据；每条都能指回它来自哪个文件</p>
+<div class="banner na">本页是**投影**：每条都指向一个**既有证据文件**（`.ai/reviews/` · `.ai/jobs/` · `.ai/pending/`）。**不另写审计日志**——双源迟早不一致，而**不一致的审计等于没有审计**。<br>本页读取时刻：<span class="mono">2026-09-25T17:10:07</span>（与下面每条的**证据时间**是两件事）。</div><table><thead><tr><th>事件总数</th><th>有时间戳</th><th>时间未知</th><th>读不到</th><th>待确认未处理</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr></tbody></table><h2>时间未知</h2><p class="muted">★这一栏**刻意不排进时间轴**：`(无时间戳)` 的字典序比任何数字都小，混排会让它**冒充「最早发生的事」**。（清单类证据本来就没有时间字段——这里**不编一个「现在」**去填空。）</p><table><thead><tr><th>时间</th><th>来源/动作</th><th>谁</th><th>目标</th><th>退出码</th><th>证据文件</th><th>理由</th></tr></thead><tbody><tr><td class="mono">(无时间戳)</td><td>pending/open</td><td></td><td class="mono">T1_2_认证方式</td><td class="mono"></td><td class="mono">.ai/pending/T1_2_认证方式.pending.json</td><td></td></tr></tbody></table>
+</main>
+<footer>只读看板（§5.8 P3a）：<b>零写盘、零执行</b>、只监听回环；页面不做判定——判定以 CLI 退出码与产物文件为准。</footer>
+</body>
+</html>

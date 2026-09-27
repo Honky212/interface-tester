@@ -1,0 +1,81 @@
+# 需求探明（b）：真实文档上的「断言缺失 / 误判」量化
+
+> 只读测量，不调模型。样本 = `project-three/` 的客户真实文档。
+
+## 1. 端点识别（★真实文档把 URL 写在表格里）
+
+- 整篇 `extract_endpoint()` → `POST /oauth2/token`
+- 表格形态 `| **URL** | \`METHOD /path\` |` 的端点共 **0** 个
+- 逐 `###` 小节（共 24 节）：**1 节能取到端点**
+  19 节取不到（>400 字符且无端点）：['1.4 统一响应格式', '1.5 常见错误码', '2.1 创建目录', '2.2 更新目录', '2.3 查询目录', '2.4 删除目录', '3.1 文件上传', '3.2 文件下载']
+
+## 2. 体检闸（`doc_quality.audit_document`）
+
+- findings 共 8 条；REJECT 0 条
+  · [warn] 表格列数不齐（错误码）——解析可能漏字段
+  · [warn] 全篇未标枚举 / 取值范围——边界断言只能进 unknowns
+  · [warn] 字段表无「类型」列或其值为空——只能生成骨架，断言受限
+  · [warn] 可判定率 0%（0/2 个字段有类型）低于阈值 50%
+  · [warn] 字段表无「必填 / 可选」列——必填断言无法判定
+  · [warn] 可判定率 33%（1/3 个字段有类型）低于阈值 50%
+  · [warn] 可判定率 33%（1/3 个字段有类型）低于阈值 50%
+  · [warn] 可判定率 20%（1/5 个字段有类型）低于阈值 50%
+
+## 3. 断言推导（`assertions.derive_assertions`，确定性通路）
+
+- 推出断言 **29** 条；跳过/不断言 **123** 条
+- 算子分布：{'less_or_equals': 1, 'type_match': 28}
+- 覆盖字段：['body.fileName', 'body.filename', 'body.files', 'body.newFileName', 'body.oldFileName', 'body.path', 'body.sourceDirName', 'body.targetDirName', 'body.version']
+- 跳过原因分类：{'字段可选': 21, '必填列没写清': 62, '类型不明确/认不出': 36, '条件返回': 0, '枚举没给全': 0, '列表[]路径': 0, '其他': 4}
+
+跳过原因样本（前 10 条）：
+
+- body.Authorization：类型列写的是 ''（没给类型） → **不断言类型**（S7 要求 expect 是类型名；我们也不猜）
+- body.X-Path：类型列写的是 ''（没给类型） → **不断言类型**（S7 要求 expect 是类型名；我们也不猜）
+- body.success：**必填列没写清**（既非必填也非可选） → 不生成存在性/类型断言（断言它存在会误报失败）
+- body.errorCode：**必填列没写清**（既非必填也非可选） → 不生成存在性/类型断言（断言它存在会误报失败）
+- body.message：**必填列没写清**（既非必填也非可选） → 不生成存在性/类型断言（断言它存在会误报失败）
+- body.data：**必填列没写清**（既非必填也非可选） → 不生成存在性/类型断言（断言它存在会误报失败）
+- body.Authorization：类型列写的是 ''（没给类型） → **不断言类型**（S7 要求 expect 是类型名；我们也不猜）
+- body.X-Path：类型列写的是 ''（没给类型） → **不断言类型**（S7 要求 expect 是类型名；我们也不猜）
+- body.Authorization：类型列写的是 ''（没给类型） → **不断言类型**（S7 要求 expect 是类型名；我们也不猜）
+- body.X-Path：类型列写的是 ''（没给类型） → **不断言类型**（S7 要求 expect 是类型名；我们也不猜）
+
+## 4. ★「必填列缺失」的后果（响应字段表全中招）
+
+- 字段类表格：**33 张有必填列**、**9 张没有**
+- 没有必填列的表 → `_truthy_required('')` = (False, False) → **整表不生成任何断言**：
+  · `字段名 | 类型 | 说明`（4 行数据）
+  · `字段名 | 类型 | 说明`（7 行数据）
+  · `字段名 | 类型 | 说明`（4 行数据）
+  · `字段名 | 类型 | 说明`（11 行数据）
+  · `字段名 | 类型 | 说明`（8 行数据）
+  · `字段名 | 类型 | 说明`（7 行数据）
+  · `字段名 | 类型 | 说明`（8 行数据）
+  · `字段名 | 类型 | 说明`（5 行数据）
+  · `字段名 | 类型 | 说明`（8 行数据）
+
+## 5. 误报风险扫描（不该断言却被断言的）
+
+- 文档里标 `否`（可选）的字段 9 个
+- 其中**被断言**的：['filename']
+- 断言里路径含反引号/星号的（会指错）：（无）
+
+## 6. 两套解析口径在这份真实文档上的差异
+
+- assertions 认出字段 41 个；doc_quality 认出 41 个
+- 名字集合对称差（前 12）：['Authorization', 'Content-Type', 'X-Path', '`Authorization`', '`Content-Type`', '`X-Path`', '`bucketId`', '`createBy`', '`createTime`', '`current`', '`data`', '`dirLogicalPath`']
+- 其中**只差反引号**（规范化差异）：82 个，例：['Authorization', 'Content-Type', 'X-Path', '`Authorization`', '`Content-Type`', '`X-Path`', '`bucketId`', '`createBy`']
+
+## 7. 与**人工用例**对照（最关键的一节）
+
+- 人工用例条数：**8**（例：['TC-AUTH-001: 获取Token - 正常流程', 'TC-AUTH-002: 获取Token - 错误的clie', 'TC-AUTH-003: 获取Token - 错误的clie']）
+- 人工用例出现的请求 URL：**23** 个
+- 人工「验证点」提到的字段名：**15** 个
+- AI 从接口文档推出的字段：**9** 个
+- ★**人工提到、AI 没推**（覆盖缺口，前 20）：['Disposition', 'access_token', 'code', 'createTime', 'directoryName', 'doc', 'expires_in', 'fail', 'fullPath', 'obj', 'pdf', 'success', 'test', 'token', 'token_type']
+- AI 推了、人工没提（前 20）：['fileName', 'filename', 'files', 'newFileName', 'oldFileName', 'path', 'sourceDirName', 'targetDirName', 'version']
+
+> 人工用例含**负例/边界**（错 client_id、缺参数、超限…），而确定性通路
+> **只产正常路径**断言 —— 差集**不等于缺陷**，但它量化了「当前通路覆盖人工用例的多少」。
+

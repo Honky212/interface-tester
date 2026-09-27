@@ -1,0 +1,397 @@
+{
+  "model": "gemma4:latest",
+  "docs": 15,
+  "docs_with_cases": 11,
+  "cases_produced": 13,
+  "l2_passed": 13,
+  "l2_pass_rate": 1.0,
+  "l2_note": "L2 对最终产物恒为 100%（装配器闸门在前），是重言式；有效信号是 slice_success_rate（送进模型的接口片 → 产出用例）",
+  "slices_total": 70,
+  "slices_skipped_non_interface": 55,
+  "slices_with_interface": 15,
+  "slices_produced": 13,
+  "slices_failed": 2,
+  "slice_success_rate": 0.8667,
+  "source_tree_touched": [],
+  "entries": [
+    {
+      "tag": "G01_auth_token_flow",
+      "doc": "bench/golden/auth_token_flow.md",
+      "exit": 0,
+      "elapsed_s": 25.7,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G01_auth_token_flow\\cases\\G01_auth_token_flow___GET__api_user_me.yml",
+        "D:\\tester\\.tmp_p0a_run\\G01_auth_token_flow\\cases\\G01_auth_token_flow___POST__api_login.yml"
+      ],
+      "manifests": 2,
+      "failed_dirs": 0,
+      "slices_total": 8,
+      "slices_produced": 2,
+      "slices_failed": 0,
+      "slices_skipped": 6,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 698,
+          "reason": null,
+          "bucket": null,
+          "yml": "G01_auth_token_flow___GET__api_user_me.yml",
+          "name": "G01_auth_token_flow___GET__api_user_me"
+        },
+        {
+          "ok": true,
+          "source_len": 694,
+          "reason": null,
+          "bucket": null,
+          "yml": "G01_auth_token_flow___POST__api_login.yml",
+          "name": "G01_auth_token_flow___POST__api_login"
+        }
+      ],
+      "l2_pass": 2,
+      "l2_total": 2
+    },
+    {
+      "tag": "G02_biz_error_order",
+      "doc": "bench/golden/biz_error_order.md",
+      "exit": 0,
+      "elapsed_s": 20.0,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G02_biz_error_order\\cases\\G02_biz_error_order___POST__api_order_create.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 736,
+          "reason": null,
+          "bucket": null,
+          "yml": "G02_biz_error_order___POST__api_order_create.yml",
+          "name": "G02_biz_error_order___POST__api_order_create"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G03_create_user_schema",
+      "doc": "bench/golden/create_user_schema.md",
+      "exit": 0,
+      "elapsed_s": 17.4,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G03_create_user_schema\\cases\\G03_create_user_schema___POST__api_user.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 731,
+          "reason": null,
+          "bucket": null,
+          "yml": "G03_create_user_schema___POST__api_user.yml",
+          "name": "G03_create_user_schema___POST__api_user"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G04_delete_session",
+      "doc": "bench/golden/delete_session.md",
+      "exit": 4,
+      "elapsed_s": 0.2,
+      "cases": [],
+      "manifests": 0,
+      "failed_dirs": 0,
+      "slices_total": null,
+      "slices_produced": null,
+      "slices_failed": null,
+      "slices_skipped": null,
+      "l2": [],
+      "l2_pass": 0,
+      "l2_total": 0
+    },
+    {
+      "tag": "G05_get_user_profile",
+      "doc": "bench/golden/get_user_profile.md",
+      "exit": 0,
+      "elapsed_s": 13.0,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G05_get_user_profile\\cases\\G05_get_user_profile___GET__api_user_profile.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 735,
+          "reason": null,
+          "bucket": null,
+          "yml": "G05_get_user_profile___GET__api_user_profile.yml",
+          "name": "G05_get_user_profile___GET__api_user_profile"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G06_legacy_gbk_doc",
+      "doc": "bench/golden/legacy_gbk_doc.md",
+      "exit": 1,
+      "elapsed_s": 24.4,
+      "cases": [],
+      "manifests": 3,
+      "failed_dirs": 1,
+      "slices_total": 5,
+      "slices_produced": 0,
+      "slices_failed": 1,
+      "slices_skipped": 4,
+      "l2": [],
+      "l2_pass": 0,
+      "l2_total": 0
+    },
+    {
+      "tag": "G07_login",
+      "doc": "bench/golden/login.md",
+      "exit": 0,
+      "elapsed_s": 14.4,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G07_login\\cases\\G07_login___POST__api_login.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 642,
+          "reason": null,
+          "bucket": null,
+          "yml": "G07_login___POST__api_login.yml",
+          "name": "G07_login___POST__api_login"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G08_order_create",
+      "doc": "bench/golden/order_create.md",
+      "exit": 0,
+      "elapsed_s": 13.4,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G08_order_create\\cases\\G08_order_create___POST__api_order.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 676,
+          "reason": null,
+          "bucket": null,
+          "yml": "G08_order_create___POST__api_order.yml",
+          "name": "G08_order_create___POST__api_order"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G09_paged_product_list",
+      "doc": "bench/golden/paged_product_list.md",
+      "exit": 0,
+      "elapsed_s": 11.9,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G09_paged_product_list\\cases\\G09_paged_product_list___GET__api_product_list.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 748,
+          "reason": null,
+          "bucket": null,
+          "yml": "G09_paged_product_list___GET__api_product_list.yml",
+          "name": "G09_paged_product_list___GET__api_product_list"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G10_search_products",
+      "doc": "bench/golden/search_products.md",
+      "exit": 0,
+      "elapsed_s": 13.1,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G10_search_products\\cases\\G10_search_products___GET__api_product_search.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 703,
+          "reason": null,
+          "bucket": null,
+          "yml": "G10_search_products___GET__api_product_search.yml",
+          "name": "G10_search_products___GET__api_product_search"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G11_soap_user_service",
+      "doc": "bench/golden/soap_user_service.md",
+      "exit": 4,
+      "elapsed_s": 0.2,
+      "cases": [],
+      "manifests": 0,
+      "failed_dirs": 0,
+      "slices_total": null,
+      "slices_produced": null,
+      "slices_failed": null,
+      "slices_skipped": null,
+      "l2": [],
+      "l2_pass": 0,
+      "l2_total": 0
+    },
+    {
+      "tag": "G12_update_order_status",
+      "doc": "bench/golden/update_order_status.md",
+      "exit": 0,
+      "elapsed_s": 17.2,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G12_update_order_status\\cases\\G12_update_order_status___PUT__api_order__orderNo__status.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 6,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 5,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 833,
+          "reason": null,
+          "bucket": null,
+          "yml": "G12_update_order_status___PUT__api_order__orderNo__status.yml",
+          "name": "G12_update_order_status___PUT__api_order__orderNo__status"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    },
+    {
+      "tag": "G13_user_info",
+      "doc": "bench/golden/user_info.md",
+      "exit": 0,
+      "elapsed_s": 29.8,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G13_user_info\\cases\\G13_user_info___GET__api_user_info.yml",
+        "D:\\tester\\.tmp_p0a_run\\G13_user_info\\cases\\G13_user_info___前置.yml"
+      ],
+      "manifests": 2,
+      "failed_dirs": 0,
+      "slices_total": 6,
+      "slices_produced": 2,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 681,
+          "reason": null,
+          "bucket": null,
+          "yml": "G13_user_info___GET__api_user_info.yml",
+          "name": "G13_user_info___GET__api_user_info"
+        },
+        {
+          "ok": true,
+          "source_len": 858,
+          "reason": null,
+          "bucket": null,
+          "yml": "G13_user_info___前置.yml",
+          "name": "G13_user_info___前置"
+        }
+      ],
+      "l2_pass": 2,
+      "l2_total": 2
+    },
+    {
+      "tag": "G14_utf8_bom_doc",
+      "doc": "bench/golden/utf8_bom_doc.md",
+      "exit": 1,
+      "elapsed_s": 69.7,
+      "cases": [],
+      "manifests": 3,
+      "failed_dirs": 1,
+      "slices_total": 5,
+      "slices_produced": 0,
+      "slices_failed": 1,
+      "slices_skipped": 4,
+      "l2": [],
+      "l2_pass": 0,
+      "l2_total": 0
+    },
+    {
+      "tag": "G15_webhook_notify",
+      "doc": "bench/golden/webhook_notify.md",
+      "exit": 0,
+      "elapsed_s": 14.9,
+      "cases": [
+        "D:\\tester\\.tmp_p0a_run\\G15_webhook_notify\\cases\\G15_webhook_notify___POST__api_webhook_notify.yml"
+      ],
+      "manifests": 1,
+      "failed_dirs": 0,
+      "slices_total": 5,
+      "slices_produced": 1,
+      "slices_failed": 0,
+      "slices_skipped": 4,
+      "l2": [
+        {
+          "ok": true,
+          "source_len": 771,
+          "reason": null,
+          "bucket": null,
+          "yml": "G15_webhook_notify___POST__api_webhook_notify.yml",
+          "name": "G15_webhook_notify___POST__api_webhook_notify"
+        }
+      ],
+      "l2_pass": 1,
+      "l2_total": 1
+    }
+  ]
+}

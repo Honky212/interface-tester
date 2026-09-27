@@ -1,0 +1,140 @@
+2026-09-21 23:57:58.186 | INFO | Start to run testcase: 03 危险操作：全库清空的闸门（生产环境会被 conftest 跳过）, TestCase ID: 82f9b648-06e5-4ca9-9fef-3460d90dd2ec
+2026-09-21 23:57:58.186 | INFO | run step begin: 闸门开着时：全库清空被执行，本次运行的数据也被一并清掉 >>>>>>
+2026-09-21 23:57:58.186 | DEBUG | ====== request details ======
+url: http://127.0.0.1:54269/records
+method: GET
+params: {
+    "prefix": "dm-test-e01a867c"
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-82f9b648-06e5-4ca9-9fef-3460d90dd2ec-278186"
+}
+json: None
+
+2026-09-21 23:57:58.257 | DEBUG | client IP: 127.0.0.1, Port: 54277
+2026-09-21 23:57:58.257 | DEBUG | server IP: 127.0.0.1, Port: 54269
+2026-09-21 23:57:58.257 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:54269/records?prefix=dm-test-e01a867c
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-82f9b648-06e5-4ca9-9fef-3460d90dd2ec-278186"
+}
+cookies  : {}
+body     : None
+
+2026-09-21 23:57:58.257 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Mon, 21 Sep 2026 15:57:58 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "57"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "records": [],
+    "count": 0,
+    "prefix": "dm-test-e01a867c"
+}
+
+2026-09-21 23:57:58.257 | INFO | status_code: 200, response_time(ms): 2.99 ms, response_length: 57 bytes
+2026-09-21 23:57:58.257 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Mon, 21 Sep 2026 15:57:58 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "57"
+}
+body: {
+    "records": [],
+    "count": 0,
+    "prefix": "dm-test-e01a867c"
+}
+
+2026-09-21 23:57:58.257 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-21 23:57:58.258 | INFO | assert body.count equal 0(int)	==> pass
+2026-09-21 23:57:58.258 | INFO | run step end: 闸门开着时：全库清空被执行，本次运行的数据也被一并清掉 <<<<<<
+
+2026-09-21 23:57:58.258 | INFO | run step begin: 不带危险头时：即使是合法请求也被服务端 403 拒绝 >>>>>>
+2026-09-21 23:57:58.258 | DEBUG | ====== request details ======
+url: http://127.0.0.1:54269/records
+method: DELETE
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-82f9b648-06e5-4ca9-9fef-3460d90dd2ec-278258"
+}
+json: None
+
+2026-09-21 23:57:58.259 | DEBUG | client IP: 127.0.0.1, Port: 54277
+2026-09-21 23:57:58.259 | DEBUG | server IP: 127.0.0.1, Port: 54269
+2026-09-21 23:57:58.259 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.DELETE
+url      : http://127.0.0.1:54269/records
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-82f9b648-06e5-4ca9-9fef-3460d90dd2ec-278258",
+    "Content-Length": "0"
+}
+cookies  : {}
+body     : None
+
+2026-09-21 23:57:58.259 | DEBUG | 
+================== response details ==================
+status_code : 403
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Mon, 21 Sep 2026 15:57:58 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "140"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "error": "refusing to wipe the whole store",
+    "hint": "带 ?prefix= 只删自己造的数据；确实要清空请加 X-Allow-Dangerous: on"
+}
+
+2026-09-21 23:57:58.259 | ERROR | 403 Client Error: Forbidden for url: http://127.0.0.1:54269/records
+2026-09-21 23:57:58.259 | DEBUG | ====== response details ======
+status_code: 403
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Mon, 21 Sep 2026 15:57:58 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "140"
+}
+body: {
+    "error": "refusing to wipe the whole store",
+    "hint": "带 ?prefix= 只删自己造的数据；确实要清空请加 X-Allow-Dangerous: on"
+}
+
+2026-09-21 23:57:58.259 | INFO | assert status_code equal 403(int)	==> pass
+2026-09-21 23:57:58.259 | INFO | run step end: 不带危险头时：即使是合法请求也被服务端 403 拒绝 <<<<<<
+
+2026-09-21 23:57:58.259 | INFO | generate testcase log: D:\learn\interface-tester\examples\data_management\logs\82f9b648-06e5-4ca9-9fef-3460d90dd2ec.run.log

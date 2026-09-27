@@ -1,0 +1,22 @@
+==========================================================================
+目标：http://127.0.0.1:8899
+==========================================================================
+  PASS  [relation] 正例：path 与 X-Path 一致｜实际 errorCode=None（期望 None）status=200
+  PASS  [relation] 负例：path 与 X-Path 不一致 → FILE_1018｜实际 errorCode='FILE_1018'（期望 'FILE_1018'）status=200
+  PASS  [exist] 正例：版本 v1 在文档里出现过｜实际 errorCode=None（期望 None）status=200
+  PASS  [exist] 负例：版本 v999 文档里没有 → FILE_2005｜实际 errorCode='FILE_2005'（期望 'FILE_2005'）status=200
+  PASS  [exist] 正例：目录 /app1/ 是文档示例值｜实际 errorCode=None（期望 None）status=200
+  PASS  [exist] 负例：目录 /nope-xyz/ 不在种子数据里 → FILE_2001｜实际 errorCode='FILE_2001'（期望 'FILE_2001'）status=200
+  PASS  [required] 正例：必填 path 在场｜实际 errorCode=None（期望 None）status=200
+  PASS  [required] 负例：必填 path 缺失 → FILE_1010｜实际 errorCode='FILE_1010'（期望 'FILE_1010'）status=200
+  PASS  [format] 正例：目录路径以 / 开头并以 / 结尾｜实际 errorCode=None（期望 None）status=200
+  PASS  [format] 负例：不以 / 结尾 → FILE_4001｜实际 errorCode='FILE_4001'（期望 'FILE_4001'）status=200
+  PASS  [format] 负例：含连续的 / → FILE_4003｜实际 errorCode='FILE_4003'（期望 'FILE_4003'）status=200
+  PASS  [format] 负例：首尾有空格 → FILE_4018｜实际 errorCode='FILE_4018'（期望 'FILE_4018'）status=200
+  PASS  [relation] 正例：源目录 != 目标目录｜实际 errorCode=None（期望 None）status=200
+  PASS  [relation] 负例：源目录 == 目标目录 → FILE_4009｜实际 errorCode='FILE_4009'（期望 'FILE_4009'）status=200
+  PASS  [limit] 正例：上传 2 个文件（上限 10）｜实际 errorCode=None（期望 None）status=200
+  PASS  [limit] 负例：上传 11 个文件 → FILE_1016｜实际 errorCode='FILE_1016'（期望 'FILE_1016'）status=200
+  PASS  [limit] ★判不了：请求里没给『大小』这个事实 → 不命中（也不乱报）｜实际 errorCode=None（期望 None）status=200
+
+成对结果：**17/17**

@@ -1,0 +1,34 @@
+config:
+    name: basic test with httpbin
+    base_url: ${get_httpbin_server()}
+
+teststeps:
+-
+    name: validate response with json path
+    request:
+        url: /get
+        params:
+            a: 1
+            b: 2
+        method: GET
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.args.a", "1"]
+        - eq: ["body.args.b", "2"]
+
+-
+    name: validate response with custom comparator in debugtalk.py
+    request:
+        url: /get
+        params:
+            a: 1
+            b: 2
+        method: GET
+    validate:
+        - eq: ["status_code", 200]
+        # 自定义断言算子：复杂逻辑写在项目 debugtalk.py 里，YAML 直接当算子用。
+        # 这是原先 `validate_script`（Python 脚本断言）的**替代路径** ——
+        # 后者框架不支持（生成器会报错而不是静默丢弃），见 docs/缺陷修复日志0918-1.md。
+        # 200 的各位数字之和 = 2 + 0 + 0 = 2
+        - sum_status_code: ["status_code", 2]
+        - eq: ["body.args.a", "1"]

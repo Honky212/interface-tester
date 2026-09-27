@@ -1,0 +1,8 @@
+2026-09-22 21:15:50.965 | INFO | Start to run testcase: thrift consistency case, TestCase ID: 6e6d0072-708d-4c5f-8f48-005ae1cd2445
+2026-09-22 21:15:50.968 | INFO | run step begin: svc A #1 >>>>>>
+2026-09-22 21:15:50.968 | INFO | run step end: svc A #1 <<<<<<
+
+2026-09-22 21:15:50.968 | INFO | run step begin: svc A #2 >>>>>>
+2026-09-22 21:15:50.968 | INFO | run step end: svc A #2 <<<<<<
+
+2026-09-22 21:15:50.969 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\6e6d0072-708d-4c5f-8f48-005ae1cd2445.run.log

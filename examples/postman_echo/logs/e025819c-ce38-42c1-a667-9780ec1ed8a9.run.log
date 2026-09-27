@@ -1,0 +1,7 @@
+2026-09-22 21:56:55.075 | INFO | Start to run testcase: thrift consistency case, TestCase ID: e025819c-ce38-42c1-a667-9780ec1ed8a9
+2026-09-22 21:56:55.075 | INFO | run step begin: explicit env >>>>>>
+2026-09-22 21:56:55.075 | INFO | call hook actions: teardown request
+2026-09-22 21:56:55.075 | DEBUG | call hook function: ${_capture_thrift_request($thrift_request)}
+2026-09-22 21:56:55.075 | INFO | run step end: explicit env <<<<<<
+
+2026-09-22 21:56:55.075 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\e025819c-ce38-42c1-a667-9780ec1ed8a9.run.log

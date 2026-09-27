@@ -1,0 +1,184 @@
+2026-09-22 21:56:33.199 | INFO | Start to run testcase: http data isolation, TestCase ID: 5ac2e9fd-7049-4619-ab15-2509b2c3d620
+2026-09-22 21:56:33.199 | INFO | run step begin: http step 1 >>>>>>
+2026-09-22 21:56:33.199 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393199"
+}
+json: None
+
+2026-09-22 21:56:33.199 | DEBUG | client IP: 127.0.0.1, Port: 58779
+2026-09-22 21:56:33.199 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-22 21:56:33.199 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/get
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393199"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 21:56:33.206 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 13:56:33 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json
+body     : {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393199"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-22 21:56:33.206 | INFO | status_code: 200, response_time(ms): 0.0 ms, response_length: 386 bytes
+2026-09-22 21:56:33.209 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 13:56:33 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+body: {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393199"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-22 21:56:33.209 | INFO | run step end: http step 1 <<<<<<
+
+2026-09-22 21:56:33.209 | INFO | run step begin: http step 2 >>>>>>
+2026-09-22 21:56:33.209 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393209"
+}
+json: None
+
+2026-09-22 21:56:33.210 | DEBUG | client IP: 127.0.0.1, Port: 58779
+2026-09-22 21:56:33.210 | DEBUG | server IP: 127.0.0.1, Port: 80
+2026-09-22 21:56:33.211 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:80/get
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393209"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 21:56:33.211 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 13:56:33 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json
+body     : {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393209"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-22 21:56:33.211 | INFO | status_code: 200, response_time(ms): 0.48 ms, response_length: 386 bytes
+2026-09-22 21:56:33.211 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "InterfaceTesterMockHttpBin Python/3.12.10",
+    "Date": "Tue, 22 Sep 2026 13:56:33 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "386"
+}
+body: {
+    "args": {},
+    "data": "",
+    "files": {},
+    "form": {},
+    "headers": {
+        "Host": "127.0.0.1",
+        "User-Agent": "python-requests/2.34.2",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
+        "interfacetester-Request-ID": "interfacetester-5ac2e9fd-7049-4619-ab15-2509b2c3d620-393209"
+    },
+    "json": null,
+    "method": "GET",
+    "origin": "127.0.0.1",
+    "url": "http://127.0.0.1/get"
+}
+
+2026-09-22 21:56:33.211 | INFO | run step end: http step 2 <<<<<<
+
+2026-09-22 21:56:33.211 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\5ac2e9fd-7049-4619-ab15-2509b2c3d620.run.log

@@ -1,0 +1,43 @@
+==============================================================================
+响应 Cookie 成为可查事实（§9.29/§9.30）：文档声明 → 断言 → 真跑 + 牙齿对照
+工作区：C:\Users\10503\AppData\Local\Temp\ai_cookie_probe
+==============================================================================
+
+① 确定性通路退出码 = 0
+   [haify gen --assertions-only] 落点：**按接口段逐片**（每段一条草稿；段外断言不进本条）
+   [haify gen --assertions-only] 1/1 条**接口段**产出草稿（★每段一条；转正仍需 `haify review --approve` —— 退出码 0 ≠ 可直接进 CI）
+
+② 草稿里的 cookie 断言（_api_session_login.yml）
+   · equal: [cookies.sessionId, sess-1]
+   · contained_by: [cookies.variant, A、B]
+   · jsonschema_match: cookies type: object required: sessionId
+
+③ 转正 + 真跑（mock 按文档下发 Set-Cookie）
+   · promote：True（ok）
+   · hrun 退出码 = 0
+     ======================== 1 passed, 1 warning in 0.11s =========================
+
+④ 逐步断言（run.log 原文）
+   2026-09-27 16:47:53.039 | INFO | assert cookies.sessionId equal sess-1(str)	==> pass
+   2026-09-27 16:47:53.039 | INFO | assert cookies.variant contained_by ['A', 'B'](list)	==> pass
+
+⑤ mock 侧证据（启动日志：按文档下发了哪些 cookie）
+   [mock] 错误条件：**可模拟 0 条**（1 个接口；）
+   [mock] 响应 cookie：**按文档下发 3 个**（sessionId=sess-1、variant=A、theme=mock-theme）→ 每个响应都带 `Set-Cookie`
+   [mock] 依据文档推出 1 条路由（cookie_fixture.md）：
+
+⑥ 牙齿对照（同一份用例 + **不下发 cookie** 的 mock → 必须变红）
+   · hrun 退出码 = 1（期望 **≠0**：判据有牙）
+     E   assert_method: equal
+     E   assert cookies.variant contained_by ['A', 'B'](list)	==> fail
+     E   assert_method: contained_by
+     E   assert cookies jsonschema_match {'type': 'object', 'required': ['sessionId']}(dict)	==> fail
+     E   assert_method: jsonschema_match
+     ============================== 1 failed in 0.13s ==============================
+
+■ 结论
+  · 文档里的**响应 Cookie 表**现在被认下（`cookie_declarations`）✓
+  · 有可判据事实的（固定值 / 枚举 / **必带**）→ 产 `equal` / `contained_by` / `required` ✓
+  · 没有可判据事实的 → **不产断言、逐条点名**（不硬凑永远为真的断言）✓
+  · mock **按同一份判据**下发 `Set-Cookie` → 断言真跑绿 ✓
+  · ★**牙齿对照**：换成不下发 cookie 的 mock → **必须变红**（否则这断言永远为真、没有信息量 ✗）

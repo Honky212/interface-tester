@@ -1,0 +1,95 @@
+2026-09-22 18:44:16.487 | INFO | Start to run testcase: 我的第一条用例, TestCase ID: e33650f1-950d-4b67-9714-34481b522fdd
+2026-09-22 18:44:16.487 | INFO | run step begin: 调一次 GET 接口 >>>>>>
+2026-09-22 18:44:16.488 | DEBUG | ====== request details ======
+url: https://httpbin.org/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-e33650f1-950d-4b67-9714-34481b522fdd-856488"
+}
+json: None
+
+2026-09-22 18:44:16.488 | WARNING | 本次运行**不会校验 HTTPS 证书**（`verify=False`）——这是框架的**默认值**（沿用上游 HttpRunner 的取向），且 `InsecureRequestWarning` 已被全局关闭，所以证书错误（自签名 / 过期 / 中间人）**不会被发现**。
+  触发请求: https://httpbin.org/get
+  要校验证书：在用例 `config` 里写 `verify: true`，或给该 step 写 `request: {verify: true}`（step 级优先）；Python API 用 `Config(...).verify(True)`。
+  只有**测试环境**（自签名证书）才应该保持关闭；测生产地址时请务必打开。
+  NOTICE: 本提示每个进程只出现一次，且不影响任何行为（仅提示）。
+2026-09-22 18:44:17.632 | DEBUG | client IP: 10.10.2.132, Port: 1307
+2026-09-22 18:44:17.632 | DEBUG | server IP: 54.166.110.234, Port: 443
+2026-09-22 18:44:17.633 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : https://httpbin.org/get
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "interfacetester-Request-ID": "interfacetester-e33650f1-950d-4b67-9714-34481b522fdd-856488"
+}
+cookies  : {}
+body     : None
+
+2026-09-22 18:44:17.633 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Date": "Tue, 22 Sep 2026 10:44:14 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "410",
+    "Connection": "keep-alive",
+    "Server": "gunicorn/19.9.0",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "******"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json
+body     : {
+    "args": {},
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Host": "httpbin.org",
+        "Interfacetester-Request-Id": "interfacetester-e33650f1-950d-4b67-9714-34481b522fdd-856488",
+        "User-Agent": "python-requests/2.34.2",
+        "X-Amzn-Trace-Id": "Root=1-6ab25bfe-760b8aad180127b90adabb7a"
+    },
+    "origin": "211.68.122.119",
+    "url": "https://httpbin.org/get"
+}
+
+2026-09-22 18:44:17.633 | INFO | status_code: 200, response_time(ms): 1144.24 ms, response_length: 410 bytes
+2026-09-22 18:44:17.633 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Date": "Tue, 22 Sep 2026 10:44:14 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "410",
+    "Connection": "keep-alive",
+    "Server": "gunicorn/19.9.0",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "******"
+}
+body: {
+    "args": {},
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Host": "httpbin.org",
+        "Interfacetester-Request-Id": "interfacetester-e33650f1-950d-4b67-9714-34481b522fdd-856488",
+        "User-Agent": "python-requests/2.34.2",
+        "X-Amzn-Trace-Id": "Root=1-6ab25bfe-760b8aad180127b90adabb7a"
+    },
+    "origin": "211.68.122.119",
+    "url": "https://httpbin.org/get"
+}
+
+2026-09-22 18:44:17.634 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-22 18:44:17.634 | INFO | run step end: 调一次 GET 接口 <<<<<<
+
+2026-09-22 18:44:17.634 | INFO | generate testcase log: D:\interface\project-one\logs\e33650f1-950d-4b67-9714-34481b522fdd.run.log

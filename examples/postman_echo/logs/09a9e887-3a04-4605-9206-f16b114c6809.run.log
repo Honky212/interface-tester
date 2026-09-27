@@ -1,0 +1,16 @@
+2026-09-22 20:30:35.907 | INFO | Start to run testcase: default timeout, TestCase ID: 09a9e887-3a04-4605-9206-f16b114c6809
+2026-09-22 20:30:35.907 | INFO | run step begin: no timeout >>>>>>
+2026-09-22 20:30:35.907 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-09a9e887-3a04-4605-9206-f16b114c6809-235907"
+}
+json: None
+
+2026-09-22 20:30:35.907 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\09a9e887-3a04-4605-9206-f16b114c6809.run.log

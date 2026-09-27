@@ -1,0 +1,16 @@
+2026-09-24 03:44:22.657 | INFO | Start to run testcase: NoNetworkOptionsCase, TestCase ID: 83121184-3e25-4887-a032-766ce1058f4a
+2026-09-24 03:44:22.657 | INFO | run step begin: no network options >>>>>>
+2026-09-24 03:44:22.657 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/get
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "interfacetester-Request-ID": "interfacetester-83121184-3e25-4887-a032-766ce1058f4a-662657"
+}
+json: None
+
+2026-09-24 03:44:22.658 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\83121184-3e25-4887-a032-766ce1058f4a.run.log

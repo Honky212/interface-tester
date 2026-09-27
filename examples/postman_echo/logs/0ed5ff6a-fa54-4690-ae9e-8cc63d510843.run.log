@@ -1,0 +1,17 @@
+2026-09-23 23:04:19.481 | INFO | Start to run testcase: header case, TestCase ID: 0ed5ff6a-fa54-4690-ae9e-8cc63d510843
+2026-09-23 23:04:19.481 | INFO | run step begin: header case >>>>>>
+2026-09-23 23:04:19.481 | DEBUG | ====== request details ======
+url: http://127.0.0.1:80/headers
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-0ed5ff6a-fa54-4690-ae9e-8cc63d510843-859481"
+}
+json: None
+
+2026-09-23 23:04:19.481 | INFO | generate testcase log: D:\tester\examples\postman_echo\logs\0ed5ff6a-fa54-4690-ae9e-8cc63d510843.run.log

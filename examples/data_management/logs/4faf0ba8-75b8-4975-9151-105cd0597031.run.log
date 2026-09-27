@@ -1,0 +1,160 @@
+2026-09-26 17:46:40.821 | INFO | Start to run testcase: 02 数据隔离与回收（同一用例跑两轮：第二轮必须看不到第一轮的数据）, TestCase ID: 4faf0ba8-75b8-4975-9151-105cd0597031
+2026-09-26 17:46:40.821 | INFO | run step begin: 开跑前：本次运行不应有任何残留数据 >>>>>>
+2026-09-26 17:46:40.821 | DEBUG | ====== request details ======
+url: http://127.0.0.1:58803/records
+method: GET
+params: {
+    "prefix": "dm-test-14356ed5"
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4faf0ba8-75b8-4975-9151-105cd0597031-000821"
+}
+json: None
+
+2026-09-26 17:46:40.823 | DEBUG | client IP: 127.0.0.1, Port: 58818
+2026-09-26 17:46:40.823 | DEBUG | server IP: 127.0.0.1, Port: 58803
+2026-09-26 17:46:40.823 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:58803/records?prefix=dm-test-14356ed5
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4faf0ba8-75b8-4975-9151-105cd0597031-000821"
+}
+cookies  : {}
+body     : None
+
+2026-09-26 17:46:40.823 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Sat, 26 Sep 2026 09:46:40 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "57"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "records": [],
+    "count": 0,
+    "prefix": "dm-test-14356ed5"
+}
+
+2026-09-26 17:46:40.823 | INFO | status_code: 200, response_time(ms): 1.74 ms, response_length: 57 bytes
+2026-09-26 17:46:40.823 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Sat, 26 Sep 2026 09:46:40 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "57"
+}
+body: {
+    "records": [],
+    "count": 0,
+    "prefix": "dm-test-14356ed5"
+}
+
+2026-09-26 17:46:40.823 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-26 17:46:40.823 | INFO | assert body.count equal 0(int)	==> pass
+2026-09-26 17:46:40.824 | INFO | run step end: 开跑前：本次运行不应有任何残留数据 <<<<<<
+
+2026-09-26 17:46:40.824 | INFO | run step begin: 造自己的数据（前缀只属于自己的这一轮） >>>>>>
+2026-09-26 17:46:40.825 | DEBUG | ====== request details ======
+url: http://127.0.0.1:58803/records
+method: GET
+params: {
+    "prefix": "dm-test-14356ed5"
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4faf0ba8-75b8-4975-9151-105cd0597031-000825"
+}
+json: None
+
+2026-09-26 17:46:40.826 | DEBUG | client IP: 127.0.0.1, Port: 58818
+2026-09-26 17:46:40.826 | DEBUG | server IP: 127.0.0.1, Port: 58803
+2026-09-26 17:46:40.826 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:58803/records?prefix=dm-test-14356ed5
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4faf0ba8-75b8-4975-9151-105cd0597031-000825"
+}
+cookies  : {}
+body     : None
+
+2026-09-26 17:46:40.826 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Sat, 26 Sep 2026 09:46:40 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "194"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "records": [
+        {
+            "id": "0e014198e476",
+            "name": "dm-test-14356ed5-test_start[param1]-c4ee8c-round2-48da88",
+            "payload": null,
+            "created_at": 1790416000.825
+        }
+    ],
+    "count": 1,
+    "prefix": "dm-test-14356ed5"
+}
+
+2026-09-26 17:46:40.826 | INFO | status_code: 200, response_time(ms): 1.0 ms, response_length: 194 bytes
+2026-09-26 17:46:40.826 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Sat, 26 Sep 2026 09:46:40 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "194"
+}
+body: {
+    "records": [
+        {
+            "id": "0e014198e476",
+            "name": "dm-test-14356ed5-test_start[param1]-c4ee8c-round2-48da88",
+            "payload": null,
+            "created_at": 1790416000.825
+        }
+    ],
+    "count": 1,
+    "prefix": "dm-test-14356ed5"
+}
+
+2026-09-26 17:46:40.826 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-26 17:46:40.826 | INFO | assert body.count equal 1(int)	==> pass
+2026-09-26 17:46:40.826 | INFO | assert body.records[0].id equal 0e014198e476(str)	==> pass
+2026-09-26 17:46:40.826 | INFO | assert body.records[0].name startswith dm-test-14356ed5-test_start[param1]-c4ee8c(str)	==> pass
+2026-09-26 17:46:40.826 | INFO | run step end: 造自己的数据（前缀只属于自己的这一轮） <<<<<<
+
+2026-09-26 17:46:40.826 | INFO | generate testcase log: D:\tester\examples\data_management\logs\4faf0ba8-75b8-4975-9151-105cd0597031.run.log

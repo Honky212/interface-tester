@@ -1,0 +1,5 @@
+2026-09-22 20:30:42.012 | INFO | Start to run testcase: thrift data isolation case, TestCase ID: 918d941c-929b-44b7-8931-444df2f780ce
+2026-09-22 20:30:42.012 | INFO | run step begin: setter step >>>>>>
+2026-09-22 20:30:42.012 | INFO | run step end: setter step <<<<<<
+
+2026-09-22 20:30:42.012 | INFO | generate testcase log: D:\learn\interface-tester\examples\postman_echo\logs\918d941c-929b-44b7-8931-444df2f780ce.run.log
