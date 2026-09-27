@@ -7,12 +7,12 @@
 ① 前提：`UPLOAD_READY = True`（缺 `filetype` 时会是 False）
 
 ② `upload_with_file` 真跑退出码 = 0（0 = 用例通过）
-     ======================== 1 passed, 1 warning in 0.16s =========================
+     ======================== 1 passed, 1 warning in 0.08s =========================
 
 ② `upload_names_only` 真跑退出码 = 1（0 = 用例通过）
      check_item: body.errorCode
      expect_value: FILE_9001(str)
-     ============================== 1 failed in 0.10s ==============================
+     ============================== 1 failed in 0.09s ==============================
 
 ③ 回读（mock 照录到的请求：2 条）
      POST  /api/file/upload?path=%2Fapp1%2F                 请求体=multipart ✓ ｜命中=FILE_9001 ← `FILE_9001` | 单文件超过 1KB | 上传

@@ -6,10 +6,12 @@
 ① 确定性通路退出码 = 0
    [haify gen --assertions-only] 落点：**按接口段逐片**（每段一条草稿；段外断言不进本条）
    [haify gen --assertions-only] 1/1 条**接口段**产出草稿（★每段一条；转正仍需 `haify review --approve` —— 退出码 0 ≠ 可直接进 CI）
+   1) body.name：**响应侧没有这个字段**（本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它）→ 不做响应断言：拿响应当请求，照文档实现的服务必然失败；要么请文档作者补**成功响应**的数据结构，要么人工按业务改断言
 
 ② 草稿里的响应头断言（_api_file_metadata.yml）
    · equal: [headers.X-Api-Version, v1]
    · contained_by: [headers.Cache-Control, no-store、max-age=60]
+   · 点名：**文档级**降级说明：本文档有 2 条「**文档声明了、但判不出可断言的内容**」的东西，工具**没有替文档拍板**（逐条如下）——\n    1) body.name：**响应侧没有这个字段**（本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它）→ 不做响应断言：拿响应当请求，照文档
    · 点名（**推导层**直取；草稿 `unknowns` 里**还看不到** → 登记项 3）：以下响应头文档**声明了但没有可判据事实**（既没标「固定值」、也没给「枚举取值」）→ **不产断言**（认下这个事实）：Date —— 响应头值多半**易变**（`Date` / `X-Request-Id` 这类），要断请让文档补「固定值」或「取值」
 
 ③ 转正 + 真跑（mock 按文档下发这些响应头）
@@ -20,8 +22,8 @@
    · mock：[mock] 依据文档推出 1 条路由（header_fixture.md）：
 
 ④ 逐步断言（run.log 原文：响应头那两条）
-   2026-09-27 17:38:54.675 | INFO | assert headers."X-Api-Version" equal v1(str)	==> pass
-   27 17:38:54.675 | INFO | assert headers."Cache-Control" contained_by ['no-store', 'max-age=60'](list)	==> pass
+   2026-09-27 18:23:53.464 | INFO | assert headers."X-Api-Version" equal v1(str)	==> pass
+   27 18:23:53.464 | INFO | assert headers."Cache-Control" contained_by ['no-store', 'max-age=60'](list)	==> pass
 
 ⑤ 牙齿对照（同一份用例 + **不下发响应头**的 mock → 必须变红）
    · hrun 退出码 = 1（期望 **≠0**：判据有牙）
@@ -32,7 +34,7 @@
      E   assert_method: contained_by
      check_value: None(NoneType)
      check_value: None(NoneType)
-     ============================== 1 failed in 0.11s ==============================
+     ============================== 1 failed in 0.08s ==============================
 
 ■ 结论
   · 文档里的**响应头表**（`头` 打头 + 无「必填」列 + 附近有『响应』字样）被认下 ✓

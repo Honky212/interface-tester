@@ -409,6 +409,10 @@ def generate_case(
     result = GenResult(case_name=name, slice_title=slice_.title_path)
     feedback: Optional[Tuple[Text, Text]] = None
 
+    # ★§9.33（登记项 3）：模型通路同样要把「**文档级**降级说明」带出去（此前两条通路都丢）。
+    #   放在**环外**只算一次（逐轮重算纯属浪费），且与确定性通路**同一份判据**。
+    doc_extras = _doc_degradation_unknowns(doc_degradation_notes(doc_text))
+
     for index in range(1, max_rounds + 2):
         user = build_user_prompt(slice_.text, slice_.title_path, feedback)
         request = build_request(system, user, config=config)  # ← 预算超限在这里直接抛
@@ -452,7 +456,7 @@ def generate_case(
         # **"模型没干活"的质量信号**，被工具悄悄抹掉，等于把 R14 那种幻觉换了个马甲。
         # 所以：**模型零断言 → 不合并**（照旧被 S3 拦、照旧留 NEEDS_HUMAN），但把"确定性映射
         # 其实另有 N 条可用"写成可见 note —— 该走 `--assertions-only` 或人工，不是让工具替它过关。
-        extra_unknowns: List[Any] = []
+        extra_unknowns: List[Any] = list(doc_extras)
         if merge_enabled(cli_flag=merge):
             if _model_has_usable_assertion(draft, doc_text):
                 merged = merge_derived_assertions(
@@ -865,6 +869,63 @@ def extract_endpoint(doc_text: Text) -> Tuple[Text, Text]:
     return hits[0] if hits else ("", "")
 
 
+# ---------------------------------------------------------------------------
+# ★§9.33（登记项 3）：**文档级降级说明**必须可见
+# ---------------------------------------------------------------------------
+# 背景（实测暴露的可见性缺口）：`derive_assertions()` 的第二个返回值是"我们**没有**断言
+# 什么"的逐条说明（请求侧字段、判不出的类型、失败响应示例……），可达 10~15 条；
+# 但**两条通路都把 `_skipped` 丢掉了**——产物上完全看不出"文档里声明了、工具却没断"的东西。
+# 这是本仓最忌讳的形态：不是响亮报错，而是**静默**。
+#
+# ★为什么是"文档级"而不是"逐段"：`skipped` 的契约是 `List[str]`（**没有行号**），
+#   无法归属到某个接口段——**猜它属于哪一段比不标更坏**（§9.32 的教训同款）。
+#   所以：作为**一条**聚合说明随**每段**草稿落地，并在消息里写明"对所有接口段都适用"。
+#   要按段归属，得先给 `skipped` 的契约加行号——独立一件事（登记）。
+DOC_DEGRADATION = "doc-degradation"
+
+
+def doc_degradation_notes(doc_text: Text, *, query_scopes: Sequence[Any] = ()) -> List[Text]:
+    """本文档的**降级说明**（"声明了但判不出可断言事实"），**去重保序**。
+
+    ★**唯一来源**：`derive_assertions()` 的第二个返回值——判据侧只维护那一份，
+      这里不重写词表（CLI 的终端摘要与 `unknowns` 都用它，避免两处口径漂移）。
+    """
+    from interfacetester_ai.assertions import derive_assertions  # noqa: PLC0415
+
+    _assertions, notes = derive_assertions(doc_text, query_scopes=query_scopes)
+    return [
+        text
+        for text in dict.fromkeys((note or "").strip() for note in notes)
+        if text
+    ]
+
+
+def _doc_degradation_unknowns(notes: Sequence[Text]) -> List[Any]:
+    """把降级说明翻成**一条** `Unknown`（`kind=DOC_DEGRADATION`，`level=degrade`）。"""
+    from interfacetester_ai.assembler import Unknown  # noqa: PLC0415
+
+    unique = [text for text in dict.fromkeys(note.strip() for note in notes) if text]
+    if not unique:
+        return []
+    body = "\n".join(f"    {index}) {note}" for index, note in enumerate(unique, 1))
+    return [
+        Unknown(
+            kind=DOC_DEGRADATION,
+            where="（文档级）",
+            message=(
+                f"**文档级**降级说明：本文档有 {len(unique)} 条「**文档声明了、但判不出可断言的内容**」"
+                f"的东西，工具**没有替文档拍板**（逐条如下）——\n{body}"
+            ),
+            hint=(
+                "这些不是错误，是「判不了」。要么按《保障 interfacetester_ai 稳定生成 yaml 用例的"
+                "接口文档示例.md》把文档补成可判（类型 / 固定值 / 取值 / 必填 / 成功响应结构），"
+                "要么人工补断言。★本条对**所有接口段**都适用（每段草稿都会带一份，便于逐段审阅）；"
+                "之所以是文档级而不是逐段：判据里**没有行号**，猜它属于哪一段比不标更坏"
+            ),
+        )
+    ]
+
+
 def generate_assertions_only_all(
     doc_text: Text, *, case_name: Text = "", base_url: Text = ""
 ) -> List[Any]:
@@ -901,7 +962,11 @@ def generate_assertions_only_all(
         for item in sections
         if (item.method or "").strip().upper() in ("GET", "HEAD")
     ]
-    all_assertions, _skipped = derive_assertions(doc_text, query_scopes=query_scopes)
+    all_assertions, doc_level_notes = derive_assertions(doc_text, query_scopes=query_scopes)
+    # ★§9.33（登记项 3）：**降级说明必须可见**——此前这里是 `_skipped`（直接丢掉），
+    #   于是"文档声明了、工具却没断"的东西在产物上完全看不到（静默）。
+    #   它是**文档级**的（判据里没有行号），故随**每段**草稿各带一份。
+    doc_extras = _doc_degradation_unknowns(doc_level_notes)
     lines = (doc_text or "").split("\n")
     # ★§9.16：字段表只解析**一次**，逐段复用（逐段重解析是 O(段数 × 行数)，真文档上明显变慢）。
     field_rows = read_field_rows(doc_text, query_scopes=query_scopes)
@@ -929,7 +994,7 @@ def generate_assertions_only_all(
             method=section.method or "",
         )
 
-        extra: List[Any] = [
+        extra: List[Any] = list(doc_extras) + [
             Unknown(
                 kind="request-value",
                 where=section.url,

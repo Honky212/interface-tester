@@ -73,6 +73,8 @@ CURRENT_DOCS = [
     os.path.join("docs", "能力清单.md"),
     # 批次 9-1 新增：架构与调用链文档（同样受「版本号不许写死」的约束）
     os.path.join("docs", "架构与调用链.md"),
+    # ★§9.34 新增：交付说明（一页交付口径；同样受「版本号 / 基线数字只有一个来源」的约束）
+    os.path.join("docs", "交付说明.md"),
 ]
 
 # 护栏：扫描量低于这个数说明扫描没生效（空跑）
@@ -1054,4 +1056,77 @@ class TestDeprecatedWorkloadNumbersOnlyAppearAsHistory(unittest.TestCase):
             self._offenders("当前口径：总计 34~48 人日，按此排期。"),
             "注入的'旧数字当当前口径'竟然没被发现 —— 那么上一条护栏是空跑",
         )
+
+class TestProbeRoutineCoversEveryProbe(unittest.TestCase):
+    """★§9.33 登记项：**每个探针都必须被分类**（例行 / 模型 / 不例行＋理由）。
+
+    **为什么要有这条判据**：登记在案的坑是「探针只手工跑 → 会失忆」——
+    `probe_analyze_models.py` 落地前，「哪个模型能用」**没有任何东西可观测**
+    （单测全是 `FakeTransport`）。加一个探针却不挂例行，等于把"我们量过"这句话交给记性。
+    所以：**新增探针忘了分类 → 这条红**（"忘掉一件事"从此是响亮的，不是静默的）。
+
+    三分类见 `probe_p2_prep/routine.py`：`ROUTINE`（确定性、每次例行跑）/ `MODEL_STEPS`
+    （要真出网、不参与退出码）/ `EXCLUDED`（一次性测量，**必附理由**）。
+    """
+
+    def _routine(self):
+        import sys
+
+        probe_dir = os.path.join(BASE, "probe_p2_prep")
+        if probe_dir not in sys.path:
+            sys.path.insert(0, probe_dir)
+        import routine  # noqa: PLC0415
+
+        return routine
+
+    def _probe_files(self):
+        probe_dir = os.path.join(BASE, "probe_p2_prep")
+        return {
+            name
+            for name in os.listdir(probe_dir)
+            if name.startswith("probe_") and name.endswith(".py")
+        }
+
+    def test_every_probe_is_classified(self):
+        routine = self._routine()
+        classified = (
+            {name for name, _note, _mock in routine.ROUTINE}
+            | {name for name, _note in routine.MODEL_STEPS}
+            | set(routine.EXCLUDED)
+        )
+
+        unclassified = self._probe_files() - classified
+        self.assertEqual(
+            unclassified,
+            set(),
+            f"这些探针没被分类（例行 / 模型 / 不例行＋理由）：{sorted(unclassified)}；"
+            "请把它们加进 probe_p2_prep/routine.py 的 ROUTINE / MODEL_STEPS / EXCLUDED",
+        )
+
+    def test_classification_has_no_stale_names(self):
+        """★成对：分类表里的名字必须真的存在（改名/删文件后忘了改表，也会红）。"""
+        routine = self._routine()
+        classified = (
+            {name for name, _note, _mock in routine.ROUTINE}
+            | {name for name, _note in routine.MODEL_STEPS}
+            | set(routine.EXCLUDED)
+        )
+
+        self.assertEqual(sorted(classified - self._probe_files()), [])
+
+    def test_excluded_ones_must_say_why(self):
+        """★「不例行」必须**附一句理由** —— 否则它就是"被忘掉的探针"的藏身处。"""
+        routine = self._routine()
+
+        for name, reason in routine.EXCLUDED.items():
+            with self.subTest(probe=name):
+                self.assertGreaterEqual(len(reason.strip()), 20, f"{name} 的排除理由太短")
+
+    def test_model_steps_do_not_gate(self):
+        """★模型探针**不许**参与例行退出码（断网 / 没配模型都是正常环境）。"""
+        routine = self._routine()
+
+        names = {name for name, _note, _mock in routine.ROUTINE}
+        self.assertNotIn("probe_analyze_models.py", names)
+        self.assertIn("probe_analyze_models.py", {name for name, _note in routine.MODEL_STEPS})
 

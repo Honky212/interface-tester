@@ -1,0 +1,55 @@
+==============================================================================
+例行任务：探针一遍跑（§9.33 登记项）
+时间：2026-09-27T18:23:18
+文档（mock 用）：project-three\统一文件服务平台-接入应用接口文档.md
+模型步骤：跳过（加 --with-models 才跑）
+==============================================================================
+
+【例行】probe_error_rules.py —— 错误条件引擎：分族条数 / 绑定 / 不模拟点名（离线）
+  退出码 = 0
+
+【例行】probe_response_ownership.py —— 响应侧归属：段外断言丢弃 + 点名（离线）
+  退出码 = 0
+
+【例行】probe_upload_path.py —— 上传路径：真发 multipart vs 只给文件名
+  退出码 = 0
+    ■ 结论
+    ★这一对就是 §9.26 要固化的形态：「**大小这个事实在不在请求里**」决定了上传类负例步骤
+
+【例行】probe_required_fact.py —— 响应数据表「必带」→ required + 牙齿对照
+  退出码 = 0
+    ■ 结论
+
+【例行】probe_cookie_fact.py —— 响应 Cookie → 断言 + mock 同源下发 + 牙齿对照
+  退出码 = 0
+    ■ 结论
+
+【例行】probe_response_header_fact.py —— 响应头表 → 断言 + mock 同源下发 + 牙齿对照
+  退出码 = 0
+    ■ 结论
+
+【例行】probe_negative_cases.py —— 五族**成对**能力证明（★需先起 mock，本脚本代起）
+  退出码 = 0
+    PASS  [relation] 正例：path 与 X-Path 一致｜实际 errorCode=None（期望 None）status=200
+    PASS  [relation] 负例：path 与 X-Path 不一致 → FILE_1018｜实际 errorCode='FILE_1018'（期望 'FILE_1018'）status=200
+    PASS  [exist] 正例：版本 v1 在文档里出现过｜实际 errorCode=None（期望 None）status=200
+    PASS  [exist] 负例：版本 v999 文档里没有 → FILE_2005｜实际 errorCode='FILE_2005'（期望 'FILE_2005'）status=200
+    PASS  [exist] 正例：目录 /app1/ 是文档示例值｜实际 errorCode=None（期望 None）status=200
+    PASS  [exist] 负例：目录 /nope-xyz/ 不在种子数据里 → FILE_2001｜实际 errorCode='FILE_2001'（期望 'FILE_2001'）status=200
+    PASS  [required] 正例：必填 path 在场｜实际 errorCode=None（期望 None）status=200
+    PASS  [required] 负例：必填 path 缺失 → FILE_1010｜实际 errorCode='FILE_1010'（期望 'FILE_1010'）status=200
+    PASS  [format] 正例：目录路径以 / 开头并以 / 结尾｜实际 errorCode=None（期望 None）status=200
+    PASS  [format] 负例：不以 / 结尾 → FILE_4001｜实际 errorCode='FILE_4001'（期望 'FILE_4001'）status=200
+    PASS  [format] 负例：含连续的 / → FILE_4003｜实际 errorCode='FILE_4003'（期望 'FILE_4003'）status=200
+    PASS  [format] 负例：首尾有空格 → FILE_4018｜实际 errorCode='FILE_4018'（期望 'FILE_4018'）status=200
+    PASS  [exist] ★裁决：未知实体＋格式也违规 → 存在性优先（FILE_2001）｜实际 errorCode='FILE_2001'（期望 'FILE_2001'）status=200
+    PASS  [relation] 正例：源目录 != 目标目录｜实际 errorCode=None（期望 None）status=200
+    PASS  [relation] 负例：源目录 == 目标目录 → FILE_4009｜实际 errorCode='FILE_4009'（期望 'FILE_4009'）status=200
+    PASS  [limit] 正例：上传 2 个文件（上限 10）｜实际 errorCode=None（期望 None）status=200
+    PASS  [limit] 负例：上传 11 个文件 → FILE_1016｜实际 errorCode='FILE_1016'（期望 'FILE_1016'）status=200
+    PASS  [limit] ★判不了：请求里没给『大小』这个事实 → 不命中（也不乱报）｜实际 errorCode=None（期望 None）status=200
+    成对结果：**18/18**
+
+------------------------------------------------------------------------------
+■ 结果：**7/7 个例行步骤全绿**
+（模型步骤不参与成败；它的结论在 `out_analyze_models.txt`）

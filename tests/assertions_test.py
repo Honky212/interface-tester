@@ -41,6 +41,7 @@ from interfacetester_ai.assertions import (  # noqa: E402
     todo_expect,
 )
 from interfacetester_ai.gen import (  # noqa: E402
+    DOC_DEGRADATION,
     documented_base_urls,
     extract_endpoint,
     generate_assertions_only,
@@ -1452,6 +1453,70 @@ class TestResponseHeaderTables(unittest.TestCase):
 
         self.assertEqual(enum_of("取值：no-store / max-age=60"), ["no-store", "max-age=60"])
         self.assertEqual(enum_of("取值：no-cache"), ["no-cache"])
+
+
+class TestDocDegradationIsVisible(unittest.TestCase):
+    """★§9.33 登记项 3：`derive_assertions` 的**降级说明**必须落进 `unknowns`（可见，不静默）。
+
+    **改动前的现场**：两条通路都写成 `all_assertions, _skipped = derive_assertions(...)` ——
+    `_skipped`（"**文档声明了、但判不出可断言内容**"的逐条说明）被丢掉，产物上**完全看不出**
+    "我们没断言什么"。真实文档上量过：**10~15 条**（见 `docs/未做完的待决策项.md` §9.33 第 7 节第 3 条）。
+
+    ★为什么是"文档级"而不是"逐段"：`skipped` 的契约是 `List[str]`（**没有行号**）——
+    猜它属于哪一段比不标更坏（§9.32 的同一课），所以随**每段**草稿各带一份并写明"对所有段适用"。
+    """
+
+    # 两条必然的降级说明：① 成功响应示例里 `data` 是**结构**（不按值断言）；
+    # ② 失败响应示例要非法请求才触发（负例该单列用例）
+    DOC_WITH_DEGRADATION = (
+        "# 服务\n\n## POST /api/order\n\n建单。\n\n"
+        "### 请求体（JSON）\n\n"
+        "| 字段 | 类型 | 必填 | 说明 | 示例值 |\n| --- | --- | --- | --- | --- |\n"
+        "| orderId | string | 是 | 订单号 | A-1 |\n\n"
+        '请求体示例：\n\n```json\n{"orderId": "A-1"}\n```\n\n'
+        '### 成功响应\n\n```json\n{"success": true, "data": {"orderId": "A-1"}}\n```\n\n'
+        '### 失败响应\n\n```json\n{"success": false, "errorCode": "ORDER_4001"}\n```\n'
+    )
+    # 同一形态但**没有**任何"判不了"的东西 → 不许出现这条（成对）
+    CLEAN_DOC = (
+        "# 服务\n\n## GET /api/ping\n\n存活探测。\n\n"
+        "### 响应\n\n"
+        "| 字段 | 类型 | 说明 |\n| --- | --- | --- |\n| ok | bool | 是否成功 |\n"
+    )
+
+    def test_every_draft_carries_the_doc_level_degradation(self):
+        results = generate_assertions_only_all(self.DOC_WITH_DEGRADATION)
+
+        self.assertTrue(results, "夹具没有识别出接口段")
+        for result in results:  # ★每段都带（文档级说明对所有接口段都适用）
+            kinds = [item.kind for item in result.unknowns]
+            self.assertIn(DOC_DEGRADATION, kinds, kinds)
+        note = next(item for item in results[0].unknowns if item.kind == DOC_DEGRADATION)
+        self.assertIn("失败响应", note.message)  # 逐条原文在里面（不是空壳）
+        self.assertIn("文档级", note.message)
+        # ★它**不阻止转正**：这不是"错"，是"判不了"（level=degrade）
+        self.assertEqual(note.level, "degrade")
+
+    def test_clean_document_has_no_degradation_note(self):
+        """★成对：文档里没有"判不了"的东西 → **不产**这条（别把正常情况也标成降级）。"""
+        results = generate_assertions_only_all(self.CLEAN_DOC)
+
+        self.assertTrue(results)
+        for result in results:
+            kinds = [item.kind for item in result.unknowns]
+            self.assertNotIn(DOC_DEGRADATION, kinds, kinds)
+
+    def test_wiring_is_what_makes_it_appear(self):
+        """★元护栏：把接线掐掉（`_doc_degradation_unknowns` 恒返回 []）→ 那条**必消失**。
+
+        证明"它在产物里"靠的是**这条接线**，而不是别的东西顺手带出来的。
+        """
+        import interfacetester_ai.gen as gen_module
+
+        with mock.patch.object(gen_module, "_doc_degradation_unknowns", lambda notes: []):
+            result = generate_assertions_only_all(self.DOC_WITH_DEGRADATION)[0]
+
+        self.assertNotIn(DOC_DEGRADATION, [item.kind for item in result.unknowns])
 
 
 class TestRequestPayloadFromFieldTables(unittest.TestCase):

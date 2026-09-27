@@ -882,14 +882,61 @@ def _format_violated(value, check):
     return False
 
 
+# ★§9.33（登记项 2）：同一请求**同时满足多族条件**时的裁决顺序。
+#   改动前是**纯按构建顺序**（谁先建出来谁先判），于是 `format` 常抢在 `exist` 前面报出去 ——
+#   「目录名格式不对」盖住了「目录不存在」，而后者是**前置**：不存在就谈不上格式。
+#   顺序即语义：非空 → 存在性 → 上限 → 关系 → 格式。**同族内保持构建顺序**（稳定排序）。
+KIND_PRIORITY = ("required", "exist", "limit", "relation", "format")
+
+# ★§9.33（登记项 2）：**失败响应的 HTTP 状态**必须以文档为准。
+#   实测两派写法**都真实存在**（不是笔误）：
+#     · 示例文档：「失败响应返回 `errorCode: FILE_1018`（**HTTP 状态码仍为 `200`**）」
+#     · 转换文档（`接口文档示例转换文档测试1.md:180`）：「…（**HTTP `500`**，依据 TC-DIR-003）」
+#   改动前 mock **一律回 200** —— 文档写 500 时，产物里那条 `status_code` 断言**必红**，
+#   而根因是"mock 没照文档实现"，**不是用例错**（最坏的一种红：怪错了人）。
+#   口径：**引用句里写了就用它**（逐条最精确）→ 退到本节 → 再退到 200（示例文档写明的默认）。
+_HTTP_STATUS_RE = re.compile(r"HTTP\s*状态码?\s*`?(\d{3})|HTTP\s*`?(\d{3})", re.I)
+
+
+def documented_failure_status(quote, section_text="", default=200):
+    """取文档写明的失败 HTTP 状态：**引用句** → **本节** → `default`（示例文档的默认 `200`）。"""
+    for text in (quote or "", section_text or ""):
+        found = _HTTP_STATUS_RE.search(text)
+        if found:
+            return int(found.group(1) or found.group(2))
+    return default
+
+
+def _normalize_entity(value):
+    """判"这个实体在不在种子数据里"之前的归一化：**首尾空白 + 大小写**（只做这两样）。
+
+    ★§9.33（登记项 2）的根因就在这：`" /app1/documents/ "` 与种子值 `"/app1/documents/"`
+    只差首尾空格 —— 那是**写错**（该报格式错），不是**另一个实体**（才该报不存在）。
+    不归一化会出现"怪错规则"：文档明写「开头和结尾不能有空格 → `FILE_4018`」，
+    mock 却回 `FILE_2001`（目录不存在）—— 从而把 `format` 族的成对证明**打成假绿/假红**。
+    """
+    return value.strip().casefold()
+
+
+def _by_kind_priority(rules):
+    """按 `KIND_PRIORITY` **稳定**排序（同族内保持构建顺序，便于阅读与复现）。"""
+    order = {name: index for index, name in enumerate(KIND_PRIORITY)}
+    return sorted(
+        rules or (), key=lambda rule: order.get(rule.get("kind", "relation"), len(order))
+    )
+
+
 def evaluate_error_rules(rules, handler, body, known=None):
     """命中第一条**成立**的条件 → `(错误码, 原句)`；都不成立 → `(None, "")`。
 
     ★五族各判各的；**值不齐一律算"本次不可判"**（不是"没触发"，也不报）—— 宁可漏报，绝不乱报。
+    ★§9.33（登记项 2）：裁决按 `KIND_PRIORITY`（`exist` 优先于 `format`），不再纯按构建顺序。
     """
     if known is None:
         known = KNOWN_VALUES  # 不给就取启动时从文档推出来的**种子数据**（真服务上线时它=真数据）
-    for rule in rules or ():
+    # ★§9.33：种子也按同一口径归一化（否则"只差空格"的值仍会被判成不存在）
+    known_norm = {_normalize_entity(item) for item in known if isinstance(item, str)}
+    for rule in _by_kind_priority(rules):
         kind = rule.get("kind", "relation")
         if kind == "relation":
             left = _request_values(handler, body, rule["left"])
@@ -925,36 +972,13 @@ def evaluate_error_rules(rules, handler, body, known=None):
                 for value in _request_values_all(handler, body, field):
                     if not isinstance(value, str) or _looks_like_reference(value):
                         continue
-                    if value not in known:
+                    if _normalize_entity(value) not in known_norm:
                         return rule["code"], rule["quote"]
         elif kind == "format":
             for value in _request_values_all(handler, body, rule["field"]):
                 if isinstance(value, str) and _format_violated(value, rule["check"]):
                     return rule["code"], rule["quote"]
     return None, ""
-
-
-def _failure_body(code, section_text, message):
-    """失败响应：**沿用该节失败响应示例的形状**（有的话），把 `errorCode` 换成命中规则的码。
-
-    ★错误码**同时**放进 `message`：断言常写成 `contains: [body, 'FILE_1018']`，
-    而"整包 contains 一个值"是否命中由内核语义决定 —— 两种写法都覆盖，免得判据悬空。
-    """
-    for match in FENCE_RE.finditer(section_text or ""):
-        head = (section_text or "")[: match.start()][-160:]
-        if not re.search(r"失败|错误|error|fail", head, re.I):
-            continue
-        try:
-            payload = json.loads(match.group(1))
-        except ValueError:
-            continue
-        if isinstance(payload, dict):
-            payload = dict(payload)
-            payload["success"] = False
-            payload["errorCode"] = code
-            payload["message"] = f"{message}（{code}）"
-            return payload
-    return {"success": False, "errorCode": code, "message": f"{message}（{code}）", "data": None}
 
 
 def build_routes(doc_text):
@@ -971,19 +995,99 @@ def build_routes(doc_text):
     return routes
 
 
-def _response_body(section_text):
-    """那一节的 **响应示例**；没有就用统一响应格式的信封（§1.4）。"""
-    for match in FENCE_RE.finditer(section_text):
-        head = section_text[: match.start()][-160:]
-        if not re.search(r"响应|response|result", head, re.I):
+# ★§9.33：示例围栏的**归属判据**词表（`_fence_context` / `_pick_json_fence` 用）
+_HEADING_RE = re.compile(r"^#{1,6}\s*(.+?)\s*$")
+RESPONSE_WORDS_RE = re.compile(r"响应|返回|response|result", re.I)
+REQUEST_WORDS_RE = re.compile(r"请求|入参|参数|request|payload", re.I)
+FAIL_WORDS_RE = re.compile(r"失败|错误|error|fail", re.I)
+SUCCESS_WORDS_RE = re.compile(r"成功|success", re.I)
+
+
+def _fence_context(section_text, start):
+    """围栏**之前**的上下文 → `(最近的小节标题, 最近的一行"标签", 紧邻 160 字)`。
+
+    ★为什么不能只看"前面 160 字里有没有『响应』"（§9.33 登记项 1 的真现场）：
+      请求体表的「说明」列里只要出现"响应/返回"两字，它前面的**请求体示例**就会被当成
+      响应示例回给用例 —— 症状是**断言全 `check_value: None`**（不是报错，是**静默假失败**），
+      而且会毁掉此后所有负例探针的可信度。
+      判据必须**先看归属**（"这一节/这行标签到底在讲请求还是响应"），再退到就近说明。
+    """
+    head = (section_text or "")[:start]
+    heading = ""
+    label = ""
+    for line in head.splitlines():
+        stripped = line.strip()
+        if not stripped:
             continue
+        found = _HEADING_RE.match(stripped)
+        if found:
+            heading = found.group(1).strip()
+            label = ""  # 标题之后、围栏之前的那行才是"标签"
+        else:
+            label = stripped.strip("*`：: ")
+    return heading, label, head[-160:]
+
+
+def _iter_json_fences(section_text):
+    """本节的 JSON 围栏 → `(payload, heading, label, window)`（解析不了的跳过）。"""
+    for match in FENCE_RE.finditer(section_text or ""):
         try:
             payload = json.loads(match.group(1))
         except ValueError:
             continue
-        if isinstance(payload, dict):
+        if not isinstance(payload, dict):
+            continue
+        heading, label, window = _fence_context(section_text, match.start())
+        yield payload, heading, label, window
+
+
+def _pick_json_fence(section_text, want, *, avoid=None):
+    """按**归属优先**的阶梯挑一个示例围栏（§9.33 修的就是"只有第 ③ 步"的那个旧口径）。
+
+    阶梯（**顺序即口径**）：
+
+    ① 紧邻的**标签行**命中 `want`（`成功响应示例：` / `失败响应：`）→ 就是它（最强信号）；
+    ② 标签行命中 `avoid`（`请求体示例：`）→ **排除**（哪怕说明里提到"响应"两字）；
+    ③ 小节**标题**命中 `want` → 认定；
+    ④ 标题命中 `avoid` → 排除；
+    ⑤ 都没说 → 退到"紧邻 160 字里出现过 `want`"（**旧口径，保留为兜底**）；
+    ⑥ 一个都没有 → `None`（调用方给默认信封）。
+    """
+    fallback = None
+    for payload, heading, label, window in _iter_json_fences(section_text):
+        if want.search(label):
             return payload
-    return dict(ENVELOPE)
+        if avoid is not None and avoid.search(label):
+            continue
+        if want.search(heading):
+            return payload
+        if avoid is not None and avoid.search(heading):
+            continue
+        if fallback is None and want.search(window):
+            fallback = payload
+    return fallback
+
+
+def _failure_body(code, section_text, message):
+    """失败响应：**沿用该节失败响应示例的形状**（有的话），把 `errorCode` 换成命中规则的码。
+
+    ★错误码**同时**放进 `message`：断言常写成 `contains: [body, 'FILE_1018']`，
+    而"整包 contains 一个值"是否命中由内核语义决定 —— 两种写法都覆盖，免得判据悬空。
+    """
+    payload = _pick_json_fence(section_text, FAIL_WORDS_RE, avoid=SUCCESS_WORDS_RE)
+    if payload is not None:
+        payload = dict(payload)
+        payload["success"] = False
+        payload["errorCode"] = code
+        payload["message"] = f"{message}（{code}）"
+        return payload
+    return {"success": False, "errorCode": code, "message": f"{message}（{code}）", "data": None}
+
+
+def _response_body(section_text):
+    """那一节的 **响应示例**；没有就用统一响应格式的信封（§1.4）。"""
+    payload = _pick_json_fence(section_text, RESPONSE_WORDS_RE, avoid=REQUEST_WORDS_RE)
+    return payload if payload is not None else dict(ENVELOPE)
 
 
 def make_handler(routes, cookie_values=None, response_headers=None):
@@ -1071,8 +1175,13 @@ def make_handler(routes, cookie_values=None, response_headers=None):
             # ★§9.21 先问**错误条件引擎**：命中就回失败响应（负例步骤才有可能真跑）
             code, quote = evaluate_error_rules(ERROR_RULES.get(key), self, body, KNOWN_VALUES)
             if code:
+                section = SECTIONS.get(key, "")
                 self._record(body, triggered=f"{code} ← {quote[:60]}")
-                self._respond(200, _failure_body(code, SECTIONS.get(key, ""), quote[:60]))
+                # ★§9.33：HTTP 状态**照文档**（引用句里写了 `HTTP 500` 就用 500；没写就 200）
+                self._respond(
+                    documented_failure_status(quote, section),
+                    _failure_body(code, section, quote[:60]),
+                )
                 return
             self._record(body)
             if key in routes:

@@ -285,7 +285,29 @@ def _run_assertions_only(args: argparse.Namespace, doc_text: Text) -> int:
         "（★每段一条；转正仍需 `haify review --approve` —— 退出码 0 ≠ 可直接进 CI）"
     )
     _print_drop_summary(results)
+    _print_doc_degradation(doc_text)
     return EXIT_OK if produced == len(results) else EXIT_CASE_FAILED
+
+
+def _print_doc_degradation(doc_text: Text) -> None:
+    """把**文档级降级说明**在终端上也说一遍（§9.33 登记项 3）。
+
+    ★为什么终端也要说：它虽然已随每段草稿落进 `unknowns.json`，但那是**文件** ——
+      用户跑完命令看到的是"3/3 条接口段产出草稿 ✓"，很容易以为"文档里能断的都断了"。
+      本仓的口径是：**没断言什么，必须在人眼前出现过一次**（不是"我们记得"）。
+    """
+    from interfacetester_ai.gen import doc_degradation_notes  # noqa: PLC0415
+
+    notes = doc_degradation_notes(doc_text)
+    if not notes:
+        return
+    print(
+        f"[haify gen --assertions-only] 文档级降级说明：**{len(notes)} 条**"
+        "（文档声明了、但判不出可断言的内容 → 工具**没有替文档拍板**；"
+        "每段草稿的 `unknowns` 里都带了一份）"
+    )
+    for index, note in enumerate(notes, 1):
+        print(f"    {index}) {note[:118]}{'…' if len(note) > 118 else ''}")
 
 
 def _print_promotion_brief(target: Text, *, resolved_blockers: Sequence[Text] = ()) -> None:

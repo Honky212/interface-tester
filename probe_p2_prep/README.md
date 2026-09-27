@@ -344,7 +344,7 @@ python probe_p2_prep/e2e_run_generated.py <工作区2> --drafts <新工作区>/.
 | **确定性通路产物的请求载荷**（§9.16） | **0 段 → 6 段 `json` + 9 段 `params`**（17 段里），`TODO_` **0 个**（值全来自文档「示例值」列） |
 | **请求侧回读**（mock 照录收到的请求；§9.16） | **19/19 条请求带文档声明的请求头、6 条带请求体**（模型通路对照：26/26 带请求头、2 条带请求体）——★mock **不校验**参数，所以"没发参数"在跑分上**照样是绿的**，只能靠回读 |
 | **端到端真跑通过率** | 确定性通路 **14/14（100%）**；模型通路 **5/6（83%）**（纯正例 **4/4 = 100%**；含负例步 2 条中 **1 条真绿** —— "版本不存在"现在被 mock 按文档回 `FILE_2005` ✓） |
-| **错误条件（§9.21→§9.22）** | 从文档推导出**可模拟 129 条**（五族：非空 18 / 上限 2 / 存在性 30 / 格式 58 / 关系 21）；**成对能力证明 17/17**（`probe_negative_cases.py`：每族都验"正例不误报 + 负例必命中"）；**判不了的条件陈述 13 条逐条点名**（另 11 条是示例 JSON 里的错误码行，单列） |
+| **错误条件（§9.21→§9.22）** | 从文档推导出**可模拟 129 条**（五族：非空 18 / 上限 2 / 存在性 30 / 格式 58 / 关系 21）；**成对能力证明 18/18**（`probe_negative_cases.py`：每族都验"正例不误报 + 负例必命中"，第 18 条是 §9.33 的**裁决**）；**判不了的条件陈述 13 条逐条点名**（另 11 条是示例 JSON 里的错误码行，单列） |
 | **提示词（§9.23）** | system prompt 补**通用**正例（`contains` 对**字典**测的是**键** → 断取值用 `equal`）+ `PROMPT_VERSION` v2.4；**A/B 实测**：v2.3 产物里 **4 条** `contains: [body, 'FILE_xxxx']` ✗ → v2.4 **0 条**、改成 **13 条** `body.errorCode` + 比较算子 ✓ |
 | **失败分析可用性（§9.24）** | 契约 + 修正环 + **按模型探针**：`qwen3.8:27b` ✅ 跑通（未降级 **100%**、首发即合格 **0 轮**）；`gemma4:latest` / `gemma4:12b` ❌ **仍跑不通**（缓存的 `response_text` 整串都是 `<unused50>` 特殊 token → **模型没输出文本**，不是 JSON 写错）——但现在失败是**响亮的退出码 4 + 无半成品** ✓（见 `out_analyze_models.txt`） |
 | **上传路径可用性（§9.26）** | 装上 `filetype`（上传 extra 的**核心**依赖）后 `UPLOAD_READY = True` ✓；探针 `probe_upload_path.py` 真发 multipart 文件 → **命中**文档写的大小规则 → **负例步骤真绿（1 passed）** ✓；只给文件名的 T3_1 形态 → **未命中、用例失败**（**服务端判不了**，不是用例错）✓（见 `out_upload_path.txt`） |
@@ -365,8 +365,10 @@ python probe_p2_prep/probe_error_rules.py                       # → out_error_
 
 # 2) 成对能力证明（**先起 mock**）：每族验"正例不误报 + 负例必命中 + 判不了不乱报"
 python probe_p2_prep/mock_file_service.py --port 8899 &
-python probe_p2_prep/probe_negative_cases.py                    # → out_negative_cases.txt（17/17）
+python probe_p2_prep/probe_negative_cases.py                    # → out_negative_cases.txt（18/18）
 ```
+
+> ★**别手工一条条跑** —— 见下面「例行任务」：一条命令跑完（含代起 mock 与模型可用性）。
 
 五族都是**文档驱动**（换一份文档只换文档、不改代码）：
 
@@ -427,3 +429,28 @@ python probe_p2_prep/probe_upload_path.py        # → out_upload_path.txt
 三种写法都会让闸门**形同虚设**（实测 `body.path` 被别的接口的响应示例救活两次）。
 ③ **判不了就不判**：引用句在文档里定位不到 → 放行；反过来"挑最短匹配节"会**误摘**
 （`请求体` 这种标题多处都有）。误摘比漏摘更坏——T10 的误伤率审计守的就是这个。
+
+
+---
+
+## 例行任务（§9.34）：一条命令跑完探针
+
+```powershell
+python probe_p2_prep/routine.py                 # 确定性探针（不调模型、不出网）→ out_routine.txt
+python probe_p2_prep/routine.py --with-models   # 再加「按模型统计 analyze 可用性」（真出网）
+```
+
+**为什么要有它**：本目录的探针原来都是**手工**一条条跑 —— 而「**哪个模型能用**」这件事就因此
+**失忆过一次**（同一份 summary、同一台 ollama，结果只取决于模型；当时**没有任何东西可观测**，
+因为单测全是 `FakeTransport`）。本仓的硬纪律是「**Fake 全绿 ≠ 真模型能用**」，
+所以模型可用性必须**按期真量**，而且要有个**记得住**的地方去量。
+
+| 分类 | 谁 | 什么时候跑 |
+| --- | --- | --- |
+| `ROUTINE`（7 条） | 错误条件引擎 / 响应归属 / 上传路径 / 必带 / cookie / 响应头 / **五族成对证明**（本脚本**代起 mock**） | 每次都跑；**退出码必须 0** |
+| `MODEL_STEPS`（1 条） | `probe_analyze_models.py` | `--with-models` 才跑；**不参与退出码**（断网 / 没配模型都算正常环境） |
+| `EXCLUDED`（1 条） | `probe_no_required_tables.py`（一次性测量，结论已入 §9.31） | 需要时手工跑；**排除必附理由** |
+
+★**分类纪律是机器可查的**：新增探针忘了分类（或改了名没改表），
+`tests/docs_consistency_test.py::TestProbeRoutineCoversEveryProbe` 会**红** ——
+「忘掉一件事」从此是响亮的，不是静默的。

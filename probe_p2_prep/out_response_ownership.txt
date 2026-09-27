@@ -5,19 +5,19 @@ A. 确定性通路（`derive_assertions`）—— 归属闸门会摘掉哪些 `b
 auth_token_flow.md
   响应侧字段名（6）：code, data, expiresIn, role, token, userId
   保住 body.X（0）：
-  **摘掉**（2）：body.username, body.password
+  **摘掉**（0）：
   其他（0）：
 
 biz_error_order.md
   响应侧字段名（5）：amount, code, data, message, orderNo
   保住 body.X（0）：
-  **摘掉**（4）：body.sku, body.quantity, body.quantity, body.quantity
+  **摘掉**（0）：
   其他（0）：
 
 create_user_schema.md
   响应侧字段名（5）：code, data, nickname, tags, userId
   保住 body.X（0）：
-  **摘掉**（2）：body.username, body.email
+  **摘掉**（0）：
   其他（0）：
 
 delete_session.md
@@ -30,7 +30,7 @@ get_user_profile.md
   响应侧字段名（6）：avatarUrl, code, data, message, nickname, userId
   保住 body.X（3）：body.code, body.data.userId, body.data.nickname
   **摘掉**（0）：
-  其他（1）：params.userId
+  其他（0）：
 
 legacy_gbk_doc.md
   响应侧字段名（0）：
@@ -41,26 +41,26 @@ legacy_gbk_doc.md
 login.md
   响应侧字段名（5）：code, data, message, token, userId
   保住 body.X（3）：body.code, body.data.token, body.data.userId
-  **摘掉**（2）：body.username, body.password
+  **摘掉**（0）：
   其他（0）：
 
 order_create.md
   响应侧字段名（4）：code, data, orderId, status
-  保住 body.X（3）：body.orderId, body.status, body.status
-  **摘掉**（2）：body.price, body.price
+  保住 body.X（2）：body.status, body.status
+  **摘掉**（0）：
   其他（0）：
 
 paged_product_list.md
   响应侧字段名（6）：code, data, list, price, sku, total
   保住 body.X（2）：body.data.total, body.data.list
   **摘掉**（0）：
-  其他（5）：params.page, params.page, params.pageSize, params.pageSize, params.pageSize
+  其他（0）：
 
 search_products.md
   响应侧字段名（5）：code, data, hits, keyword, list
   保住 body.X（2）：body.data.hits, body.data.list
   **摘掉**（0）：
-  其他（1）：params.keyword
+  其他（0）：
 
 soap_user_service.md
   响应侧字段名（0）：
@@ -72,7 +72,7 @@ update_order_status.md
   响应侧字段名（4）：code, data, orderNo, status
   保住 body.X（2）：body.status, body.status
   **摘掉**（0）：
-  其他（1）：params.orderNo
+  其他（0）：
 
 user_info.md
   响应侧字段名（5）：code, data, email, role, username
@@ -83,20 +83,20 @@ user_info.md
 utf8_bom_doc.md
   响应侧字段名（4）：code, data, state, taskId
   保住 body.X（2）：body.data.taskId, body.data.state
-  **摘掉**（4）：body.scope, body.scope, body.format, body.format
+  **摘掉**（0）：
   其他（0）：
 
 webhook_notify.md
   响应侧字段名（4）：attempt, code, data, delivered
   保住 body.X（2）：body.data.delivered, body.data.attempt
-  **摘掉**（5）：body.event, body.event, body.payload, body.payload.orderNo, body.payload.amount
+  **摘掉**（0）：
   其他（0）：
 
 统一文件服务平台-接入应用接口文档.md
   响应侧字段名（31）：access_token, bucketId, createBy, createTime, current, data, dirLogicalPath, dirName, dirPath, directoryName, errorCode, etag, expires_in, fail
-  保住 body.X（20）：body.path, body.path, body.path, body.path, body.fileName, body.path, body.fileName, body.path, body.fileName, body.path
-  **摘掉**（9）：body.sourceDirName, body.targetDirName, body.files, body.oldFileName, body.newFileName, body.filename, body.filename, body.filename, body.filename
-  其他（9）：body, body, body, body, body, body
+  保住 body.X（54）：body.path, body.version, body.success, body.errorCode, body.message, body.data, body.success, body.errorCode, body.message, body.data
+  **摘掉**（0）：
+  其他（5）：body, body, body, body, body
 
 ==============================================================================
 B. 模型通路（那次真实复跑的 17 份 YAML）—— 逐条 `- check:` 归类

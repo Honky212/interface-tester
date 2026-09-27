@@ -58,6 +58,13 @@ CASES = [
      "/api/directory/update",
      {"X-Path": "/app1/documents/", "Content-Type": "application/json"},
      {"sourceDirName": " /app1/documents/ ", "targetDirName": "/app1/"}, "FILE_4018"),
+    # ★§9.33（登记项 2）**裁决**的成对判据：同一字段同时"违反格式"且"实体不在种子里" →
+    #   报**存在性**（`exist` 优先于 `format`）。上一条是它的对照：实体**在**种子里（只差空格，
+    #   归一化后命中）→ 报**格式**错。两条一起才说明"归一化 + 裁决"这套口径真的在起作用。
+    ("exist", "★裁决：未知实体＋格式也违规 → 存在性优先（FILE_2001）", "POST",
+     "/api/directory/update",
+     {"X-Path": "/app1/documents/", "Content-Type": "application/json"},
+     {"sourceDirName": "/nope-xyz", "targetDirName": "/app1/"}, "FILE_2001"),
     ("relation", "正例：源目录 != 目标目录", "POST",
      "/api/directory/update",
      {"X-Path": "/app1/documents/", "Content-Type": "application/json"},

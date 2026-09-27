@@ -6,11 +6,13 @@
 ① 确定性通路退出码 = 0
    [haify gen --assertions-only] 落点：**按接口段逐片**（每段一条草稿；段外断言不进本条）
    [haify gen --assertions-only] 1/1 条**接口段**产出草稿（★每段一条；转正仍需 `haify review --approve` —— 退出码 0 ≠ 可直接进 CI）
+   1) body.username：**响应侧没有这个字段**（本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它）→ 不做响应断言：拿响应当请求，照文档实现的服务必然失败；要么请文档作者补**成功响应**的数据结构，要么人工按业务
 
 ② 草稿里的 cookie 断言（_api_session_login.yml）
    · equal: [cookies.sessionId, sess-1]
    · contained_by: [cookies.variant, A、B]
    · jsonschema_match: cookies type: object required: sessionId
+   · 点名：**文档级**降级说明：本文档有 2 条「**文档声明了、但判不出可断言的内容**」的东西，工具**没有替文档拍板**（逐条如下）——\n    1) body.username：**响应侧没有这个字段**（本接口段的响应示例 / 响应数据表 / 响应说明句里都没有它）→ 不做响应断言：拿响应当请求
 
 ③ 转正 + 真跑（mock 按文档下发 Set-Cookie）
    · promote：True（ok）
@@ -18,8 +20,8 @@
      ======================== 1 passed, 1 warning in 0.11s =========================
 
 ④ 逐步断言（run.log 原文）
-   2026-09-27 16:47:53.039 | INFO | assert cookies.sessionId equal sess-1(str)	==> pass
-   2026-09-27 16:47:53.039 | INFO | assert cookies.variant contained_by ['A', 'B'](list)	==> pass
+   2026-09-27 18:23:44.027 | INFO | assert cookies.sessionId equal sess-1(str)	==> pass
+   2026-09-27 18:23:44.027 | INFO | assert cookies.variant contained_by ['A', 'B'](list)	==> pass
 
 ⑤ mock 侧证据（启动日志：按文档下发了哪些 cookie）
    [mock] 错误条件：**可模拟 0 条**（1 个接口；）

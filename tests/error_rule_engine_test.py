@@ -13,8 +13,10 @@
 import ast
 import io
 import os
+import re
 import sys
 import unittest
+from unittest.mock import patch
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE, "probe_p2_prep"))
@@ -452,4 +454,159 @@ class TestRealDocumentSmoke(unittest.TestCase):
             self.assertTrue(sentence, "不模拟清单里有空条目")
 
 
+
+class TestFenceOwnership(unittest.TestCase):
+    """★§9.33（登记项 1）：挑"响应示例"必须**先看归属**，不能只看"前面 160 字里有没有『响应』"。
+
+    **真现场**：请求体表的「说明」列里出现"响应/返回"两字 → 它前面的**请求体示例**会被当成
+    响应示例回给用例 → 症状是**断言全 `check_value: None`**（不是报错，是**静默假失败**），
+    并毁掉此后所有负例探针的可信度。判据必须**先看标签/标题**（这一块到底在讲请求还是响应）。
+    """
+
+    SECTION = """#### 请求体（JSON）
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| name | string | 是 | 文件名（响应里会返回 `fileName`） |
+
+请求体示例：
+
+```json
+{"name": "report.pdf"}
+```
+
+#### 成功响应
+
+成功响应示例：
+
+```json
+{"success": true, "data": {"fileName": "report.pdf"}}
+```
+"""
+
+    # 只有**请求**示例：标签写着"请求体示例"，哪怕 160 字窗口里出现"响应"两字也不许当响应用
+    REQUEST_ONLY = """#### 请求体（JSON）
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| name | string | 是 | 文件名（响应里会返回同名字段） |
+
+请求体示例：
+
+```json
+{"name": "report.pdf"}
+```
+"""
+
+    def test_request_example_is_never_used_as_the_response(self):
+        payload = mock._response_body(self.SECTION)
+
+        self.assertIs(payload.get("success"), True)  # ★是响应那一块
+        self.assertIn("fileName", payload.get("data") or {})  # 而不是请求那一块（`name`）
+
+    def test_label_alone_excludes_the_request_block(self):
+        """★成对：只有请求示例时 → 退回统一信封，**不许**把请求体当响应回。"""
+        self.assertEqual(mock._response_body(self.REQUEST_ONLY), dict(mock.ENVELOPE))
+
+    def test_exclusion_is_what_does_it(self):
+        """★元护栏：把"请求侧标签"这条判据掐掉（词表换成永不命中）→ 请求块**立刻**被当成响应。
+
+        证明拦住它的正是这条判据，而不是别的什么顺手挡住的。
+        """
+        with patch.object(mock, "REQUEST_WORDS_RE", re.compile(r"$^")):
+            payload = mock._response_body(self.REQUEST_ONLY)
+
+        self.assertEqual(payload, {"name": "report.pdf"})
+
+    def test_window_fallback_still_works_without_any_labels(self):
+        """★旧口径**保留为兜底**：标签/标题都没提"响应"、但窗口里出现过 → 仍然认它。"""
+        text = '响应如下：\n\n示例：\n\n```json\n{"success": true}\n```\n'
+
+        self.assertEqual(mock._response_body(text), {"success": True})
+
+
+class TestExistBeatsFormat(unittest.TestCase):
+    """★§9.33（登记项 2）：同一请求同时"违规格式"且"实体不在种子数据里"时的**裁决**。
+
+    · 裁决顺序：非空 → 存在性 → 上限 → 关系 → 格式（`KIND_PRIORITY`，**同族内保持构建顺序**）；
+    · **但"只差首尾空白/大小写"的值不算另一个实体** —— 那是写错（该报格式错），归一化之后
+      能命中种子 → 存在性**不成立**。
+    两条一起才说明这套口径不会把 `format` 族打成假红/假绿
+    （`probe_p2_prep/probe_negative_cases.py` 的 **18/18** 靠的就是它）。
+    """
+
+    FORMAT_RULE = {
+        "kind": "format",
+        "field": "path",
+        "check": "no_edge_space",
+        "code": "FILE_4018",
+        "quote": "开头和结尾不能有空格（FILE_4018）",
+    }
+    EXIST_RULE = {
+        "kind": "exist",
+        "fields": ["path"],
+        "code": "FILE_2001",
+        "quote": "目录不存在（FILE_2001）",
+    }
+
+    def _fire(self, rules, query, known):
+        code, _quote = mock.evaluate_error_rules(rules, FakeHandler(query), None, known)
+        return code
+
+    def test_unknown_entity_with_a_format_problem_reports_existence(self):
+        """★裁决：两条都成立 → 报**存在性**（`exist` 优先于 `format`）。"""
+        code = self._fire([self.FORMAT_RULE, self.EXIST_RULE], "path=%2Fnope-xyz", {"/app1/"})
+
+        self.assertEqual(code, "FILE_2001")
+
+    def test_known_entity_with_a_format_problem_reports_format(self):
+        """★成对（这条才是关键）：实体在种子里（只差首尾空格）→ 存在性不成立 → 报**格式**。"""
+        code = self._fire([self.FORMAT_RULE, self.EXIST_RULE], "path=%20%2Fapp1%2F%20", {"/app1/"})
+
+        self.assertEqual(code, "FILE_4018")
+
+    def test_whitespace_and_case_are_not_another_entity(self):
+        """归一化只做两样：**首尾空白 + 大小写**；真·另一个实体照样命中。"""
+        rules = [self.EXIST_RULE]
+
+        self.assertIsNone(self._fire(rules, "path=%2FAPP1%2F", {"/app1/"}))
+        self.assertEqual(self._fire(rules, "path=%2Fnope%2F", {"/app1/"}), "FILE_2001")
+
+    def test_priority_order_is_pinned(self):
+        """★裁决顺序本身是判据：改了顺序必须有人复核（顺序即语义）。"""
+        self.assertEqual(
+            mock.KIND_PRIORITY, ("required", "exist", "limit", "relation", "format")
+        )
+
+
+class TestFailureStatusFollowsTheDoc(unittest.TestCase):
+    """★§9.33（登记项 2）：失败响应的 **HTTP 状态**以文档为准（没写才用示例文档的 `200`）。
+
+    两派写法**都真实存在**（都取自本仓文档，不是臆造）：
+
+    · 示例文档：「…返回 `errorCode: FILE_1018`（**HTTP 状态码仍为 `200`**）」；
+    · 转换文档（`project-three/接口文档示例转换文档测试1.md:180`）：
+      「…失败响应 `errorCode: FILE_4001`（**HTTP `500`**，依据 TC-DIR-003）」。
+    """
+
+    QUOTE_500 = (
+        "- `path` 不以 `/` 开头、或不以 `/` 结尾：失败响应 `errorCode: FILE_4001`"
+        "（HTTP `500`，依据 TC-DIR-003 / TC-DIR-004）"
+    )
+    QUOTE_200 = (
+        "- 请求头 `X-Path` 与请求体 `path` 不一致时：**失败响应**返回 `errorCode: FILE_1018`"
+        "（HTTP 状态码仍为 `200`）"
+    )
+
+    def test_documented_500_is_honored(self):
+        self.assertEqual(mock.documented_failure_status(self.QUOTE_500), 500)
+
+    def test_documented_200_stays_200(self):
+        self.assertEqual(mock.documented_failure_status(self.QUOTE_200), 200)
+
+    def test_no_status_anywhere_defaults_to_200(self):
+        """★成对：**没写**就 200（示例文档写明的默认），不许自己发明一个 500。"""
+        self.assertEqual(
+            mock.documented_failure_status("目录不存在 → `FILE_2001`", "本节也没写状态码"), 200
+        )
 
