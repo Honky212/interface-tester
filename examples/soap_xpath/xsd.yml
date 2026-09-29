@@ -1,0 +1,64 @@
+# XSD 契约校验（A2-2）：xml_schema_match —— 「契约即用例」
+#
+# 前置：pip install -e ".[xml]"（lxml 是可选 extra `xml`）
+# 说明见同目录 README.md「三、XSD 契约校验」与 docs/A2-2开发记录.md。
+config:
+  name: "XSD 契约校验（xml_schema_match）"
+  base_url: ${soap_base_url()}
+  variables:
+    soap_action: "urn:demo#Query"
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId>U1001</ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: "先定位业务元素，再按 XSD 校验（推荐写法）"
+  request:
+    method: POST
+    url: /svc/query
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # 客户 XSD 通常只描述 Body 里的业务元素 → 必须**先定位再校验**
+    # （直接校验整个 Envelope 会报 No matching global declaration available for the validation root）
+    # `xpath` 用的是简化写法：前缀无关，ns1:/abc: 都命中
+    - xml_schema_match: ["body", {"xpath": "QueryResponse", "xsd": "schemas/query.xsd"}]
+-
+  name: "前缀漂移：XSD 按命名空间 URI 匹配，换前缀照样通过"
+  request:
+    method: POST
+    url: /svc/query-drift
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # 同一份契约、前缀从 ns1: 换成 abc: → 与 xpath_match 一样不受影响
+    - xml_schema_match: ["body", {"xpath": "QueryResponse", "xsd": "schemas/query.xsd"}]
+    # 想看「原始 XPath 的前缀是字面量」，见 contrast_prefix_literal.yml
+-
+  name: "明细列表：1~3 条 + 必填属性（xs:include 的多文件 XSD）"
+  request:
+    method: POST
+    url: /svc/items
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "urn:demo#Items"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # XSD 里能一次写清「条数上限、属性必填、子元素顺序」，不必在用例里堆一堆 xpath_count
+    - xml_schema_match: ["body", {"xpath": "ItemsResponse", "xsd": "schemas/items.xsd"}]
+    # 想只校验某一条明细：把选择器收窄到唯一节点（多节点会被明确拒绝，不静默挑第一个）
+    - xml_schema_match: ["body", {"xpath": "(//ns1:item)[2]", "xsd": "schemas/items.xsd"}]

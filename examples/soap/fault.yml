@@ -1,0 +1,40 @@
+# SOAP Fault 场景：**业务错误也是 HTTP 500**
+#
+# 最常见的翻车写法是照 REST 模板写 `equal: ["status_code", 200]` ——
+# 那样「参数校验失败」会表现成「接口挂了」，测试人员要去翻日志才知道是业务错误。
+config:
+  name: "SOAP：Fault 断言模板"
+  base_url: ${soap_base_url()}
+  variables:
+    soap_action: "urn:demo#Query"
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId></ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: 参数校验失败（soap:Fault / HTTP 500）
+  request:
+    method: POST
+    url: /svc/fault
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    # ① 先按 SOAP 的语义断：这是业务错误，不是「服务挂了」
+    - equal: ["status_code", 500]
+    # ② 一句话断言 Fault 内容（A1 提供的 SOAP 专用算子）
+    - soap_fault: ["body", "Invalid parameter"]
+    # ③ 也可以逐项断，便于定位
+    - xpath_match: ["body", "Fault"]
+    - xpath_match: ["body", ["faultcode", "soap:Client"]]
+    - xpath_match: ["body", ["faultstring", "Invalid parameter: userId"]]
+    # ④ 业务错误码在 detail 里，同样前缀无关
+    - xpath_match: ["body", ["{http://demo.example.com/svc}code", "SVC-1002"]]

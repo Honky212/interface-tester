@@ -1,0 +1,19 @@
+config:
+  name: 用户档案接口
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 查询用户档案
+    request:
+      method: GET
+      url: /api/user/profile
+      params:
+        userId: ${ENV(USER_ID)}
+        withAvatar: "true"
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - eq: [headers."Content-Type", "application/json"]
+      - type_match: [body.data.userId, "str"]
+      - type_match: [body.data.nickname, "str"]

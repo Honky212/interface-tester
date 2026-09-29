@@ -1,0 +1,10 @@
+config:
+  name: 用 debugtalk 的函数拿地址
+
+teststeps:
+  - name: 调一次 GET 接口
+    request:
+      method: GET
+      url: ${base_url()}/get         # 由 debugtalk.py 的 base_url() 提供
+    validate:
+      - eq: [status_code, 200]

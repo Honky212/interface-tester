@@ -1,0 +1,23 @@
+config:
+  name: 用户登录接口
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 登录并提取 token
+    request:
+      method: POST
+      url: /api/login
+      headers:
+        Content-Type: application/json
+      json:
+        username: ${ENV(USERNAME)}
+        password: ${ENV(PASSWORD)}
+    extract:
+      token: body.data.token
+      userId: body.data.userId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.token, "str"]
+      - type_match: [body.data.userId, "int"]

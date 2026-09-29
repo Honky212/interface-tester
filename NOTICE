@@ -1,0 +1,146 @@
+InterfaceTester
+Copyright 2026 honky212
+
+This product is a derivative work of HttpRunner (https://github.com/httprunner/httprunner),
+version 4.3.5, which is licensed under the Apache License, Version 2.0.
+
+--------------------------------------------------------------------------------
+UPSTREAM WORK
+--------------------------------------------------------------------------------
+
+  Project      : HttpRunner
+  Version      : 4.3.5
+  Repository   : https://github.com/httprunner/httprunner
+  License      : Apache License, Version 2.0
+  Copyright    : Copyright 2018-2023 HttpRunner contributors / debugtalk
+
+  HttpRunner is a trademark of its respective owner. This derivative work claims
+  no affiliation with, endorsement by, or sponsorship from the HttpRunner project.
+  The name "InterfaceTester" is used to distinguish this derivative work and does
+  not imply any official relationship with the upstream project.
+
+--------------------------------------------------------------------------------
+DERIVATIVE WORK
+--------------------------------------------------------------------------------
+
+  Project      : InterfaceTester
+  Version      : 5.0.1
+  License      : Apache License, Version 2.0 (see LICENSE)
+  Maintainer   : honky212
+
+  This repository is an independently maintained fork. It is a *modified* version
+  of the upstream Work. In accordance with Section 4(b) of the Apache License 2.0,
+  notice is hereby given that the files in this repository HAVE BEEN CHANGED from
+  the upstream Work.
+
+  Principal changes introduced by this fork include, but are not limited to:
+
+    1. Package and command renaming. The Python package is named "interfacetester"
+       and the console entry points are "hrun", "hmake", "hconvert", and
+       "interfacetester". Upstream module and CLI naming has been adapted
+       accordingly.
+
+    2. Build system migration. The upstream Poetry-based build backend was replaced
+       with a setuptools backend (PEP 621 + PEP 639) in pyproject.toml.
+
+    3. Correctness hardening ("false pass" prevention). Numerous validation gates
+       were added at generation time and runtime so that a test case cannot pass
+       while silently validating nothing. Examples include duplicate YAML key
+       rejection, assertion operator whitelisting, inline JSON Schema rejection,
+       XSD path existence checks, request body ambiguity gates, and step-type
+       mutual exclusion.
+
+    4. Reporting and observability fixes. Failed steps are now recorded in
+       summaries; configuration-stage failures are reported as failures rather
+       than successes; misleading record fields (for example, content_size) were
+       corrected.
+
+    5. Security and credential handling. A whitelist was introduced for Python
+       builtins usable in "${...}" interpolation; sensitive values are masked in
+       logs, reports, and summary artifacts; multipart header parameters are
+       escaped.
+
+    6. XML/SOAP support. Built-in "xpath_match", "xpath_count", and
+       "xml_schema_match" assertion operators were added (optional "xml" extra),
+       plus a zero-dependency project-level fallback.
+
+    7. Importers. A "hconvert" command was added to convert curl, HAR, Postman,
+       and OpenAPI assets into standard YAML test cases.
+
+    8. Additional comparators and built-in functions, test data management
+       conventions, and CI templates were added.
+
+  For the complete and authoritative list of modifications, consult the
+  repository history and documentation, in particular README.md and
+  docs/架构与调用链.md. This list is informational and is not exhaustive.
+
+--------------------------------------------------------------------------------
+THIRD-PARTY COMPONENTS
+--------------------------------------------------------------------------------
+
+  This product depends on third-party Python packages that are distributed under
+  their own licenses. They are NOT part of this Work and are NOT relicensed here.
+  When redistributing this product together with its dependencies, you must comply
+  with each dependency's own license terms.
+
+  Runtime dependencies (see pyproject.toml for the authoritative list and version
+  constraints):
+
+    pydantic          MIT
+    loguru            MIT
+    jmespath          MIT
+    black             MIT
+    pytest            MIT
+    pytest-html       MPL-2.0  (file-level copyleft; invoked, not modified)
+    brotli            MIT
+    jinja2            BSD-3-Clause
+    toml              MIT
+    pyyaml            MIT
+    requests          Apache-2.0
+    urllib3           MIT
+    jsonschema        MIT
+    python-dotenv     BSD-3-Clause
+
+  Optional extras (see pyproject.toml):
+
+    allure-pytest     Apache-2.0
+    sqlalchemy        MIT
+    pymysql           MIT
+    cython            Apache-2.0
+    thrift            Apache-2.0
+    thriftpy2         MIT
+    requests-toolbelt Apache-2.0
+    filetype          MIT
+    lxml              BSD-3-Clause
+
+  NOTICE regarding pytest-html (MPL-2.0): this product invokes pytest-html as an
+  unmodified dependency. No files of pytest-html have been modified. Should you
+  modify pytest-html source files, the MPL-2.0 requires you to make the source of
+  those modified files available.
+
+  Transitive dependencies are not enumerated here. Refer to the installed package
+  metadata for the complete dependency tree.
+
+--------------------------------------------------------------------------------
+LICENSE
+--------------------------------------------------------------------------------
+
+  The full text of the Apache License, Version 2.0 is provided in the LICENSE file
+  distributed with this product. That file governs the use, reproduction, and
+  distribution of this Work and its Derivative Works.
+
+  The contents of this NOTICE file are for informational purposes only and do not
+  modify the License.
+
+--------------------------------------------------------------------------------
+TRADEMARKS
+--------------------------------------------------------------------------------
+
+  "HttpRunner" is a trademark of its respective owner. This derivative work must
+  not be marketed, advertised, or distributed in any way that suggests it is the
+  official HttpRunner project, an official release of that project, or endorsed by
+  it. Accurate, descriptive statements such as "based on HttpRunner 4.3.5" or
+  "a fork of HttpRunner" are permitted and encouraged.
+
+  No trademark rights are granted by the Apache License, Version 2.0 (see
+  Section 6 of that License).

@@ -1,0 +1,394 @@
+# 小白入门指南：用 interfacetester 做接口自动化测试
+
+下面按「**装 → 写 → 跑 → 断言 → 进阶**」的顺序，给你一条从零到能跑通的最小路径。跟着做一遍，你就掌握了 80% 的日常用法。
+
+---
+
+## 第 0 步：搞清楚它是什么（30 秒）
+
+它就是一个**命令行工具**：你写 YAML 用例 → 它自动转成 pytest 文件 → 用 `requests` 发真实 HTTP 请求 → 按你写的断言判断通过/失败。
+
+```
+你的 xxx.yml  ──hrun──►  xxx_test.py  ──pytest──►  发请求 + 断言  ──►  终端结果 / HTML 报告
+```
+
+**没有 Web 界面**，全程在终端敲命令。
+
+---
+
+## 第 1 步：环境准备（一次性）
+
+```powershell
+# 1) 激活虚拟环境（每次开新终端都要做！）—— 在仓库根目录下执行
+.\.venv\Scripts\Activate.ps1
+
+# 2) 验证装好了
+hrun -V        # 应输出 5.0.1（以 interfacetester/__init__.py 的 __version__ 为准）
+```
+
+> ⚠️ **必须激活 venv**。因为 `hrun` 最后会调 `black` 格式化生成的代码，`black.exe` 在 venv 里，不激活会报 `missing dependency tool: black`。
+
+---
+
+## 第 2 步：建一个自己的测试项目目录
+
+推荐这个结构（照抄即可）：
+
+```
+my_api_test/
+├── debugtalk.py          # 自定义函数（可选，后面讲）
+├── .env                  # 环境变量（账号密码、域名，别提交到 git）
+├── pytest.ini            # pytest 配置（可选）
+├── testcases/
+│   └── login.yml         # 你的用例
+└── reports/              # HTML 报告输出目录
+```
+
+**`pytest.ini`**（放项目根，让输出更友好）：
+
+```ini
+[pytest]
+addopts = -s
+```
+
+**`.env`**（放项目根，`${ENV(名字)}` 会读这里）：
+
+```ini
+BASE_URL=http://your-test-server.com
+USERNAME=admin
+PASSWORD=123456
+```
+
+---
+
+## 第 3 步：写第一个用例（照抄这个模板）
+
+新建 `testcases/login.yml`：
+
+```yaml
+config:
+    name: 登录并查询用户信息              # 用例名（必填）
+    base_url: ${ENV(BASE_URL)}            # 从 .env 读，避免硬编码
+    verify: false                         # 测试环境 https 证书不校验
+
+teststeps:
+  - name: 登录获取 token                  # 步骤名（必填）
+    request:
+        url: /api/login                   # 相对路径，自动拼 base_url
+        method: POST
+        headers:
+            Content-Type: application/json
+        json:                             # JSON 请求体
+            username: ${ENV(USERNAME)}
+            password: ${ENV(PASSWORD)}
+    extract:                              # 提取响应字段 → 变成变量 $token
+        - token: body.data.token
+    validate:                             # 断言
+        - eq: ["status_code", 200]
+        - eq: [body.code, 0]
+
+  - name: 查询当前用户信息
+    request:
+        url: /api/user/info
+        method: GET
+        headers:
+            Authorization: "Bearer $token"   # 用上一步提取的变量
+    validate:
+        - eq: ["status_code", 200]
+        - eq: [body.data.username, admin]
+```
+
+**三条铁律**（新手最容易踩）：
+
+| 规则 | 说明 |
+|---|---|
+| `config.name` 和每个 step 的 `name` 必填 | 缺了直接报格式错误 |
+| 变量用 `$变量名`，函数用 `${函数名(参数)}` | 别混用 |
+| 步骤**从上到下顺序执行** | 前一步 `extract` 的变量，后一步能直接用 |
+
+---
+
+## 第 4 步：跑起来
+
+```powershell
+# 最常用：转换 + 运行
+hrun testcases/login.yml
+
+# 跑整个目录
+hrun testcases/
+
+# 生成 HTML 报告（强烈建议第一次就加上）
+hrun testcases/login.yml --html=reports/login.html --self-contained-html
+```
+
+`--self-contained-html` 会把 CSS/JS 内嵌，**双击就能离线打开**报告。
+
+其他两个命令：
+
+```powershell
+hmake testcases/login.yml      # 只转换，生成 login_test.py，不运行
+pytest testcases/login_test.py -v   # 直接跑已生成的 pytest 文件
+```
+
+> 生成的 `login_test.py` 是**自动产物**，不要手改——改了下次 `hrun` 会被覆盖。要改就改 YAML。
+
+---
+
+## 第 5 步：学会写断言（这是测试的核心）
+
+格式统一是 `- 比较方式: [检查项, 期望值]`：
+
+```yaml
+validate:
+    - eq: ["status_code", 200]                    # 状态码
+    - eq: [body.code, 0]                          # 响应体字段
+    - eq: [body.data.list[0].name, "张三"]         # 数组 + 嵌套
+    - contains: [body.data.tags, "vip"]           # 包含
+    - gt: [body.data.total, 0]                    # 大于
+    - regex_match: [body.data.phone, "^1\\d{10}$"] # 正则
+    - type_match: [body.data.id, int]             # 类型
+    - eq: [body.code, 0, "code 应该等于 0"]        # 第三项是自定义失败提示
+```
+
+**常用比较方式速查**：
+
+| 写法 | 含义 | 写法 | 含义 |
+|---|---|---|---|
+| `eq` | 相等 | `ne` | 不相等 |
+| `gt` / `ge` | 大于 / 大于等于 | `lt` / `le` | 小于 / 小于等于 |
+| `str_eq` | 字符串相等 | `len_eq` | 长度相等 |
+| `contains` | 包含 | `startswith` / `endswith` | 开头 / 结尾 |
+| `regex_match` | 正则匹配 | `type_match` | 类型匹配 |
+
+**检查项（看哪里）**：`status_code`、`body.xxx`、`headers.xxx`、`cookies.xxx`、`elapsed`。
+
+> ⚠️ **重要坑**：HTTP 4xx/5xx **不会自动判失败**！框架只记日志，成败完全由你的 `validate` 决定。所以**每个步骤都要写 `validate`**，否则请求返回 500 也算"通过"。
+
+---
+
+## 第 6 步：进阶能力（按需学）
+
+### 6.1 参数化：一条用例跑多组数据
+
+```yaml
+config:
+    name: 多账号登录
+    base_url: ${ENV(BASE_URL)}
+    parameters:
+        username-password: ${parameterize(account.csv)}   # 读 CSV
+```
+
+`account.csv`：
+
+```csv
+username,password
+user1,111111
+user2,222222
+```
+
+也可以直接写列表：`user_agent: ["iOS/10.1", "iOS/10.2"]`。
+
+### 6.2 `debugtalk.py`：自定义函数（**最强扩展点**）
+
+放在用例目录（或上层目录）里，里面任何 Python 函数都能在 YAML 里用 `${函数名()}` 调用。**凡是能用 Python 表达的逻辑——签名、加密、查库、复杂断言——都写这里，不用改框架**。
+
+```python
+# debugtalk.py
+import time, hashlib
+
+def get_timestamp():
+    return int(time.time())
+
+def md5_sign(params, secret):
+    raw = "&".join(f"{k}={params[k]}" for k in sorted(params))
+    return hashlib.md5(f"{raw}{secret}".encode()).hexdigest()
+```
+
+YAML 里用：
+
+```yaml
+config:
+    variables:
+        timestamp: ${get_timestamp()}
+        sign_params:
+            path: /api/xxx
+            timestamp: $timestamp
+        sign: ${md5_sign($sign_params, "my-secret")}
+
+teststeps:
+  - name: 带签名请求
+    request:
+        url: /api/xxx
+        method: POST
+        headers:
+            X-Sign: $sign
+```
+
+> ⚠️ 函数参数里**不能直接写引号/花括号**，要先用 `variables` 定义好，再以 `$变量名` 传进去（见上面 `sign_params` 的写法）。
+
+**函数查找顺序**：`debugtalk.py` → 内置函数 → Python 内置函数（所以 `len`/`str`/`int` 可直接用）。
+
+### 6.3 hook：发请求前后插逻辑
+
+```yaml
+teststeps:
+  - name: 带 hook 的请求
+    request:
+        url: /api/order
+        method: POST
+        json: {}
+    setup_hooks:                      # 发请求前
+        - ${setup_hook_add_header($request)}
+    teardown_hooks:                   # 发请求后
+        - ${teardown_hook_log($response)}
+```
+
+```python
+# debugtalk.py
+def setup_hook_add_header(request):
+    request["headers"]["X-Extra"] = "hello"    # 改它 = 改实际发出的请求
+
+def teardown_hook_log(response):
+    print("status:", response.status_code)
+```
+
+### 6.4 多环境切换
+
+在用例目录放 `conftest.py`，加 `--env` 开关：
+
+```python
+# conftest.py
+import os, pytest
+
+ENV_BASE_URL = {
+    "test": "http://your-test-server.com",
+    "prod": "http://your-prod-server.com",
+}
+
+def pytest_addoption(parser):
+    parser.addoption("--env", action="store", default=None)
+
+@pytest.fixture(scope="session", autouse=True)
+def switch_env(pytestconfig):
+    env = pytestconfig.getoption("--env")
+    if env:
+        os.environ["BASE_URL"] = ENV_BASE_URL[env]
+    yield
+```
+
+```powershell
+hrun testcases/login.yml --env=prod    # YAML 一个字都不用改
+```
+
+### 6.5 引用其他用例（用例复用）
+
+```yaml
+teststeps:
+  - name: 先登录
+    testcase: testcases/login.yml       # 引用另一个用例文件
+    export: ["token"]                   # 把它的 token 导出给本用例用
+```
+
+---
+
+## 第 7 步：推荐的日常工作流
+
+```
+1. 拿到接口文档
+2. 在 Postman/curl 里先手工调通一次（确认参数、响应结构）
+3. 把调通的请求变成 YAML —— 两条路：
+   a) 已经在 Postman/curl/HAR/OpenAPI 里？用 hconvert 一键生成（推荐，见第 9 步）
+   b) 没有现成资产？照下面的映射表手写
+4. hrun 跑一遍，看断言是否通过
+5. 失败 → 看终端日志 / logs/xxx.run.log → 改 YAML → 重跑
+6. 全部通过 → 加 --html 出报告，交付
+```
+
+**Postman/curl → YAML 映射表**：
+
+| Postman / curl | YAML 字段 |
+|---|---|
+| URL | `request.url` |
+| Method | `request.method` |
+| Query Params | `request.params` |
+| Headers | `request.headers` |
+| Body → raw JSON | `request.json` |
+| Body → form-data | `request.data` 或 `request.upload`（文件） |
+| Tests 断言 | `validate` |
+| 环境变量 | `config.variables` / `${ENV()}` |
+
+---
+
+## 第 8 步：能力边界（避免走弯路）
+
+**✅ 能测**：所有 HTTP 方法、JSON/表单/文件上传、Header/Cookie/Token、变量传递、参数化、hook、断言、HTML 报告。
+
+**❌ 不能测**（默认能力之外）：WebSocket、gRPC、MQ（Kafka/RabbitMQ）、TCP/UDP、UI 自动化、性能压测。
+
+> 但 **Thrift RPC 和 SQL 有实验性支持**（`RunThriftRequest` / `RunSqlRequest`），需要额外装依赖，非默认核心，新手先别碰。
+
+---
+
+## 第 9 步：不想手写 YAML？把现成资产直接转过来
+
+如果你已经在 Postman / curl / 浏览器里调通了接口，**不用手抄**：
+
+```powershell
+hconvert --from postman --in postman_collection.json --out converted/   # Postman 集合（v2.1 导出）
+hconvert --from curl    --in curl_commands.txt       --out converted/   # curl 命令（可多条）
+hconvert --from har     --in demo.har                --out converted/   # 浏览器 DevTools 录制
+hconvert --from openapi --in api.yaml                --out converted/   # OpenAPI/Swagger 契约
+```
+
+生成的是**跟你手写一样的 YAML**，接着 `hrun converted/xxx.yml` 就能跑。几个必须知道的点：
+
+- **凭据不会写进 YAML**：Cookie / Authorization / token 都被换成 `${...}` 占位，值从环境变量读；
+- **会自动生成断言**：HAR/Postman 用录制或保存的示例响应、OpenAPI 用契约 → 状态码 + 响应结构（JSON Schema）；
+- **生成后要人工过一遍**：造出来的骨架值（路径 id、时间戳）要换成真实业务值，断言也可以再加；
+- **迁移不了的东西会明确告诉你**：Postman 的 JS 脚本、外部 `$ref` 等会打印告警，`--report 报告.md` 可导出清单。
+
+想先感受一下（不碰你自己的项目）：
+
+```powershell
+hconvert --from openapi --in examples/data/openapi/petstore_demo.yaml --out converted/
+hrun converted/petstore_demo_pets.yml
+```
+
+> 每个源支持哪些写法、哪些会被降级，逐条见 `docs/convert/README.md`。
+
+### 想断言整个响应结构？用 `jsonschema_match`
+
+除了 `eq` 逐字段断言，还能一次性断言「结构 + 类型 + 必填」：
+
+```yaml
+      validate:
+          - eq: ["status_code", 200]
+          - jsonschema_match: ["body", "schemas/user.json"]    # schema 走文件路径（相对项目根目录）
+          # 或： - jsonschema_match: ["body", "${get_user_schema()}"]   # schema 放 debugtalk.py 里返回
+```
+
+> ⚠️ schema **不能内联**写进 YAML（`$schema`/`$ref` 会被当成变量解析）——写了会在 `hmake` 阶段直接报错并提示正确写法。
+
+---
+
+## 现成例子可以直接抄
+
+你本地 `本仓库根目录\examples\` 里有完整可跑的样例，**强烈建议先跑通它们再写自己的**：
+
+| 目录 | 内容 | 适合 |
+|---|---|---|
+| `examples/httpbin_demo.yml` | 最简单的 GET/POST + 提取变量 | **从这里开始** |
+| `examples/unifsp/` | 真实企业项目：OAuth2 自动认证、中文文件名上传、多环境切换、签名函数库 | 进阶参考 |
+| `examples/sql/` | SQL 查询断言 | 需要时再看 |
+
+```powershell
+# 先跑这个感受一下
+hrun examples/httpbin_demo.yml
+```
+
+---
+
+## 一句话总结
+
+> **写 YAML（config + teststeps）→ `hrun xxx.yml` → 看断言结果 → 加 `--html` 出报告**。
+> 遇到框架搞不定的逻辑（签名/加密/查库），就写进 `debugtalk.py` 用 `${函数()}` 调用，**不用改框架**。

@@ -1,0 +1,22 @@
+config:
+  name: 导出接口（BOM 文档样本）
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 创建导出任务
+    request:
+      method: POST
+      url: /api/export/tasks
+      headers:
+        Content-Type: application/json
+      json:
+        scope: order
+        format: csv
+    extract:
+      taskId: body.data.taskId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.taskId, "str"]
+      - contained_by: [body.data.state, ["queued", "running", "done", "failed"]]

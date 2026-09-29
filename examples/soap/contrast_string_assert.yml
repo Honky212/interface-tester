@@ -1,0 +1,37 @@
+# 对照演示（默认被 conftest 跳过：文件名以 contrast 开头）
+#
+# 目的：让你亲眼看到「不做结构化断言」时会发生什么。手动跑（**必须带环境变量**，否则仍会被跳过）：
+#     $env:SOAP_RUN_CONTRAST=1; hrun examples/soap/contrast_string_assert.yml   # Windows PowerShell
+#     SOAP_RUN_CONTRAST=1 hrun examples/soap/contrast_string_assert.yml         # Linux / macOS
+# 期望：1 passed —— 但那份报文**根本不是合法 XML**，所以这个「通过」正是「假通过」。
+#
+# 4.3.5 实测（XML 响应体是 bytes，非 JSON 响应走 resp.content）：
+#   contains:    ["body", "0000"]  → TypeError: a bytes-like object is required, not 'str'（**原始异常**）
+#   regex_match: ["body", "code"]  → 断言失败：check_value should be Text type
+#   而 startswith 内部写的是 str(check_value) → 它比的是 "b'<?xml…"，于是下面这条**通过**。
+#
+# 也就是说：只靠字符串断言，XML 接口**既断不准、也断不了**；这条用例演示的是「假通过」那一半。
+config:
+  name: "对照：A0 字符串断言在 XML 上的真实行为"
+  base_url: ${soap_base_url()}
+  variables:
+    entity: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body><ns1:Ping xmlns:ns1="http://demo.example.com/svc"/></soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: 断「报文以 < 开头」通过——但它比的是 str(bytes)，即 "b'<?xml…"，语义完全错位
+  request:
+    method: POST
+    # NOTICE: 这个端点的响应**不是合法 XML**（元素用 abc: 前缀、声明却写着 ns1:）
+    url: /svc/query-broken
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "urn:demo#Query"
+    data: "$entity"
+  validate:
+    - equal: ["status_code", 200]
+    - startswith: ["body", "b'"]

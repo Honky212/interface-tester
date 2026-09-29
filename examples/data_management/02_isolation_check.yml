@@ -1,0 +1,50 @@
+config:
+    name: "02 数据隔离与回收（同一用例跑两轮：第二轮必须看不到第一轮的数据）"
+    base_url: ${api_base()}
+    variables:
+        token: "${ENV(DM_TOKEN)}"
+        run_prefix: "${run_prefix()}"
+    # NOTICE: 为什么要参数化跑两轮？
+    #   因为**用例之间的执行顺序不保证**——`hrun` 的 make 阶段返回的是 `set`
+    #   （`make.main_make` 结尾 `list(pytest_files_run_set)`），顺序取决于哈希，
+    #   所以「靠上一条用例留下的状态」写出来的断言是不可靠的。
+    #   把同一个用例跑两轮，第二轮的「开跑前库里应当是空的」就**只**依赖
+    #   「第一轮的用例级回收是否生效」，与文件顺序无关 —— 这才是可移植的验收方式。
+    parameters:
+        round: [1, 2]
+
+teststeps:
+-
+    name: 开跑前：本次运行不应有任何残留数据
+    request:
+        method: GET
+        url: /records
+        params:
+            prefix: $run_prefix
+        headers:
+            Authorization: "Bearer $token"
+    validate:
+        - eq: ["status_code", 200]
+        # 这一条就是「用例级回收」的验收条件：上一轮（或上一条用例）造的数据
+        # 如果没被清掉，这里会看到 ≥1 条 → 失败。
+        # 想亲眼看到「数据污染」，加 DM_DISABLE_CLEANUP=1 再跑（见 README）。
+        - eq: ["body.count", 0]
+-
+    name: 造自己的数据（前缀只属于自己的这一轮）
+    variables:
+        suffix: "round$round"
+        record_id: "${create_record($suffix)}"
+        case_prefix: "${case_prefix()}"
+    request:
+        method: GET
+        url: /records
+        params:
+            prefix: $run_prefix
+        headers:
+            Authorization: "Bearer $token"
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.count", 1]
+        - eq: ["body.records[0].id", "$record_id"]
+        # 数据名字里带「用例隔离前缀」是回收的前提（T3）
+        - startswith: ["body.records[0].name", "$case_prefix"]

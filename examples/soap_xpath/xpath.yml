@@ -1,0 +1,76 @@
+# 内核 XML/XPath 断言（A2-1）：xpath_match / xpath_count —— **完整 XPath 1.0**
+#
+# 前置：pip install -e ".[xml]"（lxml 是可选 extra `xml`；没装会给出可操作的安装提示）
+# 与 examples/soap 的区别：那份用项目 debugtalk.py 里的**标准库算子**（零依赖，但只支持简化写法，
+# 且会遮蔽内核同名算子）；本目录**不定义同名算子** → 断言直接落到框架内置实现。
+# 说明见同目录 README.md 与 docs/soap/README.md。
+config:
+  name: "内核 XML/XPath 断言（lxml extra）"
+  base_url: ${soap_base_url()}
+  variables:
+    soap_action: "urn:demo#Query"
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId>U1001</ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: "两种写法混用：简化写法（前缀无关）+ 原始 XPath"
+  request:
+    method: POST
+    url: /svc/query
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # 写法 1：简化写法 —— 编译成 local-name()，命名空间前缀漂移也不影响命中
+    - xpath_match: ["body", ["code", "0000"]]
+    # 写法 2：原始 XPath —— 前缀按**报文里的声明**映射（ns1 声明在内层元素上，也能用）
+    - xpath_match: ["body", "//ns1:code/text()"]
+    # 原始 XPath 的标量：string() 直接给出文本，count() 给出数字
+    - xpath_match: ["body", ["string(//ns1:amount)", "1234.50"]]
+
+-
+  name: "前缀从 ns1 漂移成 abc：简化写法与 local-name() 都照过"
+  request:
+    method: POST
+    url: /svc/query-drift
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    - xpath_match: ["body", ["code", "0000"]]
+    # 原始 XPath 想「不管前缀」就自己写 local-name()（前缀是字面量，见 contrast_prefix_literal.yml）
+    - xpath_match: ["body", "//*[local-name()='message']"]
+
+-
+  name: "明细类报文：count()、位置谓词、多级路径、属性取值、轴"
+  request:
+    method: POST
+    url: /svc/items
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "urn:demo#Items"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # 个数：三种写法等价（简化 / 节点集合 / 直接 count()）
+    - xpath_count: ["body", ["item", 3]]
+    - xpath_count: ["body", ["//ns1:item", 3]]
+    - xpath_count: ["body", ["count(//ns1:item)", 3]]
+    # 位置谓词 + 多级路径（A1 的简化算子做不到这个）
+    - xpath_match: ["body", ["(//ns1:item)[2]/ns1:name", "乙"]]
+    # 属性取值
+    - xpath_match: ["body", ["//ns1:item[@id='3']/@id", "3"]]
+    # 轴
+    - xpath_match: ["body", "//ns1:item[@id='1']/ancestor::ns1:ItemsResponse"]

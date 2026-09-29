@@ -1,0 +1,67 @@
+# 由 `hconvert` 从 examples/data/har/demo.har 生成（InterfaceTester 导入器）
+# 用法：hrun demo.yml
+# NOTICE:
+#   - 敏感信息（Cookie/Authorization/token 等）已替换成 ${...} 占位，
+#     占位符的值定义在 config.variables 里（默认从环境变量读）——**不要**把明文写回来；
+#   - 生成后请人工过一遍：契约/录制里造出来的骨架值（时间戳/UUID/路径 id/示例值）需要按业务替换；
+#   - 生成的 *_test.py 由 hmake 产出，改用例请改这个 YAML。
+config:
+  name: demo
+  base_url: https://postman-echo.com
+  variables:
+    COOKIE_SAILS_SID: ${ENV(COOKIE_SAILS_SID)}
+teststeps:
+- name: GET /get
+  request:
+    method: GET
+    url: /get
+    params:
+      foo1: HDnY8
+      foo2: '34.5'
+    headers:
+      User-Agent: HttpRunnerPlus
+  validate:
+  - eq:
+    - status_code
+    - 200
+  - jsonschema_match:
+    - body
+    - schemas/demo_01_get_get.json
+- name: POST /post
+  request:
+    method: POST
+    url: /post
+    headers:
+      User-Agent: Go-http-client/1.1
+      Content-Type: application/json; charset=UTF-8
+    cookies:
+      sails.sid: ${COOKIE_SAILS_SID}
+    json:
+      foo1: HDnY8
+      foo2: 12.3
+  validate:
+  - eq:
+    - status_code
+    - 200
+  - jsonschema_match:
+    - body
+    - schemas/demo_02_post_post.json
+- name: POST /post
+  request:
+    method: POST
+    url: /post
+    headers:
+      User-Agent: Go-http-client/1.1
+      Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+    cookies:
+      sails.sid: ${COOKIE_SAILS_SID}
+    data:
+      foo1: HDnY8
+      foo2: '12.3'
+  validate:
+  - eq:
+    - status_code
+    - 200
+  - jsonschema_match:
+    - body
+    - schemas/demo_03_post_post.json

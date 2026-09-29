@@ -1,0 +1,29 @@
+config:
+  name: "interfacetester demo"
+  base_url: "https://httpbin.org"
+  verify: false
+
+teststeps:
+  - name: "get request with params"
+    request:
+      method: GET
+      url: "/get"
+      params:
+        foo: bar
+    extract:
+      origin: body.origin
+    validate:
+      - eq: ["status_code", 200]
+      - eq: ["body.args.foo", "bar"]
+
+  - name: "post json with extracted variable"
+    request:
+      method: POST
+      url: "/post"
+      json:
+        name: "interfacetester"
+        origin: "$origin"
+    validate:
+      - eq: ["status_code", 200]
+      - eq: ["body.json.name", "interfacetester"]
+      - eq: ["body.json.origin", "$origin"]

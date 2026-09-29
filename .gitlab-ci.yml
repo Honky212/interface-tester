@@ -1,0 +1,160 @@
+# InterfaceTester CI —— GitLab CI
+#
+# 与 .github/workflows/test.yml 同四个 job（客户内网以 GitLab 为主，见 docs/ci/README.md）。
+# 注意 GitLab 的 job 是 **0 缩进**、job 名是**顶层键**——
+# tests/dependency_consistency_test.py::TestCiJobDependencySetsCoverTheTests
+# 的 _job_section() 正是按这个差异解析两份文件的。
+#
+# NOTICE：`xml` 与 `upload` 两个 extra 在 unit-test / examples-smoke **都必须装**（坑 3）。
+
+stages:
+  - test
+  - package
+
+variables:
+  # 内网镜像源：按需取消注释（坑 3）
+  # PIP_INDEX_URL: "https://<内网源>/simple"
+  # pip 在容器里不要把缓存写到不可写目录
+  PIP_NO_CACHE_DIR: "1"
+
+.python_base:
+  image: python:3.12
+  before_script:
+    - python -m pip install --upgrade pip
+
+unit-test:
+  stage: test
+  extends: .python_base
+  variables:
+    CI: "true"
+  script:
+    - pip install -e ".[test,xml,upload]"
+    - mkdir -p reports
+    # 主 job 必须绿：排除 6 个外网用例（坑 5）
+    - >
+      python -m pytest tests -q
+      --deselect tests/step_request_test.py::TestRunRequest::test_run_request
+      --deselect tests/step_request_test.py::TestCaseRequestWithFunctions::test_start
+      --deselect tests/step_testcase_test.py::TestCaseRequestWithFunctions::test_start
+      --deselect tests/step_testcase_test.py::TestRunTestCase::test_run_testcase_by_path
+      --deselect tests/cli_test.py::TestCli::test_debug_pytest
+      --deselect tests/cli_test.py::TestCli::test_run_testcase_with_abnormal_path
+      --html=reports/report.html --self-contained-html
+      --junitxml=reports/junit.xml
+  artifacts:
+    # artifact 必须 when: always —— 失败那次的报告才最有用（坑 4）
+    when: always
+    paths:
+      - reports/
+      - logs/
+    reports:
+      junit: reports/junit.xml
+    expire_in: 1 week
+
+guardrails:
+  stage: test
+  extends: .python_base
+  script:
+    # 护栏刻意只装 test（xml/upload 与它们无关，装了会掩盖对 extra 的隐式依赖）
+    - pip install -e ".[test]"
+    # S-7（方案 v8 §8.1）：八条自检进 CI —— 任一条非 0 即红（此前它们只在本地绿）
+    - python bench/silent_traps.py
+    - python bench/golden_harness.py
+    - python bench/ai_guardrails.py
+    - python bench/probe_silent_gate.py
+    - python bench/write_boundary_scanner.py
+    - python bench/gate_false_positive_audit.py
+    - python -m interfacetester_ai.gates
+    - python -m interfacetester_ai.doc_quality
+    - python -m interfacetester_ai.diagnosis
+    - python -m interfacetester_ai.normalize
+    - python -m interfacetester_ai.workdir
+    # P3d 收口（第十四批）：离线导出的形态自检（零绝对路径 / 可达 / 幂等 / 只写导出根）
+    - python -m interfacetester_ai.export
+
+package:
+  stage: package
+  extends: .python_base
+  script:
+    - pip install -e ".[dev,test]"
+    - python -m build --wheel
+    # 单测跑的是源码树，wheel 内容错了它看不出来 —— 单独校验产物（坑 10）
+    - WHEEL=$(ls dist/*.whl | head -n 1)
+    - echo "validating $WHEEL"
+    - INTERFACETESTER_WHEEL_PATH="$WHEEL" python -m pytest tests/wheel_content_test.py -q
+    # P3c 的第三件事（第十二批，2026-09-25）：旁路包也要有**产物**判据（同坑 10）
+    - python -m build --wheel --outdir dist_ai interfacetester_ai
+    - AI_WHEEL=$(ls dist_ai/*.whl | head -n 1)
+    - echo "validating $AI_WHEEL"
+    - INTERFACETESTER_AI_WHEEL_PATH="$AI_WHEEL" python -m pytest tests/packaging_test.py -q
+  artifacts:
+    when: always
+    paths:
+      - dist/*.whl
+      - dist_ai/*.whl
+    expire_in: 1 week
+
+network-tests:
+  stage: test
+  extends: .python_base
+  variables:
+    CI: "true"
+  # 打公网 postman-echo.com：抖动会红，红了不代表框架坏了（坑 5）
+  allow_failure: true
+  script:
+    - pip install -e ".[test,xml,upload]"
+    - mkdir -p reports
+    - >
+      python -m pytest -q
+      tests/step_request_test.py::TestRunRequest::test_run_request
+      tests/step_request_test.py::TestCaseRequestWithFunctions::test_start
+      tests/step_testcase_test.py::TestCaseRequestWithFunctions::test_start
+      tests/step_testcase_test.py::TestRunTestCase::test_run_testcase_by_path
+      tests/cli_test.py::TestCli::test_debug_pytest
+      tests/cli_test.py::TestCli::test_run_testcase_with_abnormal_path
+      --junitxml=reports/network-junit.xml
+  artifacts:
+    when: always
+    paths:
+      - reports/
+    reports:
+      junit: reports/network-junit.xml
+    expire_in: 1 week
+
+examples-smoke:
+  stage: test
+  extends: .python_base
+  variables:
+    CI: "true"
+  script:
+    - pip install -e ".[test,xml,upload]"
+    # tests/conftest.py 只在跑 tests/ 时生效 —— examples 冒烟必须自己拉起 mock（坑 6）
+    - nohup python tests/mock_server.py > mock.log 2>&1 &
+    - |
+      for i in $(seq 1 30); do
+        if curl -s -o /dev/null http://127.0.0.1:80/get; then
+          echo "mock is ready"; break
+        fi
+        sleep 1
+      done
+    - mkdir -p reports
+    # upload.yml 从冒烟里排除（需 upload extra + 真实 httpbin 的 multipart 解析，坑 6）
+    - >
+      python -m interfacetester run
+      examples/httpbin/basic.yml
+      examples/httpbin/hooks.yml
+      examples/httpbin/validate.yml
+      examples/httpbin/load_image.yml
+      --junitxml=reports/examples-junit.xml
+    - python -m interfacetester run examples/data_management --junitxml=reports/data-management-junit.xml
+    - python -m interfacetester run examples/soap --junitxml=reports/soap-junit.xml
+    - python -m interfacetester run examples/soap_xpath --junitxml=reports/soap-xpath-junit.xml
+  artifacts:
+    when: always
+    paths:
+      - reports/
+      - mock.log
+      - logs/
+    reports:
+      junit: reports/examples-junit.xml
+    expire_in: 1 week

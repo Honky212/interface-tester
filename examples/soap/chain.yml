@@ -1,0 +1,75 @@
+# XML 取值 / 多步链路（A1 配套示例）
+#
+# 为什么单独一个文件：SOAP 链路通常「第一步拿 token/流水号 → 后面步骤带着它发请求」，
+# 而 `extract` 只认 jmespath（对 XML 的 `body.code` 会**静默得到 None**）。
+# 这里演示目前唯一可靠的取值路径 + 三条必须知道的实测规则：
+#
+#   规则 1  YAML 键必须写**复数** `teardown_hooks:`——单数 `teardown_hook:` 会被静默忽略，
+#           钩子根本不执行（生成代码里的方法名才是单数 `.teardown_hook()`）。
+#   规则 2  `${...}` 里调函数时**参数不能带引号**：常量写裸标识符
+#           （`${xml_field($response, code)}`），或用变量（`${xml_field($response, $code_path)}`）。
+#   规则 3  hook 赋的变量（`- code: "..."`）**只在本步骤可见**；跨步骤要用
+#           `capture_xml($response)` 写 `os.environ`，下一步用 `${ENV(SOAP_CAPTURED_CODE)}` 读。
+#
+# 另外：`$code` 这类变量**只放在断言/请求的「值」位置**，不要放在 check 位置
+# （`- equal: ["$code", "0000"]`）——check 位置会被 `parse_string_value` 强制转型
+# （"0000" → 0），报错信息会变成看不懂的 `assert 0 equal 0000`。
+config:
+  name: "SOAP：XML 取值与多步链路"
+  base_url: ${soap_base_url()}
+  variables:
+    soap_action: "urn:demo#Query"
+    code_path: code
+    # 要抓多个字段时，把映射放这里，然后用 ${capture_xml($response, $soap_capture)} 传进去
+    soap_capture:
+      SOAP_CAPTURED_CODE: code
+      SOAP_CAPTURED_MESSAGE: message
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId>U1001</ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: 步骤1：查询，并把 code / message 抓到环境变量
+  request:
+    method: POST
+    url: /svc/query
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  teardown_hooks:
+    # ① 本步骤内用：dict 形式把值赋给步骤变量 $code
+    - code: "${xml_field($response, code)}"
+    # ② 跨步骤用：写进 os.environ（多个字段走 config 里的 $soap_capture 映射）
+    - ${capture_xml($response, $soap_capture)}
+  validate:
+    - equal: ["status_code", 200]
+    # 同一份报文既能结构化断（算子），也能用 text 前缀断字符串片段
+    - xpath_match: ["body", ["code", "0000"]]
+    - contains: ["text", "<ns1:code>$code</ns1:code>"]
+
+-
+  name: 步骤2：把上一步抓到的值带到下一个请求（跨步骤只能走 ${ENV()}）
+  request:
+    method: POST
+    url: /svc/query?code=${ENV(SOAP_CAPTURED_CODE)}
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      # NOTICE: HTTP 头值只能是 latin-1 —— 上面抓到的 message 是中文，**不能**放进 header
+      # （会直接抛 UnicodeEncodeError: 'latin-1' codec can't encode ...）。
+      # 中文/其它非 latin-1 值请放进 url / query / data / json 或断言里。
+      X-From-Env: "${ENV(SOAP_CAPTURED_CODE)}"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    - xpath_match: ["body", ["code", "${ENV(SOAP_CAPTURED_CODE)}"]]
+    - contains: ["text", "<ns1:code>${ENV(SOAP_CAPTURED_CODE)}</ns1:code>"]
+    # 中文值放在断言里没问题（只有 header 有 latin-1 限制）
+    - contains: ["text", "<ns1:message>${ENV(SOAP_CAPTURED_MESSAGE)}</ns1:message>"]

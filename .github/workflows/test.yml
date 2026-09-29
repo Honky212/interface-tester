@@ -1,0 +1,264 @@
+# InterfaceTester CI —— GitHub Actions
+#
+# 四个 job（见 docs/ci/README.md「一、交付物与平台选择」）：
+#   unit-test     全量单测，**排除** 6 个依赖公网 postman-echo.com 的用例（必须绿）
+#   package       构建 wheel 并校验**产物内容**与源码一致（坑 10）
+#   network-tests 只跑那 6 个外网用例，`continue-on-error`（红了不等于框架坏了）
+#   examples-smoke examples 冒烟：httpbin 4 个 yml + data_management + soap + soap_xpath
+#
+# NOTICE：`xml` 与 `upload` 两个 extra 在 unit-test / examples-smoke **都必须装**
+# （见 docs/ci/README.md 坑 3）：
+#   - 不装 `xml`：xml_comparators_test 在 CI=true 时把「忘了装 extra」直接判失败；
+#   - 不装 `upload`：uploader_test 的 16 条会以 NameError: name 'filetype' 收场。
+# 护栏：tests/dependency_consistency_test.py::TestCiJobDependencySetsCoverTheTests
+
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # 内网镜像源：按需取消注释（坑 3）
+  # PIP_INDEX_URL: https://<内网源>/simple
+
+jobs:
+  unit-test:
+    name: unit-test
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 安装行必须写明 test/xml/upload：见文件头的 NOTICE 与坑 3
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[test,xml,upload]"
+
+      # 主 job 必须绿：排除 6 个外网用例（坑 5）
+      - name: Run unit tests (deterministic)
+        run: |
+          mkdir -p reports
+          python -m pytest tests -q \
+            --deselect tests/step_request_test.py::TestRunRequest::test_run_request \
+            --deselect tests/step_request_test.py::TestCaseRequestWithFunctions::test_start \
+            --deselect tests/step_testcase_test.py::TestCaseRequestWithFunctions::test_start \
+            --deselect tests/step_testcase_test.py::TestRunTestCase::test_run_testcase_by_path \
+            --deselect tests/cli_test.py::TestCli::test_debug_pytest \
+            --deselect tests/cli_test.py::TestCli::test_run_testcase_with_abnormal_path \
+            --html=reports/report.html --self-contained-html \
+            --junitxml=reports/junit.xml
+
+      # artifact 必须 always()：失败那次的报告才最有用（坑 4）
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: |
+            reports/
+            logs/
+          if-no-files-found: ignore
+
+  guardrails:
+    name: guardrails
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 护栏**刻意只装 test**：xml/upload 与它们无关，装上去反而会掩盖
+      # 「护栏对 extra 的隐式依赖」——本机未装任何 extra 时八条自检已实测全绿。
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[test]"
+
+      # S-7（方案 v8 §8.1）：这些自检此前**只在本地绿**——CI 只跑 pytest，
+      # 于是「护栏漂移」没有任何人会看见。本 job 把它们变成门禁：
+      # 任一行退出码非 0 → job 变红。
+      #
+      # T26 纪律：八个入口都已做 `reconfigure(encoding="utf-8")`，
+      # 重定向/CI（非交互 + GBK locale）下不再因输出编码假红。
+      - name: Run guardrail self-checks
+        run: |
+          python bench/silent_traps.py
+          python bench/golden_harness.py
+          python bench/ai_guardrails.py
+          python bench/probe_silent_gate.py
+          python bench/write_boundary_scanner.py
+          python bench/gate_false_positive_audit.py
+          python -m interfacetester_ai.gates
+          python -m interfacetester_ai.doc_quality
+          python -m interfacetester_ai.diagnosis
+          python -m interfacetester_ai.normalize
+          python -m interfacetester_ai.workdir
+          # P3d 收口（第十四批）：离线导出的形态自检（零绝对路径 / 可达 / 幂等 / 只写导出根）
+          python -m interfacetester_ai.export
+
+  package:
+    name: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,test]"
+
+      # 单测跑的是源码树，wheel 内容错了它看不出来 —— 所以单独构建并校验产物（坑 10）
+      - name: Build wheel
+        run: python -m build --wheel
+
+      - name: Validate wheel content against source tree
+        run: |
+          WHEEL=$(ls dist/*.whl | head -n 1)
+          echo "validating $WHEEL"
+          INTERFACETESTER_WHEEL_PATH="$WHEEL" python -m pytest tests/wheel_content_test.py -q
+
+      # P3c 的第三件事（第十二批，2026-09-25）：旁路包也必须有**产物**判据 ——
+      # 源码树单测看不出"轮子里少一个模块/入口没落地/声明了三方依赖"（同坑 10）。
+      # 本步只跑 packaging_test.py：没给 AI_WHEEL 时其中 5 条产物对账会 skip，
+      # 给了就会跑（判据是"产物 ↔ 源码树"，不是硬编码清单）。
+      - name: Build and validate the AI package wheel
+        run: |
+          python -m build --wheel --outdir dist_ai interfacetester_ai
+          AI_WHEEL=$(ls dist_ai/*.whl | head -n 1)
+          echo "validating $AI_WHEEL"
+          INTERFACETESTER_AI_WHEEL_PATH="$AI_WHEEL" python -m pytest tests/packaging_test.py -q
+
+      - name: Upload wheel
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-wheel
+          path: |
+            dist/*.whl
+            dist_ai/*.whl
+          if-no-files-found: ignore
+
+  network-tests:
+    name: network-tests
+    runs-on: ubuntu-latest
+    # 打公网 postman-echo.com：抖动会红，红了不代表框架坏了（坑 5）
+    continue-on-error: true
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[test,xml,upload]"
+
+      - name: Run network-dependent tests
+        run: |
+          mkdir -p reports
+          python -m pytest -q \
+            tests/step_request_test.py::TestRunRequest::test_run_request \
+            tests/step_request_test.py::TestCaseRequestWithFunctions::test_start \
+            tests/step_testcase_test.py::TestCaseRequestWithFunctions::test_start \
+            tests/step_testcase_test.py::TestRunTestCase::test_run_testcase_by_path \
+            tests/cli_test.py::TestCli::test_debug_pytest \
+            tests/cli_test.py::TestCli::test_run_testcase_with_abnormal_path \
+            --junitxml=reports/network-junit.xml
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: network-test-reports
+          path: reports/
+          if-no-files-found: ignore
+
+  examples-smoke:
+    name: examples-smoke
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[test,xml,upload]"
+
+      # tests/conftest.py 只在跑 tests/ 时生效 —— examples 冒烟必须自己拉起 mock（坑 6）
+      - name: Start local mock httpbin
+        run: |
+          nohup python tests/mock_server.py > mock.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://127.0.0.1:80/get; then
+              echo "mock is ready"; exit 0
+            fi
+            sleep 1
+          done
+          echo "mock did not become ready"; cat mock.log; exit 1
+
+      # upload.yml 从冒烟里排除：需 upload extra，且依赖真实 httpbin 的 multipart 解析（坑 6）
+      - name: httpbin examples
+        run: |
+          mkdir -p reports
+          python -m interfacetester run \
+            examples/httpbin/basic.yml \
+            examples/httpbin/hooks.yml \
+            examples/httpbin/validate.yml \
+            examples/httpbin/load_image.yml \
+            --junitxml=reports/examples-junit.xml
+
+      - name: data management example
+        run: |
+          python -m interfacetester run examples/data_management \
+            --junitxml=reports/data-management-junit.xml
+
+      - name: SOAP project-level operators (A1)
+        run: |
+          python -m interfacetester run examples/soap \
+            --junitxml=reports/soap-junit.xml
+
+      - name: SOAP builtin operators (A2-1 / A2-2)
+        run: |
+          python -m interfacetester run examples/soap_xpath \
+            --junitxml=reports/soap-xpath-junit.xml
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: examples-smoke-reports
+          path: |
+            reports/
+            mock.log
+            logs/
+          if-no-files-found: ignore

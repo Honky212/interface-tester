@@ -1,0 +1,52 @@
+# 交付/外发版 .gitignore（2026-09-29 建「外发仓」时定）
+#
+# 立仓纪律：**只忽略「可再生」与「不该外传」的东西，不忽略证据。**
+#   · 可再生  → 虚拟环境 / 字节码 / pytest 缓存 / 构建产物（一条命令就能重跑）
+#   · 不外传  → `.env`（含 base_url 与 key）、运行期日志与报告、AI 层的缓存与草稿
+#
+# 与内网工作区那份的**两处差异**（刻意为之）：
+#   1) 日志一律不入库 —— 内网那份要留 `project-*/logs` 当证据（用 `/logs/` 只挡根目录），
+#      外发仓统一用无前导斜杠的 `logs/`，任意层级全挡：那都是跑一次就能重生成的东西。
+#   2) 最末一组「禁区」是外发仓的**二次保险**：这三类产物不随仓库分发，
+#      万一被拷进来也不会被 `git add` 误收。
+#
+# NOTICE：`bench/` 是 CI 护栏脚本（`.github/workflows/test.yml` 与 `.gitlab-ci.yml`
+#         的 guardrails job 都会直接调它），**必须入库**，不要加到这里。
+
+# 1) 虚拟环境与字节码
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 2) 构建产物：wheel 用 `python -m build --wheel` 现产，不把上一次的产物当源码
+build/
+dist/
+dist_*/
+*.whl
+
+# 3) 运行期产物（都能重跑出来：日志、报告、AI 协作层的草稿与缓存）
+logs/
+reports/
+.ai/
+
+# 4) 凭据：README / deploy 都要求走环境变量，配置文件**不进仓**
+.env
+.env.*
+!.env.example
+
+# 5) 临时工作区与垃圾文件（前缀即约定）
+.tmp*
+tmp_*
+*.bak
+*.orig
+Thumbs.db
+.vscode/
+.idea/
+
+# 6) 外发禁区（这三类只存在于内网工作区，永不入库）
+/project-three/
+/selling-this-product/
+/probe_*/

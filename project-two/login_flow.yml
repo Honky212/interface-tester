@@ -1,0 +1,34 @@
+config:
+  name: 登录拿 token 再带 token 调接口
+  base_url: ${ENV(BASE_URL)}   # 取 .env 里的 BASE_URL
+  verify: false
+
+teststeps:
+  # 第一步：登录，从响应体里提取 token
+  - name: 登录获取 token
+    request:
+      url: /api/login
+      method: POST
+      headers:
+        Content-Type: application/json
+      json:
+        username: admin
+        password: "123456"
+    extract:
+      - token: body.data.token    # 把响应里的 token 存成变量 $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+
+  # 第二步：带上一步提取的 $token 调接口
+  - name: 用 token 查询用户信息
+    request:
+      url: /api/user/info
+      method: GET
+      headers:
+        Authorization: "Bearer $token"   # 引用上一步的 $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - eq: [body.data.username, admin]
+      - eq: [body.data.role, admin]

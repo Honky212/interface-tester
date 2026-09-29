@@ -1,0 +1,33 @@
+config:
+  name: 登录与当前用户
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 登录并提取 token
+    request:
+      method: POST
+      url: /api/login
+      headers:
+        Content-Type: application/json
+      json:
+        username: ${ENV(USERNAME)}
+        password: ${ENV(PASSWORD)}
+    extract:
+      token: body.data.token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.token, "str"]
+
+  - name: 用 token 查询当前用户
+    request:
+      method: GET
+      url: /api/user/me
+      headers:
+        Authorization: Bearer $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.userId, "int"]
+      - contained_by: [body.data.role, ["admin", "user", "guest"]]

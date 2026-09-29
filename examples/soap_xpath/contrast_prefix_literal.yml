@@ -1,0 +1,54 @@
+# 对照演示（**故意失败**）：原始 XPath 里的**前缀是字面量**，简化写法才是前缀无关的
+#
+# 默认被 conftest 跳过（文件名以 contrast 开头）。想看真实后果就显式打开：
+#   Windows PowerShell:
+#     $env:SOAP_RUN_CONTRAST=1
+#     python -m interfacetester run examples/soap_xpath/contrast_prefix_literal.yml
+#   Linux / macOS:
+#     SOAP_RUN_CONTRAST=1 python -m interfacetester run examples/soap_xpath/contrast_prefix_literal.yml
+#
+# 预期结果：第 1 步通过（前缀写对了），第 2 步**报错** ——
+#   RuntimeError: XPath 表达式不合法：//ns1:code/text()
+#   XPathEvalError: Undefined namespace prefix
+# 因为 /svc/query-drift 把同一个命名空间 URI 声明成了 abc:，而断言里写的是 ns1:。
+# 结论：**要「前缀漂移也命中」就用简化写法**（`code` / `{URI}code`），
+#       原始 XPath 适合写「前缀已知且稳定」的精确路径。
+config:
+  name: "对照：原始 XPath 的前缀是字面量（第 2 步会报错）"
+  base_url: ${soap_base_url()}
+  variables:
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId>U1001</ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: "前缀写对：abc: 与报文声明一致 → 通过"
+  request:
+    method: POST
+    url: /svc/query-drift
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    - xpath_match: ["body", "//abc:code/text()"]
+
+-
+  name: "前缀写错：报文声明是 abc:，断言写 ns1: → 报错（未声明前缀）"
+  request:
+    method: POST
+    url: /svc/query-drift
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # 同一份契约、同一份断言，只是前缀对不上 → 这一条会抛 RuntimeError
+    - xpath_match: ["body", "//ns1:code/text()"]

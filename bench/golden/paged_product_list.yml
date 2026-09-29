@@ -1,0 +1,20 @@
+config:
+  name: 商品列表（分页）
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 查询第一页商品
+    request:
+      method: GET
+      url: /api/product/list
+      params:
+        page: 1
+        pageSize: 20
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.total, "int"]
+      - type_match: [body.data.list, "list"]
+      - length_greater_than: [body.data.list, 0]
+      - length_less_or_equals: [body.data.list, 20]

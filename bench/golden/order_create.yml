@@ -1,0 +1,23 @@
+config:
+  name: 订单创建接口
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 创建订单
+    request:
+      method: POST
+      url: /api/order
+      headers:
+        Content-Type: application/json
+      json:
+        clientOrderId: ${ENV(TODO_ORDER_ID)}
+        price: 100
+        status: pending
+    extract:
+      orderId: body.data.orderId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.orderId, "str"]
+      - contained_by: [body.status, ["pending", "paid", "cancelled"]]

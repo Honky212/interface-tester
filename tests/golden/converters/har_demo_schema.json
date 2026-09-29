@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "args": {
+      "type": "object",
+      "properties": {
+        "foo1": {
+          "type": "string"
+        },
+        "foo2": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "foo1",
+        "foo2"
+      ]
+    },
+    "headers": {
+      "type": "object"
+    },
+    "url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "args",
+    "headers",
+    "url"
+  ]
+}

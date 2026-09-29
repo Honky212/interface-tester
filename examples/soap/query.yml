@@ -1,0 +1,67 @@
+# SOAP 请求 + XML 结构化断言（A1 方案：debugtalk 算子，零新依赖、零内核改动）
+# 配套说明见同目录 README.md 与 docs/soap/README.md
+config:
+  name: "SOAP：XML 结构化断言"
+  base_url: ${soap_base_url()}
+  variables:
+    soap_action: "urn:demo#Query"
+    # SOAP 1.1：Content-Type 用 text/xml + SOAPAction 头
+    # SOAP 1.2：Content-Type 用 application/soap+xml，动作写在 action= 参数里（不用 SOAPAction 头）
+    envelope: |
+      <?xml version="1.0" encoding="utf-8"?>
+      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+          <ns1:QueryRequest xmlns:ns1="http://demo.example.com/svc">
+            <ns1:userId>U1001</ns1:userId>
+          </ns1:QueryRequest>
+        </soap:Body>
+      </soap:Envelope>
+
+teststeps:
+-
+  name: 正常响应：先断 HTTP，再断业务码与金额
+  request:
+    method: POST
+    url: /svc/query
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    # 按 local-name 选节点 → 命名空间前缀无关（这是字符串断言做不到的）
+    - xpath_match: ["body", ["code", "0000"]]
+    - xpath_match: ["body", ["amount", "1234.50"]]
+    # 需要精确限定命名空间时，用 ElementTree 原生写法：URI 而不是前缀
+    - xpath_match: ["body", ["{http://demo.example.com/svc}code", "0000"]]
+
+-
+  name: 前缀从 ns1 漂移成 abc：同一份契约，断言照过
+  request:
+    method: POST
+    url: /svc/query-drift
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "$soap_action"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    - xpath_match: ["body", ["code", "0000"]]
+    - xpath_match: ["body", ["message", "成功"]]
+
+-
+  name: 明细条数与属性选择（列表类报文的常见断言）
+  request:
+    method: POST
+    url: /svc/items
+    headers:
+      Content-Type: "text/xml; charset=utf-8"
+      SOAPAction: "urn:demo#Items"
+    data: "$envelope"
+  validate:
+    - equal: ["status_code", 200]
+    - xpath_count: ["body", ["item", 3]]
+    - xpath_match: ["body", "item[@id='2']"]
+    # NOTICE: 简化选择器不支持「多级路径」（如 item[@id='2']/name）→
+    # 只能断「选中集合里存在某个值」，需要更细的校验请在 teardown_hook 里写 Python
+    - xpath_match: ["body", ["name", "丙"]]

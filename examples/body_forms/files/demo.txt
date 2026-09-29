@@ -1,0 +1,3 @@
+InterfaceTester body_forms demo file.
+line 2: 用于 multipart/form-data 上传演示。
+line 3: 本地 mock 只回显请求头，服务端能在 headers.Content-Type 里看到 multipart/form-data。

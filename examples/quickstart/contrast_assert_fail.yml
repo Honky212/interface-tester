@@ -1,0 +1,23 @@
+# 对照演示（**默认被 conftest.py 跳过**：文件名以 contrast 开头）
+#
+# 目的：让你亲眼看到「一条断言不通过的用例」长什么样。
+# 手动跑（必须带环境变量，否则仍会被跳过）：
+#     $env:QUICKSTART_RUN_CONTRAST=1; hrun examples/quickstart/contrast_assert_fail.yml   # Windows PowerShell
+#     QUICKSTART_RUN_CONTRAST=1 hrun examples/quickstart/contrast_assert_fail.yml         # Linux / macOS
+# 期望：**1 failed** —— 这是最典型的一种「红」：接口的返回和你写的期望对不上。
+#
+# 为什么会红：GET /get 在 httpbin 与仓库自带 mock 上都返回 200，
+# 而这里故意把期望写成 404（模拟「抄错了期望值」或「接口真的被改坏了」两种现实场景）。
+#
+# NOTICE: 地址用 ${base_url()}（debugtalk.py 的函数，没有环境变量时回落到默认地址），
+#         这样**不建 .env 也能演示**——否则它会报 EnvNotFound，就演不成「断言失败」了。
+config:
+  name: "对照：断言不通过（FAILED）"
+
+teststeps:
+  - name: 期望 404，但 GET /get 实际返回 200
+    request:
+      method: GET
+      url: ${base_url()}/get
+    validate:
+      - eq: [status_code, 404]     # ← 故意写错的期望值

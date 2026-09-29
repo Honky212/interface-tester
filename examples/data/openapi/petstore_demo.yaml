@@ -1,0 +1,255 @@
+# OpenAPI 3.0.3 示例契约（P3-c 导入器的素材 / golden 输入）
+#
+# 这份契约是**为导入器写的**：刻意覆盖最容易踩坑的写法 ——
+#   $ref 与 allOf/oneOf、servers 变量、security 与 securitySchemes、
+#   路径参数（有/无 example）、query 参数（required/optional/enum/default）、
+#   requestBody（有 example / 无 example 需造骨架）、响应（200/204/4xx、无 content）。
+openapi: 3.0.3
+
+info:
+  title: Petstore Demo
+  version: 1.0.0
+  description: 用于演示「契约 → 骨架用例」的最小但完整的契约
+
+servers:
+  - url: "https://api.petstore.test/{basePath}"
+    variables:
+      basePath:
+        default: v1
+        enum: [v1, v2]
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: pets
+    description: 宠物相关接口
+  - name: store
+    description: 门店相关接口
+
+paths:
+  /pets:
+    get:
+      tags: [pets]
+      summary: 查询宠物列表
+      operationId: listPets
+      parameters:
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 10
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [available, pending, sold]
+        - name: tags
+          in: query
+          description: 没有 example/default → 导入时按类型造值并告警
+          schema:
+            type: array
+            items:
+              type: string
+        - name: X-Trace-Id
+          in: header
+          schema:
+            type: string
+            example: trace-123
+      responses:
+        "200":
+          description: 宠物列表
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+        "400":
+          description: 参数错误
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    post:
+      tags: [pets]
+      summary: 新建宠物
+      operationId: createPet
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            # 有 example → 直接用（不生成骨架）
+            example:
+              name: "旺财"
+              tag: "dog"
+              tags: ["cute", "small"]
+            schema:
+              $ref: "#/components/schemas/PetCreate"
+      responses:
+        "201":
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+
+  /pets/{petId}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        schema:
+          type: string
+          example: "pet-001"
+    get:
+      tags: [pets]
+      summary: 查询单个宠物
+      operationId: getPet
+      responses:
+        "200":
+          description: 宠物详情
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PetOrError"
+        "404":
+          description: 不存在
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    patch:
+      tags: [pets]
+      summary: 更新宠物（requestBody 无 example → 造骨架）
+      operationId: updatePet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PetUpdate"
+      responses:
+        "200":
+          description: 更新后的宠物
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+    delete:
+      tags: [pets]
+      summary: 删除宠物（路径参数无 example → 造值并告警）
+      operationId: deletePet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: 覆盖路径级参数：这里刻意不带 example
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: 删除成功（无响应体 → 只断状态码）
+
+  /store/orders:
+    post:
+      tags: [store]
+      summary: 下单（application/x-www-form-urlencoded）
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [petId, quantity]
+              properties:
+                petId:
+                  type: string
+                  example: "pet-001"
+                quantity:
+                  type: integer
+                  default: 1
+      responses:
+        "200":
+          description: 下单结果
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [orderId, status]
+                properties:
+                  orderId:
+                    type: string
+                  status:
+                    type: string
+                    nullable: true
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    Pet:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+        tag:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [available, pending, sold]
+
+    PetCreate:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - type: object
+          required: [name]
+          properties:
+            name:
+              type: string
+
+    PetUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [available, pending, sold]
+
+    PetOrError:
+      oneOf:
+        - $ref: "#/components/schemas/Pet"
+        - $ref: "#/components/schemas/ApiError"
+
+    ApiError:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties:
+            type: string

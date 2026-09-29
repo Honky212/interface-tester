@@ -1,0 +1,55 @@
+# 由 `hconvert` 从 examples/data/curl/curl_examples.txt 生成（InterfaceTester 导入器）
+# 用法：hrun curl_examples.yml
+# NOTICE:
+#   - 敏感信息（Cookie/Authorization/token 等）已替换成 ${...} 占位，
+#     占位符的值定义在 config.variables 里（默认从环境变量读）——**不要**把明文写回来；
+#   - 生成后请人工过一遍：契约/录制里造出来的骨架值（时间戳/UUID/路径 id/示例值）需要按业务替换；
+#   - 生成的 *_test.py 由 hmake 产出，改用例请改这个 YAML。
+config:
+  name: curl_examples
+  base_url: http://httpbin.org
+  variables:
+    AUTH_TOKEN: ${ENV(AUTH_TOKEN)}
+teststeps:
+- name: step 1（第 1 行）
+  request:
+    method: GET
+    url: /
+- name: step 2（第 3 行）
+  request:
+    method: GET
+    url: https://httpbin.org/get?key1=value1&key2=value2
+- name: step 3（第 5 行）
+  request:
+    method: POST
+    url: https://httpbin.org/post
+    headers:
+      Content-Type: application/json
+      Authorization: Bearer ${AUTH_TOKEN}
+    json:
+      type: A
+      name: www
+      data: 162.10.66.0
+      priority: null
+      port: null
+      weight: null
+- name: step 4（第 7 行）
+  request:
+    method: POST
+    url: https://httpbin.org/post
+    upload:
+      file1: file1.txt
+      file2: file2.txt
+      dummyName: dummyFile
+- name: step 5（第 9 行）
+  request:
+    method: POST
+    url: https://httpbin.org/post
+    data: shipment[to_address][id]=adr_HrBKVA85&shipment[from_address][id]=adr_VtuTOj7o&shipment[parcel][id]=prcl_WDv2VzHp&shipment[is_return]=true&shipment[customs_info][id]=cstinfo_bl5sE20Y
+- name: step 6（第 11 行）
+  request:
+    method: POST
+    url: https://httpbing.org/post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    data: key1=value+1&key2=value%3A2

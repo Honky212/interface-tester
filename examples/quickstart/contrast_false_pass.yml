@@ -1,0 +1,29 @@
+# 对照演示（**默认被 conftest.py 跳过**：文件名以 contrast 开头）
+#
+# 目的：让你亲眼看到**「假通过」**——用例是**绿的**，但它其实什么都没测到。
+#       这是自动化测试最危险的一种结果：你以为在被守护，其实没有。
+# 手动跑：
+#     $env:QUICKSTART_RUN_CONTRAST=1; hrun examples/quickstart/contrast_false_pass.yml  # Windows PowerShell
+#     QUICKSTART_RUN_CONTRAST=1 hrun examples/quickstart/contrast_false_pass.yml        # Linux / macOS
+# 期望：**1 passed**（注意——是绿！）
+#
+# 为什么会绿：断言字段名拼错了（`validates` 多了个 s），框架**不认识**这个字段，
+#   于是在生成期告警「存在无法识别的字段：['validates']，它们会被忽略」——
+#   然后**真的忽略**了：那两条断言一个字都没写进生成的用例里。
+#
+# ⚠️ 关键：**告警不是失败**。用例照样绿、退出码照样是 0。
+#   所以「有告警」这件事，必须有人去看才算数。
+#
+# 【配套的对照】另一半是同目录的 `contrast_assert_fail.yml`：
+#   它断的是**同一个东西**（`eq: [status_code, 404]`），只是字段名写对了 → **1 failed**。
+#   两条并排看，「写对 = 红、拼错 = 绿」这个反差就是这个演示的全部意义。
+config:
+  name: "对照：假通过（GREEN 但什么都没测到）"
+
+teststeps:
+  - name: 想断 status_code 是不是 404——但断言字段名拼错了
+    request:
+      method: GET
+      url: ${base_url()}/get
+    validates:                    # ← 故意拼错：正确的字段名是 validate
+      - eq: [status_code, 404]    # ← 这条断言**不会被执行**，可它看起来完全正常

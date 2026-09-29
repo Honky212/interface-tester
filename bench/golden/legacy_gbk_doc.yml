@@ -1,0 +1,17 @@
+config:
+  name: 旧系统用户信息（GBK 文档样本）
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 查询旧系统用户
+    request:
+      method: GET
+      url: /api/legacy/user/info
+      params:
+        uid: ${ENV(USER_ID)}
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - type_match: [body.data.uid, "str"]
+      - type_match: [body.data.name, "str"]

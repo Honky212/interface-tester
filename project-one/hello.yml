@@ -1,0 +1,10 @@
+config:
+  name: 我的第一条用例
+
+teststeps:
+  - name: 调一次 GET 接口
+    request:
+      method: GET
+      url: ${ENV(BASE_URL)}/get    # 取 .env 里的 BASE_URL
+    validate:
+      - eq: [status_code, 200]

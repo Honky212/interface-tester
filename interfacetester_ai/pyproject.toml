@@ -1,0 +1,24 @@
+# interfacetester_ai 工程骨架（v8 §十 T6，2026-09-23）
+# 平铺就地布局：本目录既是包源码（`import interfacetester_ai`）也是构建根
+# （`python -m build --wheel` 产物在 dist/，见 §附录 C）。
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interfacetester-ai"
+version = "0.1.0"
+description = "interfacetester 的 AI 协作层旁路包（生成期闸门/归一化投影/PENDING 清单）"
+requires-python = ">=3.8"
+dependencies = []  # 骨架零三方依赖；运行内核只读复用走延迟 import（gates._kernel）
+
+[tool.setuptools]
+packages = ["interfacetester_ai"]
+
+[tool.setuptools.package-dir]
+interfacetester_ai = "."
+
+# CLI 入口（§5.1）：`haify gen <doc.md>`。
+# 与 `python -m interfacetester_ai` 指向同一个 `cli.main`（不存在两套行为）。
+[project.scripts]
+haify = "interfacetester_ai.cli:main"

@@ -1,0 +1,48 @@
+config:
+    name: "01 数据管理：造数与回读"
+    base_url: ${api_base()}
+    variables:
+        # NOTICE: token 只能**逐字段**注入到 headers 里。
+        # 不能写 `headers: ${auth_header()}`——`TRequest.headers` 在 load 期就被 pydantic 要求是 dict，
+        # 函数返回值替换整个字段会直接报 TestCaseFormatError（P2-a 实测踩到，见 README 坑 1）。
+        token: "${ENV(DM_TOKEN)}"
+        suffix: alpha
+        # T3 约定：造数与「回收登记」成对发生（create_record 内部登记回收动作，
+        # 由 conftest 的用例级夹具统一执行，所以用例里不需要写 teardown）
+        record_id: "${create_record($suffix)}"
+        run_prefix: "${run_prefix()}"
+
+teststeps:
+-
+    name: 刚造的数据可以被读到
+    request:
+        method: GET
+        url: /records/$record_id
+        headers:
+            Authorization: "Bearer $token"
+    validate:
+        - eq: ["status_code", 200]
+        # 名字里必须带「用例隔离前缀」（T3：有前缀才能精确回收）
+        - startswith: ["body.name", "${case_prefix()}"]
+-
+    name: 本次运行里只应有这一条数据
+    request:
+        method: GET
+        url: /records
+        params:
+            prefix: $run_prefix
+        headers:
+            Authorization: "Bearer $token"
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.count", 1]
+        - eq: ["body.records[0].id", "$record_id"]
+-
+    name: 未带 token 时被拒绝（顺便证明鉴权链路是通的）
+    request:
+        method: GET
+        url: /records
+        headers:
+            X-No-Auth: "1"
+    validate:
+        - eq: ["status_code", 401]

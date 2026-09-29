@@ -1,0 +1,23 @@
+config:
+  name: 用户服务（SOAP）
+  base_url: ${ENV(BASE_URL)}
+  verify: false
+
+teststeps:
+  - name: 以 SOAP 查询用户
+    request:
+      method: POST
+      url: /soap/user
+      headers:
+        Content-Type: text/xml; charset=utf-8
+      data: |
+        <?xml version="1.0"?>
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <GetUser><userId>1001</userId></GetUser>
+          </soap:Body>
+        </soap:Envelope>
+    validate:
+      - eq: [status_code, 200]
+      - xpath_match: [body, "//nickname", "alice"]
+      - greater_or_equals: [body, "//level", 1]
