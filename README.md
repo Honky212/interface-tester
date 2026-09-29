@@ -38,8 +38,7 @@ hrun examples/data_management --html=reports/report.html --self-contained-html
 
 ## 二、本轮（P0~P3）新增了什么
 
-这一轮做过一次系统性评估（`docs/接口自动化框架升级优化评估.md`，已从工作区删除，需原文用
-`git show docs-before-batch-cleanup:docs/接口自动化框架升级优化评估.md` 取回），据此落地了 4 个批次：
+落地了 4 个批次：
 
 | 批次 | 内容 | 用户可见变化 |
 | --- | --- | --- |
@@ -213,8 +212,6 @@ hmake login.yml                                                  # 只想先看�
 | [`deploy.md`](deploy.md) | 部署、离线安装、extras、FAQ |
 | [`docs/使用说明-用例级.md`](docs/使用说明-用例级.md) | **用例工程侧**的文件与文件夹：`debugtalk.py` / `conftest.py` / `.env` / CSV / schemas / IDL 各自做什么、哪些必须哪些可选、**每个项目要不要单独配**；第二节是**从零搭一个用例工程的 6 步示例** |
 | [`docs/使用说明-非技术版.md`](docs/使用说明-非技术版.md) | **给不写代码的同事**：那些文件是干嘛的、哪些该动哪些别动、常见问题速查与名词解释（全文不含需要你敲的代码） |
-| `docs/接口自动化框架升级优化评估.md`（已删除，见下） | 想知道「为什么这么改」：评估结论、优先级、落地状态 |
-| `docs/SOAP阶段开发记录.md`、`docs/A2-1开发记录.md`、`docs/A2-2开发记录.md`、`docs/批次A-C修复验收清单.md`、`docs/批次D修复验收清单.md`、`docs/批次E修复验收清单.md`（**均已删除，见下**） | 各功能批次的实现细节、实测数据与踩坑记录。**前四个**（P0~P3 早期记录及 SOAP/A2 两份）用 `git show docs-before-batch-cleanup:<路径>` 取回；**最后三个验收清单的提交晚于该 tag**，要用 `git show f32dea2a:<路径>` 取回——**不要写 `HEAD`**：`HEAD` 会随提交移动，两者都取不回。**最后三份是修复验收清单**（A/B/C、D、E 三批，逐条给出护栏 node id 与「注掉修复即变红」的注入点，附复核命令速查）；批次 D 的那份还留了一处「**测试在守护 bug**」的直证，批次 E 的那份留了两条「**护栏打偏**」的自纠 |
 
 ---
 
