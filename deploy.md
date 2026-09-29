@@ -260,7 +260,7 @@ python -m pytest tests -q \
   --deselect tests/step_testcase_test.py::TestRunTestCase::test_run_testcase_by_path \
   --deselect tests/cli_test.py::TestCli::test_debug_pytest \
   --deselect tests/cli_test.py::TestCli::test_run_testcase_with_abnormal_path
-# 期望：2545 passed, 121 skipped, 6 deselected   （本机：无外网；已装 filetype；★已 `git init`，
+# 期望：2493 passed, 173 skipped, 6 deselected   （外发版实测；★已 `git init`，
 #   所以 `git ls-files` 与 black 版本推断那两条护栏**会真跑**（此前因无 .git 而 skip））
 # ★本机当前**没有"环境遗留 failed"**：上传依赖的核心 `filetype` 已装（走 pip 本地缓存，
 #   **不需要外网**）→ 早先那条 `…test_requests_toolbelt_is_not_a_hard_prerequisite` 已转绿；

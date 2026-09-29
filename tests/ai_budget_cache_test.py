@@ -42,12 +42,18 @@ from interfacetester_ai.prompts import (  # noqa: E402
 
 PLAN_DOC = os.path.join(BASE, "docs", "interfacetester智能化改造方案8.md")
 
+# NOTICE（外发仓口径）：`docs/interfacetester智能化改造方案8.md` 是内网方案文档，
+# 不随本仓库分发 → 文档不在时，下面 3 条「文档 ↔ 代码对账」判据自动 skip（不静默通过）。
+PLAN_DOC_PRESENT = os.path.isfile(PLAN_DOC)
+PLAN_DOC_SKIP_REASON = "内网方案文档不在工作区（docs/interfacetester智能化改造方案8.md）"
+
 
 def _read(path):
     with open(path, encoding="utf-8") as handle:
         return handle.read()
 
 
+@unittest.skipUnless(PLAN_DOC_PRESENT, PLAN_DOC_SKIP_REASON)
 class TestDocumentedBudgetMatchesTheCode(unittest.TestCase):
     """**对账层**：文档里的预算数字必须与代码常量一致（T4 的处置就是消灭"两处写法"）。"""
 
@@ -128,6 +134,7 @@ class TestCacheKeyCoversEveryDocumentedField(unittest.TestCase):
         "user",
     )
 
+    @unittest.skipUnless(PLAN_DOC_PRESENT, PLAN_DOC_SKIP_REASON)
     def test_every_documented_field_is_in_the_code_list(self):
         text = _read(PLAN_DOC)
         for name in self.DOCUMENTED_FIELDS:
@@ -137,6 +144,7 @@ class TestCacheKeyCoversEveryDocumentedField(unittest.TestCase):
                     name, CACHE_KEY_FIELDS, f"文档要求 {name} 进键，代码清单里没有"
                 )
 
+    @unittest.skipUnless(PLAN_DOC_PRESENT, PLAN_DOC_SKIP_REASON)
     def test_code_list_has_no_field_the_document_never_mentions(self):
         text = _read(PLAN_DOC)
         for name in CACHE_KEY_FIELDS:

@@ -100,12 +100,7 @@ def session_fixture(request):
         testcase_summary_json["records"] = testcase_summary_json.pop("step_results")
         summary["details"].append(testcase_summary_json)
 
-    summary_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "logs",
-        "request_methods",
-        "hardcode.summary.json",
-    )
+    summary_path = r"D:\interfacetester-publish\examples\postman_echo\logs\request_methods\hardcode.summary.json"
     summary_dir = os.path.dirname(summary_path)
     os.makedirs(summary_dir, exist_ok=True)
 

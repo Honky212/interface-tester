@@ -22,9 +22,19 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE, "probe_p2_prep"))
 sys.path.insert(0, BASE)
 
-import mock_file_service as mock  # noqa: E402
+# NOTICE（外发仓口径）：本模块的被测对象只有两份**内网资料**——
+#   · `project-three/统一文件服务平台-接入应用接口文档.md`（客户接口文档）
+#   · `probe_p2_prep/mock_file_service.py`（照该文档推导出来的 mock）
+# 这两份都不随本仓库分发，所以导入做成可选的：任一缺失 → 本模块整体 skip。
+# ★判据不退化：在内网工作区里两份都在，本模块照旧全程真跑。
+try:
+    import mock_file_service as mock  # noqa: E402
+except ImportError:  # pragma: no cover - 外发仓的正常路径
+    mock = None
 
 REAL_DOC = os.path.join(BASE, "project-three", "统一文件服务平台-接入应用接口文档.md")
+INTERNAL_ARTIFACTS_PRESENT = mock is not None and os.path.isfile(REAL_DOC)
+SKIP_REASON = "内网资料不在工作区（客户接口文档 / 照它推导的 mock），本模块整体跳过"
 
 
 def make_doc(extra_table_rows="", *, version_required="否", example="`/app1/`", notes="", only_rows=None):
@@ -128,6 +138,7 @@ def fires_with_body(doc_text, raw_body, content_type, query="path=%2Fapp1%2F"):
     return code
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestExistFamily(unittest.TestCase):
     """④ 存在性：值不在**种子数据**（文档示例里出现过的实体）里 → 按文档的"不存在"语义回失败。"""
 
@@ -147,6 +158,7 @@ class TestExistFamily(unittest.TestCase):
         self.assertIsNone(fires(make_doc(), "path=%2Fapp1%2F&files=@report.pdf"))
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestUploadPathMultipartSize(unittest.TestCase):
     """★§9.26 上传路径：**"请求里有没有『大小』这个事实"就是分水岭**（T3_1 那个形态的固化）。
 
@@ -204,6 +216,7 @@ class TestUploadPathMultipartSize(unittest.TestCase):
         self.assertIsNone(fires(self.doc, "path=%2Fapp1%2F&files=512B"))
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestRequiredFamily(unittest.TestCase):
     """② 非空：**只在该字段于本节字段表里标成必填时**才绑 —— 否则"可选字段没传"会被误报 ✗。"""
 
@@ -219,6 +232,7 @@ class TestRequiredFamily(unittest.TestCase):
         self.assertIsNone(fires(doc, "path=%2Fapp1%2F&version=v1"))  # 传了 → 不命中 ✓
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestFormatFamily(unittest.TestCase):
     """⑤ 格式：「要求」式表述 → 判定的是**违反条件**。
 
@@ -244,6 +258,7 @@ class TestFormatFamily(unittest.TestCase):
         self.assertIsNone(fires(doc, "path=doc"))
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestLimitFamily(unittest.TestCase):
     """③ 上限：数量（列表长度）与大小（字节）；**值不齐 → 不可判 → 不触发**。"""
 
@@ -290,6 +305,7 @@ POLARITY_DOC = """# 接口文档
 """
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestRelationPolarity(unittest.TestCase):
     """① 关系：证句**自带否定**（"不能相同"）时，要求方向要再反一次。
 
@@ -343,6 +359,7 @@ EXEMPT_DOC = """# 接口文档
 """
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestDocumentedExemption(unittest.TestCase):
     """文档写明的**豁免**：被点名的接口放宽成"以…开头"，而不是"完全一致"（也不丢掉这条规则）。"""
 
@@ -367,6 +384,7 @@ class TestDocumentedExemption(unittest.TestCase):
         self.assertEqual(self._fire("/other/a/", "/app1/"), "FILE_48")  # 违反 → 命中 ✓
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestNoSilentDrop(unittest.TestCase):
     """**不许静默消失**：含错误码的条件要么绑上、要么进"不模拟"清单（§9.22 踩过 FILE_1016）。"""
 
@@ -387,6 +405,7 @@ class TestNoSilentDrop(unittest.TestCase):
         self.assertTrue(mock.is_condition_statement("目录不存在时返回 `FILE_41`"))
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestEngineDiscipline(unittest.TestCase):
     """元护栏：引擎要是**纯函数**、判据要能"会红"、只 import 产品的一个函数。"""
 
@@ -424,6 +443,7 @@ class TestEngineDiscipline(unittest.TestCase):
                     self.assertNotEqual(rule["left"], rule["right"], f"自比规则：{rule}")
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestRealDocumentSmoke(unittest.TestCase):
     """真文档冒烟：可模拟条数要够多，**不模拟的条件陈述**要少（能力边界看得见）。"""
 
@@ -455,6 +475,7 @@ class TestRealDocumentSmoke(unittest.TestCase):
 
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestFenceOwnership(unittest.TestCase):
     """★§9.33（登记项 1）：挑"响应示例"必须**先看归属**，不能只看"前面 160 字里有没有『响应』"。
 
@@ -525,6 +546,7 @@ class TestFenceOwnership(unittest.TestCase):
         self.assertEqual(mock._response_body(text), {"success": True})
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestExistBeatsFormat(unittest.TestCase):
     """★§9.33（登记项 2）：同一请求同时"违规格式"且"实体不在种子数据里"时的**裁决**。
 
@@ -579,6 +601,7 @@ class TestExistBeatsFormat(unittest.TestCase):
         )
 
 
+@unittest.skipUnless(INTERNAL_ARTIFACTS_PRESENT, SKIP_REASON)
 class TestFailureStatusFollowsTheDoc(unittest.TestCase):
     """★§9.33（登记项 2）：失败响应的 **HTTP 状态**以文档为准（没写才用示例文档的 `200`）。
 

@@ -981,6 +981,13 @@ class TestBuiltinComparatorCountHasOneSource(unittest.TestCase):
 # --------------------------------------------------------------------------- 口径唯一化（T15）
 # 已被废弃的旧工作量数字：它们**可以**作为历史对照出现，但**不许**以"当前口径"的姿态出现。
 PLAN_V8_DOC = os.path.join("docs", "interfacetester智能化改造方案8.md")
+
+# NOTICE（外发仓口径）：下述两类是**内网资料**，不随本仓库分发；缺席时对应判据 skip：
+#   · 内网方案文档 `docs/interfacetester智能化改造方案8.md`（历史工作量数字的档案）
+#   · 探针工作区 `probe_p2_prep/`（探针分类表 routine.py 所在处）
+# 在内网工作区里两者都在 → 判据照旧真跑，不退化。
+PLAN_V8_DOC_PRESENT = os.path.isfile(os.path.join(BASE, PLAN_V8_DOC))
+PROBE_DIR = os.path.join(BASE, "probe_p2_prep")
 DEPRECATED_WORKLOAD_NUMBERS = ("34~48", "32~45", "32~47")
 # 出现旧数字的**同一行**里必须含下列任一"历史/对照"标记词——
 # 否则读者无法判断它是当前口径还是历史记录（而他会按错的那个排期）。
@@ -998,6 +1005,7 @@ HISTORY_MARKERS = (
 )
 
 
+@unittest.skipUnless(PLAN_V8_DOC_PRESENT, "内网方案文档不在工作区")
 class TestDeprecatedWorkloadNumbersOnlyAppearAsHistory(unittest.TestCase):
     r"""T15：**口径唯一化**——旧的工作量数字只能以"历史对照"的身份出现。
 
@@ -1057,6 +1065,7 @@ class TestDeprecatedWorkloadNumbersOnlyAppearAsHistory(unittest.TestCase):
             "注入的'旧数字当当前口径'竟然没被发现 —— 那么上一条护栏是空跑",
         )
 
+@unittest.skipUnless(os.path.isdir(PROBE_DIR), "探针工作区 probe_p2_prep/ 不在工作区")
 class TestProbeRoutineCoversEveryProbe(unittest.TestCase):
     """★§9.33 登记项：**每个探针都必须被分类**（例行 / 模型 / 不例行＋理由）。
 

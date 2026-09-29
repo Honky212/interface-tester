@@ -199,7 +199,6 @@ hmake login.yml                                                  # 只想先看�
 
 | 文档 | 什么时候看 |
 | --- | --- |
-| [`docs/交付说明.md`](docs/交付说明.md) | **交付前 / 接手里最该先看的一页**：承诺边界（生成可复核初稿 ≠ 无人审核进 CI）、交付物构成、环境前提、**模型支持矩阵**、**本机没验过的面** |
 | [`docs/使用教程-项目级.md`](docs/使用教程-项目级.md) | 想系统学：写用例 → 命令行 → 转换机制 → 报告 → 进阶（debugtalk / 参数化 / hook / 超时 / 上传 / SQL / 契约断言 / 数据管理 / CI） |
 | [`docs/小白入门指南：用interfacetester做接口自动化测试.txt`](docs/小白入门指南：用interfacetester做接口自动化测试.txt) | 第一次接触，要「照着抄就能跑」 |
 | [`docs/新手快速上手.md`](docs/新手快速上手.md) | **不会写 YAML、想先跑通一条**：一条**照做清单**（跑零依赖示例 → 抄最小骨架 → 迁移/生成 → 自查 → 出报告）+ 五个新手必踩坑 + 自查脚本 |
@@ -259,7 +258,7 @@ pip install -e ".[xml]"                # A2-1/A2-2 内核算子需要 lxml（二
 hrun examples/soap_xpath               # SOAP/XML：内核算子（完整 XPath 1.0 + XSD 契约校验）
 ```
 
-当前基线：**确定性口径 2545 passed / 121 skipped / 6 deselected**（全量 2672 个用例、**1826** 个 subtest）。★本机已装上传依赖的核心 `filetype`（`UPLOAD_READY=True`）——**因此早先那条"与代码无关的 failed"（`…test_requests_toolbelt_is_not_a_hard_prerequisite`）已经消失**；若在**未装** `filetype` 的环境里跑，它仍会红（那是环境项，不是代码项）。另有 1 条 `docs_consistency_test` 的"记录总数 vs 实际收集数"会在本行未更新时变红——它正是**基线联动护栏**，更新本行即转绿。
+当前基线：**确定性口径 2493 passed / 173 skipped / 6 deselected**（全量 2672 个用例、**1804** 个 subtest）。★本仓是**外发版**：随仓库分发的只有框架本体（内核 + AI 协作层 + `tests/` + `bench/` + `examples/` + `docs/`）；只在**内网工作区**存在的资料（客户接口文档 `project-three/`、探针工作区 `probe_p2_prep/`、内网方案文档）**不随仓库分发**，依赖它们的判据在资料缺席时**按设计 skip**（不是报错、也不假装通过）——173 skipped 里有 47 条属于这一类；在内网工作区里这些判据照旧全程真跑。另有 1 条 `docs_consistency_test` 的"记录总数 vs 实际收集数"会在本行未更新时变红——它正是**基线联动护栏**，更新本行即转绿。
 > NOTICE（本机实测口径，2026-09-22，Python 3.12.10 / pytest 9.1.1）：这一行是**未装任何可选
 > extra**（无 `test`／`xml`／`upload`／`trustme`）时的实测值，**不是回归**：
 >   - **skip 119**：可选依赖全缺，`lxml`（XML/XPath 算子）、`trustme`（HTTPS mock）、
