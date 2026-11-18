@@ -504,6 +504,21 @@ def dump_json_container(parsed: Any) -> Text:
     return json.dumps(parsed, ensure_ascii=False, separators=(",", ":"))
 
 
+def _deep_sanitize_text(text: str) -> str:
+    """P3-8（2026-11-18）：对纯文本/XML 里的裸凭据做正则兜底脱敏。
+
+    只在 INTERFACETESTER_DEEP_SANITIZE=1 时调用。匹配 `password=xxx`、`token=xxx`
+    等形态，把值替换为 ******。有误伤风险（业务字段值恰好含这些模式），所以默认关闭。
+    """
+    import re
+    pattern = re.compile(
+        r'(?i)\b(password|passwd|pwd|secret|token|api_key|apikey|access_key|'
+        r'secret_key|private_key|authorization|credential|cookie|session|jwt|'
+        r'sid|signature|csrf|xsrf|presign)\s*[=:]\s*(\S+)'
+    )
+    return pattern.sub(r'\1=******', text)
+
+
 def _mask_query_pairs(raw: Any) -> Any:
     """把 `a=1&password=x` 形态的键值对里，名字敏感的取值换成 ``******``。
 
@@ -697,7 +712,13 @@ def _mask_sensitive_value(value: Any) -> Any:
         return tuple(_mask_sensitive_value(element) for element in value)
 
     if isinstance(value, str):
-        return _mask_query_pairs(value)
+        # P3-8（2026-11-18）：可选深度扫查——对纯文本/XML 里的裸凭据做正则兜底。
+        # 默认关闭（环境变量 INTERFACETESTER_DEEP_SANITIZE=1 打开），因为有误伤风险
+        # （如业务字段值恰好含 "token=xxx" 但不是凭据）。
+        result = _mask_query_pairs(value)
+        if os.environ.get("INTERFACETESTER_DEEP_SANITIZE", "").strip() == "1":
+            result = _deep_sanitize_text(result)
+        return result
 
     return value
 

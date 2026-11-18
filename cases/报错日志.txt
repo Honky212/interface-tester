@@ -1,0 +1,162 @@
+rootdir: D:\tester
+configfile: pyproject.toml
+plugins: html-4.2.0, metadata-3.1.1
+collected 1 item
+
+T2_1_创建目录_test.py F                                                                                          [100%]
+
+====================================================== FAILURES =======================================================
+_____________________________________________ TestCaseT21创建目录.test_start ______________________________________________
+..\.venv\Lib\site-packages\interfacetester\utils.py:198: in get_os_environ
+    return os.environ[variable_name]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'AUTH_HEADER'
+
+During handling of the above exception, another exception occurred:
+..\.venv\Lib\site-packages\interfacetester\runner.py:707: in test_start
+    self.__run_step(step)
+..\.venv\Lib\site-packages\interfacetester\runner.py:596: in __run_step
+    step_result: StepResult = step.run(self)
+                              ^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\step.py:67: in run
+    return self.__step.run(runner)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\step_request.py:588: in run
+    return run_step_request(runner, self.__step)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\step_request.py:120: in run_step_request
+    parsed_request_dict = runner.parser.parse_data(request_dict, step_variables)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\parser.py:972: in parse_data
+    return parse_data(raw_data, variables_mapping, self.functions_mapping)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\parser.py:697: in parse_data
+    parsed_value = parse_data(value, variables_mapping, functions_mapping)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\parser.py:697: in parse_data
+    parsed_value = parse_data(value, variables_mapping, functions_mapping)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\parser.py:686: in parse_data
+    return parse_string(stripped, variables_mapping, functions_mapping)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\parser.py:550: in parse_string
+    func_eval_value = func(*parsed_args, **parsed_kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\.venv\Lib\site-packages\interfacetester\utils.py:200: in get_os_environ
+    raise exceptions.EnvNotFound(variable_name)
+E   interfacetester.exceptions.EnvNotFound: AUTH_HEADER
+------------------------------------------------ Captured stdout call -------------------------------------------------
+
+
+------------------------------------------------ Captured stderr call -------------------------------------------------
+--- Logging error in Loguru Handler #1 ---
+Record was: {'elapsed': datetime.timedelta(microseconds=759073), 'exception': None, 'extra': {}, 'file': (name='runner.py', path='D:\\tester\\.venv\\Lib\\site-packages\\interfacetester\\runner.py'), 'function': 'test_start', 'level': (name='INFO', no=20, icon='ℹ️'), 'line': 669, 'message': 'Start to run testcase: T2_1_创建目录, TestCase ID: 18fed79a-0105-4c33-88be-36e57504d9f4', 'module': 'runner', 'name': 'interfacetester.runner', 'process': (id=37860, name='MainProcess'), 'thread': (id=35204, name='MainThread'), 'time': datetime(2026, 9, 30, 16, 42, 47, 643783, tzinfo=datetime.timezone(datetime.timedelta(seconds=28800), '中国标准时间'))}
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\loguru\_handler.py", line 206, in emit
+    self._sink.write(str_record)
+  File "D:\tester\.venv\Lib\site-packages\loguru\_simple_sinks.py", line 16, in write
+    self._stream.write(message)
+OSError: [WinError 6] 句柄无效。
+--- End of logging error ---
+--- Logging error in Loguru Handler #1 ---
+Record was: {'elapsed': datetime.timedelta(microseconds=780889), 'exception': None, 'extra': {}, 'file': (name='runner.py', path='D:\\tester\\.venv\\Lib\\site-packages\\interfacetester\\runner.py'), 'function': '__run_step', 'level': (name='INFO', no=20, icon='ℹ️'), 'line': 586, 'message': 'run step begin: 调用接口创建目录 >>>>>>', 'module': 'runner', 'name': 'interfacetester.runner', 'process': (id=37860, name='MainProcess'), 'thread': (id=35204, name='MainThread'), 'time': datetime(2026, 9, 30, 16, 42, 47, 665599, tzinfo=datetime.timezone(datetime.timedelta(seconds=28800), '中国标准时间'))}
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\loguru\_handler.py", line 206, in emit
+    self._sink.write(str_record)
+  File "D:\tester\.venv\Lib\site-packages\loguru\_simple_sinks.py", line 16, in write
+    self._stream.write(message)
+OSError: [WinError 6] 句柄无效。
+--- End of logging error ---
+--- Logging error in Loguru Handler #1 ---
+Record was: {'elapsed': datetime.timedelta(microseconds=780889), 'exception': None, 'extra': {}, 'file': (name='parser.py', path='D:\\tester\\.venv\\Lib\\site-packages\\interfacetester\\parser.py'), 'function': 'parse_string', 'level': (name='ERROR', no=40, icon='❌'), 'line': 552, 'message': "call function error:\nfunc_name: ENV\nargs: ['AUTH_HEADER']\nkwargs: {}\nEnvNotFound: AUTH_HEADER", 'module': 'parser', 'name': 'interfacetester.parser', 'process': (id=37860, name='MainProcess'), 'thread': (id=35204, name='MainThread'), 'time': datetime(2026, 9, 30, 16, 42, 47, 665599, tzinfo=datetime.timezone(datetime.timedelta(seconds=28800), '中国标准时间'))}
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\utils.py", line 198, in get_os_environ
+    return os.environ[variable_name]
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'AUTH_HEADER'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\parser.py", line 550, in parse_string
+    func_eval_value = func(*parsed_args, **parsed_kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\utils.py", line 200, in get_os_environ
+    raise exceptions.EnvNotFound(variable_name)
+interfacetester.exceptions.EnvNotFound: AUTH_HEADER
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\loguru\_handler.py", line 206, in emit
+    self._sink.write(str_record)
+  File "D:\tester\.venv\Lib\site-packages\loguru\_simple_sinks.py", line 16, in write
+    self._stream.write(message)
+OSError: [WinError 6] 句柄无效。
+--- End of logging error ---
+--- Logging error in Loguru Handler #1 ---
+Record was: {'elapsed': datetime.timedelta(microseconds=787632), 'exception': None, 'extra': {}, 'file': (name='runner.py', path='D:\\tester\\.venv\\Lib\\site-packages\\interfacetester\\runner.py'), 'function': 'test_start', 'level': (name='INFO', no=20, icon='ℹ️'), 'line': 719, 'message': 'generate testcase log: D:\\tester\\cases\\logs\\18fed79a-0105-4c33-88be-36e57504d9f4.run.log', 'module': 'runner', 'name': 'interfacetester.runner', 'process': (id=37860, name='MainProcess'), 'thread': (id=35204, name='MainThread'), 'time': datetime(2026, 9, 30, 16, 42, 47, 672342, tzinfo=datetime.timezone(datetime.timedelta(seconds=28800), '中国标准时间'))}
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\utils.py", line 198, in get_os_environ
+    return os.environ[variable_name]
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'AUTH_HEADER'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\runner.py", line 707, in test_start
+    self.__run_step(step)
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\runner.py", line 596, in __run_step
+    step_result: StepResult = step.run(self)
+                              ^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\step.py", line 67, in run
+    return self.__step.run(runner)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\step_request.py", line 588, in run
+    return run_step_request(runner, self.__step)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\step_request.py", line 120, in run_step_request
+    parsed_request_dict = runner.parser.parse_data(request_dict, step_variables)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\parser.py", line 972, in parse_data
+    return parse_data(raw_data, variables_mapping, self.functions_mapping)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\parser.py", line 697, in parse_data
+    parsed_value = parse_data(value, variables_mapping, functions_mapping)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\parser.py", line 697, in parse_data
+    parsed_value = parse_data(value, variables_mapping, functions_mapping)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\parser.py", line 686, in parse_data
+    return parse_string(stripped, variables_mapping, functions_mapping)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\parser.py", line 550, in parse_string
+    func_eval_value = func(*parsed_args, **parsed_kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tester\.venv\Lib\site-packages\interfacetester\utils.py", line 200, in get_os_environ
+    raise exceptions.EnvNotFound(variable_name)
+interfacetester.exceptions.EnvNotFound: AUTH_HEADER
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\tester\.venv\Lib\site-packages\loguru\_handler.py", line 206, in emit
+    self._sink.write(str_record)
+  File "D:\tester\.venv\Lib\site-packages\loguru\_simple_sinks.py", line 16, in write
+    self._stream.write(message)
+OSError: [WinError 6] 句柄无效。
+--- End of logging error ---
+=============================================== short test summary info ===============================================
+FAILED T2_1_创建目录_test.py::TestCaseT21创建目录::test_start - interfacetester.exceptions.EnvNotFound: AUTH_HEADER
+================================================== 1 failed in 0.17s ==================================================
+2026-09-30 16:42:47.643 | INFO | Start to run testcase: T2_1_创建目录, TestCase ID: 18fed79a-0105-4c33-88be-36e57504d9f4
+2026-09-30 16:42:47.665 | INFO | run step begin: 调用接口创建目录 >>>>>>
+2026-09-30 16:42:47.665 | ERROR | call function error:
+func_name: ENV
+args: ['AUTH_HEADER']
+kwargs: {}
+EnvNotFound: AUTH_HEADER
+2026-09-30 16:42:47.672 | INFO | generate testcase log: D:\tester\cases\logs\18fed79a-0105-4c33-88be-36e57504d9f4.run.log

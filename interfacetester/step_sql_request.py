@@ -174,11 +174,35 @@ def run_step_sql_request(runner: InterfaceTester, step: TStep) -> StepResult:
         # （实测 `make_url("…//my%20db").database == 'my%20db'`，而原样写 `my db`
         # 拿到的正是 `'my db'`）——编了反而把库名改坏。口径就是「**编码 userinfo，
         # 原样透传 path/query**」，与 SQLAlchemy 的解析口径一一对应。
-        db_uri = (
-            f"mysql+pymysql://{quote(db_config['user'] or '', safe='')}:"
-            f"{quote(db_config['password'] or '', safe='')}@{db_config['ip']}:"
-            f"{db_config['port']}/{db_config['database']}?charset=utf8mb4"
-        )
+        #
+        # P1-2（2026-11-18）：`scheme` 默认为 `mysql+pymysql`，用户可设
+        # sqlite://、postgresql+psycopg2 等。query 参数仅 mysql 系自动加 charset。
+        scheme = db_config.get("scheme") or "mysql+pymysql"
+        if scheme.startswith("mysql"):
+            query = {"charset": "utf8mb4"}
+        elif scheme.startswith("postgresql"):
+            query = {}
+        else:
+            query = {}  # sqlite://、oracle+cx_oracle 等不加默认查询参数
+        try:
+            from sqlalchemy.engine import URL as _SAURL
+            db_uri = _SAURL.create(
+                drivername=scheme,
+                username=db_config["user"] or "",
+                password=db_config["password"] or "",
+                host=db_config["ip"] or "127.0.0.1",
+                port=db_config.get("port"),
+                database=db_config["database"] or "",
+                query=query,
+            ).render_as_string(hide_password=False)
+        except ImportError:
+            # 没有 sqlalchemy 时的兜底：保留原 f-string 构造方式（仅 mysql）
+            from urllib.parse import quote
+            db_uri = (
+                f"mysql+pymysql://{quote(db_config['user'] or '', safe='')}:"
+                f"{quote(db_config['password'] or '', safe='')}@{db_config['ip']}:"
+                f"{db_config['port']}/{db_config['database']}?charset=utf8mb4"
+            )
         runner.db_engine = DBEngine(db_uri)
         runner.db_config = db_config
 

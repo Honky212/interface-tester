@@ -107,6 +107,7 @@ class TConfigThrift(BaseModel):
 
 # configs for db
 class TConfigDB(BaseModel):
+    scheme: Text = "mysql+pymysql"  # P1-2（2026-11-18）：默认为 mysql，改 sqlite/postgresql/... 时设
     psm: Optional[Text] = None
     user: Optional[Text] = None
     password: Optional[Text] = None

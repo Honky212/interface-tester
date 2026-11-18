@@ -1,0 +1,17 @@
+# 故意写错的用例（demo 用）：把断言算子写成 Python 内置函数名
+# 现场演示：python -m interfacetester make selling-this-product/demo/bad_builtin.yml
+# 期望：报 "'print' 是 Python 内置函数，不能作为断言算子" + 退出码 1 + 不生成产物
+#
+# 为什么单独演示这一条：**修复前的框架会把它当 Python 内置函数调用**，
+# 而 `print(...)` 返回 None、不抛异常 → 断言**静默通过**（用例是绿的，却什么都没断）。
+# 这是"假通过"最隐蔽的一种形态。
+config:
+  name: 故意写错-算子用了 Python 内置名（demo）
+
+teststeps:
+  - name: 把断言算子写成 print
+    request:
+      method: GET
+      url: /api/user/info
+    validate:
+      - print: [status_code, 200]       # ← 拼错成了一个 Python 内置名

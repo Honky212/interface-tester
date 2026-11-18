@@ -360,3 +360,42 @@ pytest <上面这 6 个 node id>
 - **模板没有在真实 GitHub/GitLab 上跑过**（本环境无法访问外网）：已验证的是
   **模板里的每一条命令在本机的等价执行结果**，以及端口/隔离/报告这些机制的实测行为。
   首次接到真实 CI 时，请按「五、验证清单」逐条确认。
+
+---
+
+## 七、并行执行与报告聚合（P3-9 / 2026-11-18）
+
+> 用例规模 > 100 条时，单进程跑太慢。`pytest-xdist` 可以把用例分发到多进程并行执行，
+> 但数据隔离、全局状态、报告合并都要自己搞。以下是推荐做法。
+
+### 并行跑
+
+```bash
+# 安装 pytest-xdist（test extra 里已有）
+pip install -e ".[test]"
+
+# 4 进程并行跑
+hrun testcases/ -n 4 --html=reports/report.html --self-contained-html
+```
+
+⚠️ **注意**：并行时每个 worker 是独立进程，不会互相污染，但也会掩盖只在同一进程内
+才暴露的顺序缺陷。判断顺序问题时请用单进程（或加 `--randomly`）跑。
+
+### 报告聚合
+
+`pytest-xdist` 的 `--junitxml` 会生成**一份合并的** JUnit XML（所有 worker 的结果
+汇总到一个文件），可以直接喂给 CI 平台。HTML 报告同理（`--html` 只生成一份）。
+
+如果需要**跨多次运行**聚合（比如分批跑不同环境的用例），推荐用 `junitparser`：
+
+```bash
+pip install junitparser
+junitparser merge reports/junit-*.xml -o reports/junit-merged.xml
+```
+
+### 数据隔离
+
+并行跑时如果用例之间有数据依赖（比如"先创建再查询"），需要确保：
+- 每条用例用唯一前缀造数据（`${gen_random_string(8)}`）
+- `conftest.py` 里按前缀清理
+- 或者把有依赖的用例放在同一个文件里（xdist 默认按文件分发）

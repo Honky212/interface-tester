@@ -1,0 +1,13 @@
+# 故意写错的用例（demo 用）：断言算子名拼错
+# 现场演示：python -m interfacetester make selling-this-product/demo/bad_comparator.yml
+# 期望：报 FunctionNotFound + 退出码 1 + **不生成** bad_comparator_test.py
+config:
+  name: 故意写错-算子名拼错（demo）
+
+teststeps:
+  - name: 把 eq 写成 equall
+    request:
+      method: GET
+      url: /api/user/info
+    validate:
+      - equall: [status_code, 200]      # ← 多了一个 l

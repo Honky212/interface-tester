@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GET /api/user/info 的响应契约（demo）",
+  "type": "object",
+  "required": ["code", "data"],
+  "properties": {
+    "code": {"type": "integer"},
+    "message": {"type": "string"},
+    "data": {
+      "type": "object",
+      "required": ["username", "role"],
+      "properties": {
+        "username": {"type": "string"},
+        "role": {"type": "string", "enum": ["admin", "user"]},
+        "email": {"type": "string", "format": "email"}
+      }
+    }
+  }
+}

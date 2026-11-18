@@ -240,6 +240,11 @@ class SessionRunner(object):
         self.__export = export
         return self
 
+    def with_name(self, name: Text) -> "SessionRunner":
+        """P1-4（2026-11-18）：覆盖 config.name（引用用例在报告中区分调用来源）。"""
+        self.__config.name = name
+        return self
+
     def with_thrift_client(self, thrift_client) -> "SessionRunner":
         self.thrift_client = thrift_client
         # 外部注入的 client 无法获知其目标配置，标记为「配置未知」，

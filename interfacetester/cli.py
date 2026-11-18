@@ -12,6 +12,7 @@ from loguru import logger
 from interfacetester import __description__, __version__
 from interfacetester import compat
 from interfacetester.compat import ensure_cli_args
+from interfacetester import make as _make_module
 from interfacetester.make import (
     init_make_parser,
     main_make,
@@ -659,6 +660,15 @@ def main():
     parser.add_argument(
         *VERSION_FLAGS, dest="version", action="store_true", help="show version"
     )
+    # P0-1（2026-11-18）：hwmake / hrun 期间默认阻断明文 client_secret。
+    # 该参数不属于子命令——它在顶层，三个阶段都能读（因此解析冲突处理遵循 `make` 侧的模式）。
+    parser.add_argument(
+        "--allow-plaintext-secret",
+        dest="allow_plaintext_secret",
+        action="store_true",
+        default=False,
+        help="允许 config.oauth2.client_secret 为明文（放弃泄密防护）",
+    )
 
     subparsers = parser.add_subparsers(help="sub-command help")
     init_parser_run(subparsers)
@@ -759,6 +769,11 @@ def main():
             break
 
     init_logger(level)
+
+    # P0-1（2026-11-18）：在任何调度分支之前，把 --allow-plaintext-secret 写进内核
+    # 模块级开关——确保无论是 main_make（直接调）还是 main_run（内嵌 hmake）都能读。
+    if getattr(args, "allow_plaintext_secret", False):
+        _make_module._ALLOW_PLAINTEXT_SECRET = True
 
     if sys.argv[1] == "run":
         sys.exit(main_run(extra_args))

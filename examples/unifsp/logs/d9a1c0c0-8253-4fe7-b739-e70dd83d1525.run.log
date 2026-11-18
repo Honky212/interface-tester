@@ -1,0 +1,4 @@
+2026-09-30 17:08:48.500 | INFO | Start to run testcase: 创建目录, TestCase ID: d9a1c0c0-8253-4fe7-b739-e70dd83d1525
+2026-09-30 17:08:48.500 | INFO | run step begin: 创建测试目录 >>>>>>
+2026-09-30 17:08:48.730 | ERROR | 获取 OAuth2 access_token 失败: HTTPConnectionPool(host='unifsptest.cernet.com', port=80): Max retries exceeded with url: /oauth2/token (Caused by NameResolutionError("HTTPConnection(host='unifsptest.cernet.com', port=80): Failed to resolve 'unifsptest.cernet.com' ([Errno 11001] getaddrinfo failed)"))
+2026-09-30 17:08:48.731 | INFO | generate testcase log: D:\tester\examples\unifsp\logs\d9a1c0c0-8253-4fe7-b739-e70dd83d1525.run.log

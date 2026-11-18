@@ -81,6 +81,11 @@ class ConfigDB(object):
         self.__config = config
         self.__config.db = TConfigDB()
 
+    def scheme(self, scheme: Text) -> "ConfigDB":
+        """数据库方案（缺省 `mysql+pymysql`）：sqlite://、postgresql+psycopg2 等。"""
+        self.__config.db.scheme = scheme
+        return self
+
     def psm(self, psm):
         self.__config.db.psm = psm
         return self

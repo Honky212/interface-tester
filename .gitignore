@@ -35,3 +35,6 @@ dist_*/
 
 # 5) 临时工作区（前缀即约定；本次立仓之前的工作残留）
 .tmp_*
+
+# 6) ACL 修复产生的临时目录（diagnose-windows-sandbox-acl 产物，不进仓）
+.acl-recovery/

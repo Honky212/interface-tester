@@ -1,0 +1,342 @@
+我会按项目现有 AI 协作层的真实流程来梳理，而不是只给通用提示词：重点核实安装与模型配置、接口文档准备、生成草稿、人工审核、批准入库、运行验证，以及新手最容易误解的安全边界。
+
+Read , lines 1 to 220
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\使用手册-AI协作层.md",
+  "view_range": [
+    1,
+    220
+  ]
+}
+
+Read , lines 1 to 180
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\使用手册-AI协作层-非技术版.md",
+  "view_range": [
+    1,
+    180
+  ]
+}
+
+Read , lines 1 to 180
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\interfacetester_ai\\pyproject.toml",
+  "view_range": [
+    1,
+    180
+  ]
+}
+
+Read , lines 100 to 205
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\新手快速上手.md",
+  "view_range": [
+    100,
+    205
+  ]
+}
+
+Read , lines 180 to 300
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\使用教程-项目级.md",
+  "view_range": [
+    180,
+    300
+  ]
+}
+
+Read , lines 1 to 160
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\交付说明.md",
+  "view_range": [
+    1,
+    160
+  ]
+}
+
+Read , lines 105 to 228
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\使用手册-AI协作层.md",
+  "view_range": [
+    105,
+    228
+  ]
+}
+
+Search for `haify gen|review --list|review --approve|NEEDS_DOC_FIX|unknowns|blocker|质量状态|...`
+
+Find files matching `project-three/**/*.md`
+
+Read , lines 1 to 130
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\project-three\\保障interfacetester_ai稳定生成yaml用例的接口文档示例.md",
+  "view_range": [
+    1,
+    130
+  ]
+}
+
+Search for `haify gen|gen --assertions-only|review --approve|--approver`
+
+Search for `不上传|发送|出网|脱敏|敏感|API_KEY|sandbox|allow_host|费用|模型服务`
+
+Added 4 artifacts or references
+Completed with input: {
+  "items": [
+    {
+      "type": "file",
+      "label": "AI 协作层技术使用手册",
+      "isArtifact": false,
+      "uri": "file:///D:/tester.worktrees/understanding-project-structure-yaml-tests/docs/使用手册-AI协作层.md"
+    },
+    {
+      "type": "file",
+      "label": "AI 协作层非技术手册",
+      "isArtifact": false,
+      "uri": "file:///D:/tester.worktrees/understanding-project-structure-yaml-tests/docs/使用手册-AI协作层-非技术版.md"
+    },
+    {
+      "type": "file",
+      "label": "AI 生成友好接口文档范例",
+      "isArtifact": false,
+      "uri": "file:///D:/tester.worktrees/understanding-project-structure-yaml-tests/project-three/保障interfacetester_ai稳定生成yaml用例的接口文档示例.md"
+    },
+    {
+      "type": "file",
+      "label": "AI 生成流程交付边界",
+      "isArtifact": false,
+      "uri": "file:///D:/tester.worktrees/understanding-project-structure-yaml-tests/docs/交付说明.md"
+    }
+  ]
+}
+
+可以。先把整体原则记住：
+
+> **AI 负责把接口文档整理成 YAML 草稿；工具负责检查结构；人负责确认业务含义；最后在测试环境真实运行。**  
+> AI 产出草稿不代表已经可用，也不代表断言一定符合业务。
+
+## 整体流程
+
+**准备接口文档 → 安装并配置 AI 层 → 先做无模型预检 → AI 生成草稿 → 人工检查并补全 → 审核转正 → 在测试环境运行 → 根据结果修文档或用例**
+
+### 第 1 步：准备好接口文档
+
+AI 生成效果很依赖文档是否清楚。建议先将接口文档整理成 Markdown（`.md`），并尽量做到：
+
+- **一个接口一个章节**，标题写成 `## POST /api/orders`，HTTP 方法和路径放在标题开头。
+- 写清请求字段、类型、是否必填、取值范围或枚举。
+- 写清成功响应的状态码，并提供标为“成功响应”的 JSON 示例。
+- 说明响应字段的含义和类型；不要只给一个示例 JSON，让 AI 猜示例值是不是固定规则。
+- 成功与失败响应分开描述；不同业务场景最好单独说明。
+- 把认证方式、公共请求头、分页规则等共用约定也写清楚。
+- 不确定的信息标成“待确认”，不要让 AI 自行补业务规则。
+
+项目提供了一份可参考的文档格式与检查要求：`AI 生成友好接口文档范例`。
+
+**敏感信息要先处理。** 使用远端模型时，发给模型的接口文档内容会传到你配置的模型服务。先确认公司数据政策；不要把真实密码、token、密钥或不应外传的业务数据放进文档。
+
+### 第 2 步：在自己的用例工程里准备运行目录
+
+不要把正式业务用例放进框架源码目录。可以单独建一个目录，例如：
+
+```text
+D:\my-api-tests\
+├── debugtalk.py
+├── interfaces.md
+├── .ai\          # AI 工作记录、草稿等
+├── cases\        # 人工确认后的正式用例
+└── reports\
+```
+
+先进入这个目录再运行 AI 命令，草稿和报告等产物会相对于当前目录生成：
+
+```powershell
+cd D:\my-api-tests
+```
+
+`debugtalk.py` 初期可以是空文件；它也帮助工具定位用例工程根目录。
+
+### 第 3 步：安装 AI 协作层
+
+先按平时方式激活已安装 InterfaceTester 的 Python 虚拟环境，再从框架仓库安装 AI 包：
+
+```powershell
+D:\tester\.venv\Scripts\Activate.ps1
+cd D:\tester
+python -m pip install -e interfacetester_ai --no-build-isolation
+```
+
+装完可以检查命令：
+
+```powershell
+haify -V
+```
+
+如果不想安装 `haify` 命令，也可以使用等价入口：
+
+```powershell
+python -m interfacetester_ai gen D:\my-api-tests\interfaces.md
+```
+
+AI 协作层是独立于内核的包；只安装内核时，可能有 `hrun`，但没有 `haify`。更多安装细节见 `AI 协作层技术手册`。
+
+### 第 4 步：配置模型
+
+AI 层的配置用**环境变量**，不要写进被测项目的 `.env`。以下是 PowerShell 示例：
+
+```powershell
+$env:INTERFACETESTER_AI_BASE_URL = "http://127.0.0.1:11434/v1"
+$env:INTERFACETESTER_AI_MODEL = "你的模型名"
+$env:INTERFACETESTER_AI_TIMEOUT = "300"
+```
+
+若用远端模型，还要按服务要求设置 API key，并明确允许连接的主机。实际发送模型请求前需要显式打开安全闸门：
+
+```powershell
+$env:INTERFACETESTER_AI_SANDBOX = "on"
+```
+
+开启前先确认模型服务地址、文档是否允许发送、可能产生的调用费用。Ollama 等本地服务也要按项目文档要求配置闸门。不要把 API key 写进 YAML、`.env` 或提交到仓库。
+
+### 第 5 步：先运行不调用模型的预检
+
+先用确定性模式检查文档能否识别接口段、是否能从字段说明映射出一些断言：
+
+```powershell
+cd D:\my-api-tests
+haify gen --assertions-only interfaces.md
+```
+
+它**不调用模型**，适合先熟悉产物和发现文档格式问题；但它并不等于完整 AI 生成。有些请求参数需要再由模型生成或人工补齐。
+
+如果文档格式不符合要求，工具会生成问题说明；优先照报告修文档，再重新运行。不要把“命令退出成功”理解成“用例已经完整”。
+
+### 第 6 步：调用 AI 生成草稿
+
+文档检查通过后，用模型通路生成草稿：
+
+```powershell
+haify gen --base-url http://你的测试环境地址:端口 interfaces.md
+```
+
+`--base-url` 要填**实际测试环境的字面量地址**。不要先填生产地址，也不要假设 `${ENV(BASE_URL)}` 一定能作为生成用例的 `base_url`；项目手册特别提示生成产物需要明确的地址。
+
+生成结果默认进入 `.ai/draft/`，**不会直接进入 `cases/`**。查看有哪些草稿和质量状态：
+
+```powershell
+haify review --list
+```
+
+如果输出报告有文档缺项、草稿失败或待确认内容，按 `.ai/failed/`、`.ai/pending/` 和报告给出的说明处理，再重新生成或人工补齐。
+
+### 第 7 步：人工检查草稿——这一步不能跳过
+
+逐条检查 `.ai/draft/` 中的 YAML，至少核对：
+
+1. **接口路径和方法**是否与文档一致。
+2. **请求参数、请求头、JSON 字段、认证流程**是否正确。
+3. 每个断言是否有文档依据，特别留意 AI 有没有把示例值误当成固定业务规则。
+4. 成功与失败场景有没有混淆，业务码、状态码是否符合系统约定。
+5. 是否还有 `TODO_`、unknowns、冲突或 blocker；不清楚的业务事实要问产品或开发，不要让 AI 猜。
+6. 创建、删除、上传等有副作用的用例是否只会操作测试数据。
+
+**草稿是“待审核的建议”，不是可以直接放进 CI 的正式用例。** 如果文档只写了“返回用户信息”，没有具体字段、类型或规则，正确做法是补文档或保留待确认，而不是让 AI 编一个预期值。
+
+### 第 8 步：确认后转正
+
+只有理解并确认草稿内容后，才签名批准：
+
+```powershell
+haify review --approve <草稿名> --approver <你的名字>
+```
+
+若草稿带 blocker，工具会阻止批准；需要先逐项查明并处置，不能为了“让命令通过”就随意添加 `--resolve-blocker`。批准后再修改内容，可能需要重新审核确认。
+
+### 第 9 步：在测试环境运行并看结果
+
+转正后，按 AI 协作层的运行入口，在测试环境运行，例如：
+
+```powershell
+haify run cases\<用例名>.yml --approver <你的名字> --base-url http://你的测试环境地址:端口
+```
+
+开始前再次核对目标地址和数据影响。重点看真实请求、响应以及每条断言的结果；失败时要分辨是环境不可用、用例不正确、文档与实现不一致，还是被测系统缺陷。修正后重新运行并检查通过标准是否真的覆盖业务需求。
+
+## 新手最容易踩的几个坑
+
+- **把 AI 草稿当正式用例**：草稿需要人工审核才能进入 `cases/`。
+- **文档缺信息却期待 AI 补业务规则**：AI 不知道你们真实业务，不该让它猜。
+- **只看“生成成功”**：生成成功只说明产出了草稿，不表示断言充分或测试通过。
+- **没写 `base_url` 或用了不适用的变量写法**：YAML 可能生成了，但实际请求无法定位目标服务。
+- **把模型设置写进测试 `.env`**：工具模型配置与被测项目环境配置是两类东西，应分开管理。
+- **拿生产环境试跑有副作用的接口**：从测试环境开始，尤其是创建、删除、上传和状态变更操作。
+- **忽略未知项和引用质量提示**：不确定的信息要找业务人员确认，不要把“AI 看起来有道理”当作证据。
+
+如果想只了解 AI 协作层的用途与人工职责，可以看`非技术版手册`；要核对命令、参数和质量闸门，优先看`技术版手册`。
+
+示例：
+haify review --approve T2_1_创建目录 --approver "孙悟空"，运行报：
+[haify review] 待转正：.ai/draft/T2_1_创建目录.yml
+    · 质量状态：needs_review · unknown-critical、protocol-only
+    · blocker：unknown-critical、protocol-only；已点名处置：（无）
+      ⚠ **未处置**：unknown-critical → 转正会被拒；处置请加 `--resolve-blocker unknown-critical`
+      ⚠ **未处置**：protocol-only → 转正会被拒；处置请加 `--resolve-blocker protocol-only`
+✗ 未转正：质量状态 `needs_review`：还有 2 条 blocker **没处置**（unknown-critical、protocol-only）
+  · 处置要**逐条点名**：`--resolve-blocker unknown-critical`（可重复）
+  · ★自由文本 `--notes` **不算处置**——否则「我看了」是一句没有对象的话
+  · 每条 blocker 的原文与建议动作在 `.ai/draft/<用例>.unknowns.json` 里
+
+Search for `unknown-critical|protocol-only`
+
+Read , lines 155 to 180
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\docs\\使用手册-AI协作层.md",
+  "view_range": [
+    155,
+    180
+  ]
+}
+
+Search for `unknown-critical|protocol-only`
+
+Read , lines 104 to 151
+Completed with input: {
+  "path": "D:\\tester.worktrees\\understanding-project-structure-yaml-tests\\interfacetester_ai\\quality.py",
+  "view_range": [
+    104,
+    151
+  ]
+}
+答：
+这是**质量审核拦截**，不是命令格式或 `--approver` 写错。草稿已经找到了，但工具发现有两类问题，因此没有把它转正到 `cases/`。
+
+- **`unknown-critical`**：有重要内容尚未确认，常见原因包括接口路径或文档引用对不上、条件描述不明确，或 AI 没能生成业务断言。具体是哪一项，要看草稿旁边的 unknowns 清单。
+- **`protocol-only`**：当前断言只有 HTTP 状态码等协议级检查，能发现请求返回 4xx/5xx，却不能判断“创建目录”这项业务是否真的成功。例如，没有验证响应中的业务成功标志或返回的目录信息。项目把这种“用例能跑、但业务检查太薄”的情况标成 blocker。`quality.py`
+
+## 建议先查清问题，再决定是否批准
+
+从项目根目录查看审核状态和 unknowns 文件：
+
+```powershell
+cd D:\tester
+haify review --list
+Get-Content .ai\draft\T2_1_创建目录.unknowns.json
+```
+
+然后打开 `.ai\draft\T2_1_创建目录.yml`，对照接口文档检查：
+
+1. `unknowns.json` 里列出哪些接口、引用或业务规则尚未确认？
+2. 创建目录成功时，响应体里哪个字段能证明业务成功？返回值应是什么？
+3. 用例有没有断言这些业务字段，而不只是 `status_code`？
+
+如果文档缺了依据，先补文档；如果 YAML 缺了业务断言，补上有文档或业务确认依据的断言。**不要为了消除 blocker 随便猜响应值。** 修改后再运行 `haify review --list` 检查状态。
+
+如果你已核对过未知项，并且**明确接受**这条用例目前只有协议级断言、业务覆盖有限，可以逐项签名处置：
+
+```powershell
+haify review --approve T2_1_创建目录 --approver "孙悟空" `
+  --resolve-blocker unknown-critical `
+  --resolve-blocker protocol-only
+```
+
+`--resolve-blocker` 是对指定风险的**人工处置留痕**，不是修复质量问题的快捷开关。确认之后如果又改了草稿，需要重新审核。两类 blocker 的含义和审核规则见 `AI 协作层技术手册`。

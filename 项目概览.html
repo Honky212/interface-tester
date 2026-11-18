@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterfaceTester v5.0.1 — 项目概览与学习地图</title>
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #5f6b7a;
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --success: #16a34a;
+    --success-light: #f0fdf4;
+    --warning: #d97706;
+    --warning-light: #fffbeb;
+    --danger: #dc2626;
+    --danger-light: #fef2f2;
+    --border: #e2e8f0;
+    --radius: 10px;
+    --shadow: 0 1px 3px 0 rgba(0,0,0,.04), 0 1px 2px -1px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,.06), 0 2px 4px -2px rgba(0,0,0,.04);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height:1.7; font-size:15px;
+  }
+  .container { max-width:1080px; margin:0 auto; padding:32px 24px 80px; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #f1f5f9; padding:48px 40px; border-radius:16px; margin-bottom:36px;
+    box-shadow: var(--shadow-md);
+  }
+  .hero h1 { font-size:32px; font-weight:700; letter-spacing:-0.5px; }
+  .hero .tagline { font-size:17px; margin-top:10px; opacity:.85; }
+  .hero .meta { display:flex; gap:20px; margin-top:18px; font-size:13px; opacity:.7; }
+  .hero .meta span { background:rgba(255,255,255,.12); padding:3px 12px; border-radius:20px; }
+
+  /* Section */
+  section { margin-bottom:40px; }
+  h2 {
+    font-size:21px; font-weight:700; margin-bottom:16px; padding-bottom:10px;
+    border-bottom:2px solid var(--border); display:flex; align-items:center; gap:10px;
+  }
+  h2 .icon { font-size:22px; }
+  h3 { font-size:16px; font-weight:600; margin:20px 0 10px; }
+
+  /* Cards Grid */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(310px, 1fr)); gap:16px; }
+  .cardi {
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:20px 22px; box-shadow:var(--shadow);
+  }
+  .cardi h4 { font-size:15px; margin-bottom:6px; color:var(--primary); }
+  .cardi p, .cardi li { font-size:14px; color:var(--muted); }
+  .cardi ul { margin:8px 0 0 18px; }
+  .cardi li { margin-bottom:4px; }
+  .cardi .badge {
+    display:inline-block; font-size:12px; padding:2px 10px; border-radius:12px;
+    font-weight:600; margin-left:8px;
+  }
+  .badge-core { background:var(--primary-light); color:var(--primary); }
+  .badge-ai { background:var(--warning-light); color:var(--warning); }
+  .badge-doc { background:var(--success-light); color:var(--success); }
+  .badge-code { background:#f3e8ff; color:#7c3aed; }
+
+  /* Pipeline */
+  .pipeline {
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px; justify-content:center;
+    padding:28px 20px; background:var(--card); border-radius:var(--radius);
+    border:1px solid var(--border); box-shadow:var(--shadow); margin-bottom:20px;
+  }
+  .pipe-step {
+    background:var(--primary-light); border:1px solid #bfdbfe; border-radius:8px;
+    padding:10px 18px; font-size:14px; font-weight:600; color:var(--primary);
+    text-align:center; white-space:nowrap;
+  }
+  .pipe-arrow { font-size:20px; color:var(--muted); font-weight:700; }
+
+  /* Learning Path */
+  .path-list { list-style:none; }
+  .path-item {
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:18px 22px; margin-bottom:12px; box-shadow:var(--shadow);
+    display:flex; gap:16px; align-items:flex-start;
+  }
+  .path-num {
+    flex-shrink:0; width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:16px; color:#fff;
+  }
+  .path-num.step1 { background:var(--primary); }
+  .path-num.step2 { background:var(--success); }
+  .path-num.step3 { background:var(--warning); }
+  .path-num.step4 { background:#7c3aed; }
+  .path-num.step5 { background:#0891b2; }
+  .path-content h4 { font-size:15px; margin-bottom:4px; }
+  .path-content p { font-size:13px; color:var(--muted); }
+  .path-content a { color:var(--primary); text-decoration:none; font-weight:500; }
+  .path-content a:hover { text-decoration:underline; }
+  .path-meta { font-size:12px; color:var(--muted); margin-top:4px; }
+
+  /* Table */
+  .tbl { width:100%; border-collapse:collapse; font-size:14px; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+  .tbl th, .tbl td { padding:11px 16px; text-align:left; border-bottom:1px solid var(--border); }
+  .tbl th { background:#f1f5f9; font-weight:600; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  .tbl tr:last-child td { border-bottom:none; }
+  .tbl code { background:#f1f5f9; padding:2px 6px; border-radius:4px; font-size:13px; }
+
+  /* Tips */
+  .tip {
+    padding:14px 18px; border-radius:8px; font-size:13px; margin-top:16px;
+    border-left:4px solid;
+  }
+  .tip-warn { background:var(--warning-light); border-color:var(--warning); color:#92400e; }
+  .tip-info { background:var(--primary-light); border-color:var(--primary); color:#1e40af; }
+  .tip-success { background:var(--success-light); border-color:var(--success); color:#166534; }
+
+  /* CTA */
+  .cta {
+    text-align:center; padding:36px; background:var(--primary-light);
+    border:2px dashed #bfdbfe; border-radius:var(--radius); margin-top:20px;
+  }
+  .cta p { font-size:15px; margin-bottom:12px; }
+  .cta code {
+    background:#1e293b; color:#e2e8f0; padding:8px 18px; border-radius:6px;
+    font-size:14px; display:inline-block; margin:4px;
+  }
+
+  footer { text-align:center; margin-top:60px; font-size:13px; color:var(--muted); }
+  footer a { color:var(--primary); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <div class="hero">
+    <h1>🧪 InterfaceTester</h1>
+    <div class="tagline">一站式 HTTP(S) 接口测试工具 — 写 YAML → 自动转 pytest → 发请求 → 断言 → 出报告</div>
+    <div class="meta">
+      <span>📦 v5.0.1</span>
+      <span>🐍 Python ≥ 3.8</span>
+      <span>📜 Apache-2.0</span>
+      <span>🔄 派生自 HttpRunner v4.3.5</span>
+      <span>🖥️ 纯命令行 · 无 Web 界面</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════ 一句话理解 ═══════════════ -->
+  <section>
+    <h2><span class="icon">💡</span> 一句话理解</h2>
+    <div class="pipeline">
+      <div class="pipe-step">你的 xxx.yml</div>
+      <div class="pipe-arrow">─ hrun ─►</div>
+      <div class="pipe-step">xxx_test.py</div>
+      <div class="pipe-arrow">─ pytest ─►</div>
+      <div class="pipe-step">发请求 + 断言</div>
+      <div class="pipe-arrow">─►</div>
+      <div class="pipe-step">终端结果 / HTML 报告</div>
+    </div>
+    <div class="tip tip-info">
+      <strong>核心思想：</strong>YAML 描述"调哪个接口、带什么参数、期望返回什么"，
+      框架自动完成剩下的全部工作。不用写 Python，不用管 pytest 怎么串。
+    </div>
+  </section>
+
+  <!-- ═══════════════ 项目结构 ═══════════════ -->
+  <section>
+    <h2><span class="icon">🗂️</span> 项目结构</h2>
+    <table class="tbl">
+      <thead><tr><th>目录/文件</th><th>是什么</th><th>你该碰吗</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>interfacetester/</code></td>
+          <td>🔧 <strong>框架核心源码</strong>（25 个文件，已安装）</td>
+          <td>❌ 不用管</td>
+        </tr>
+        <tr>
+          <td><code>interfacetester_ai/</code></td>
+          <td>🤖 <strong>AI 辅助工具包</strong>（LLM 草拟用例、分析失败、自愈建议）</td>
+          <td>⚠️ 进阶才用</td>
+        </tr>
+        <tr>
+          <td><code>docs/</code></td>
+          <td>📚 <strong>全套文档</strong>（约 14 份）</td>
+          <td style="color:var(--success);font-weight:600;">✅ <strong>小白主要看这里</strong></td>
+        </tr>
+        <tr>
+          <td><code>examples/</code></td>
+          <td>📝 <strong>示例用例</strong>（可直接跑）</td>
+          <td style="color:var(--success);font-weight:600;">✅ <strong>抄代码的地方</strong></td>
+        </tr>
+        <tr>
+          <td><code>project-two/</code></td>
+          <td>🏋️ <strong>离线练习场</strong>（自带 mock 服务）</td>
+          <td style="color:var(--success);font-weight:600;">✅ <strong>新手练手区</strong></td>
+        </tr>
+        <tr>
+          <td><code>project-three/</code></td>
+          <td>📄 真实接口文档参考（统一文件服务平台）</td>
+          <td>⚠️ 参考</td>
+        </tr>
+        <tr>
+          <td><code>tests/</code></td>
+          <td>🧪 框架自身的回归测试</td>
+          <td>❌ 不用管</td>
+        </tr>
+        <tr>
+          <td><code>requirements.txt</code></td>
+          <td>📦 依赖清单（锁版本，离线部署用）</td>
+          <td>⚠️ 离线部署时用</td>
+        </tr>
+        <tr>
+          <td><code>pyproject.toml</code></td>
+          <td>⚙️ 项目构建配置</td>
+          <td>❌ 不用管</td>
+        </tr>
+        <tr>
+          <td><code>.venv/</code></td>
+          <td>🐍 Python 虚拟环境（已装好所有依赖）</td>
+          <td style="color:var(--warning);font-weight:600;">⚠️ 每次使用前激活</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════ 学习路线 ═══════════════ -->
+  <section>
+    <h2><span class="icon">🗺️</span> 从入门到精通学习路线</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      按下面的顺序逐份阅读 + 动手实操，预计 2 小时掌握日常用法，1 天可独立写接口测试。
+    </p>
+
+    <ol class="path-list">
+
+      <!-- Step 1 -->
+      <li class="path-item">
+        <div class="path-num step1">1</div>
+        <div class="path-content">
+          <h4>🥇 入门教程 — 装环境 → 写第一条用例 → 跑通</h4>
+          <p>读 <a href="docs/小白入门指南：用interfacetester做接口自动化测试.txt" target="_blank">docs/小白入门指南：用interfacetester做接口自动化测试.txt</a></p>
+          <p>包含：可复制的 YAML 模板、断言速查表、Postman/curl 迁移命令、debugtalk.py 自定义函数。照着做一遍掌握 80% 日常用法。</p>
+          <div class="path-meta">⏱️ 约 30 分钟 | ⭐ 必读</div>
+        </div>
+      </li>
+
+      <!-- Step 2 -->
+      <li class="path-item">
+        <div class="path-num step2">2</div>
+        <div class="path-content">
+          <h4>🥈 避坑指南 — 选择路线 → 跑通示例 → 自查脚本</h4>
+          <p>读 <a href="docs/新手快速上手.md" target="_blank">docs/新手快速上手.md</a></p>
+          <p>三条学习路线（抄 / 转 / AI 生成）、5 个实测坑位（特别是"忘了写 validate = 假通过"）、自查脚本 <code>check_case.py</code>。</p>
+          <p>然后动手跑：<code>interfacetester run examples\data_management -q</code> 和 <code>project-two\</code> 练习场。</p>
+          <div class="path-meta">⏱️ 约 60 分钟 | ⭐ 必读</div>
+        </div>
+      </li>
+
+      <!-- Step 3 -->
+      <li class="path-item">
+        <div class="path-num step3">3</div>
+        <div class="path-content">
+          <h4>🥉 看示例 — 跑通自带用例，抄到自己的项目里</h4>
+          <p>浏览 <a href="examples/quickstart/README.md" target="_blank">examples/quickstart/</a>（最小可运行工程，3 个文件）</p>
+          <p>再看 <a href="examples/unifsp/README.md" target="_blank">examples/unifsp/</a>（真实企业项目：OAuth2 认证 + 上传 + 签名 + 多环境）</p>
+          <p>还有 <a href="examples/data_management/README.md" target="_blank">examples/data_management/</a>（造数/隔离/清理的测试数据管理）</p>
+          <div class="path-meta">⏱️ 约 40 分钟 | ⭐ 建议看</div>
+        </div>
+      </li>
+
+      <!-- Step 4 -->
+      <li class="path-item">
+        <div class="path-num step4">4</div>
+        <div class="path-content">
+          <h4>🔷 进阶学习 — 按需深入</h4>
+          <p>
+            · 完整语法（hook / 参数化 / 上传 / SQL / 契约断言）→
+            <a href="docs/使用教程-项目级.md" target="_blank">使用教程-项目级.md</a><br>
+            · 判断某项能力是否支持 →
+            <a href="docs/能力清单.md" target="_blank">能力清单.md</a>（最权威，逐项标注验证状态）<br>
+            · 从 Postman / curl / HAR / OpenAPI 导入 →
+            <a href="docs/convert/README.md" target="_blank">convert/README.md</a><br>
+            · 接 CI →
+            <a href="docs/ci/README.md" target="_blank">ci/README.md</a><br>
+            · 让 AI 帮你写用例 →
+            <a href="docs/使用手册-AI协作层.md" target="_blank">使用手册-AI协作层.md</a>
+          </p>
+          <div class="path-meta">⏱️ 按需查阅 | 工作时常翻</div>
+        </div>
+      </li>
+
+      <!-- Step 5 -->
+      <li class="path-item">
+        <div class="path-num step5">5</div>
+        <div class="path-content">
+          <h4>🔧 精通 — 读源码 / 改框架 / 部署</h4>
+          <p>
+            · 给"不写代码"的同事看 →
+            <a href="docs/使用说明-非技术版.md" target="_blank">使用说明-非技术版.md</a><br>
+            · 读源码 / 改框架 →
+            <a href="docs/架构与调用链.md" target="_blank">架构与调用链.md</a>（模块地图 + 五条主链路 + 防线清单）<br>
+            · 部署到别的机器 →
+            <code>deploy.md</code>
+          </p>
+          <div class="path-meta">⏱️ 遇到需要时再看</div>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ═══════════════ 核心能力 ═══════════════ -->
+  <section>
+    <h2><span class="icon">⚡</span> 核心能力一览</h2>
+    <div class="grid">
+      <div class="cardi">
+        <h4>🌐 HTTP 全方法 <span class="badge badge-core">开箱即用</span></h4>
+        <p>GET / POST / PUT / DELETE / PATCH / HEAD / OPTIONS，支持 JSON / 表单 / 文件上传 / 代理 / 客户端证书 / 流式读取。</p>
+      </div>
+      <div class="cardi">
+        <h4>🎯 断言（22 个内置算子）<span class="badge badge-core">开箱即用</span></h4>
+        <p>相等/数值/长度/包含/正则/类型/JSON Schema 契约断言、XPath/XSD XML 断言、自定义算子。</p>
+      </div>
+      <div class="cardi">
+        <h4>🔗 变量与函数 <span class="badge badge-core">开箱即用</span></h4>
+        <p>$var / ${func()} / ${ENV(名)} / ${parameterize(csv)}，自定义函数放 debugtalk.py 即可。</p>
+      </div>
+      <div class="cardi">
+        <h4>📊 数据驱动 <span class="badge badge-core">开箱即用</span></h4>
+        <p>列表 / CSV / 函数，多组参数做笛卡尔积。一条用例自动跑多组数据。</p>
+      </div>
+      <div class="cardi">
+        <h4>🔐 认证 <span class="badge badge-core">OAuth2 内置</span></h4>
+        <p>OAuth2 Client Credentials 内置；Basic / 签名 / 加密 / JWT 可写 debugtalk.py 实现。</p>
+      </div>
+      <div class="cardi">
+        <h4>🔄 用例复用 <span class="badge badge-core">开箱即用</span></h4>
+        <p>testcase: 引用其他用例 + export 导出变量；步骤级 hook（发请求前后插逻辑）；步骤级重试。</p>
+      </div>
+      <div class="cardi">
+        <h4>🗄️ SQL 查询 <span class="badge badge-core">可选扩展</span></h4>
+        <p>RunSqlRequest（MySQL），可 extract + validate，验证接口写入是否真落库。</p>
+      </div>
+      <div class="cardi">
+        <h4>📦 导入器 hconvert <span class="badge badge-core">开箱即用</span></h4>
+        <p>curl / HAR / Postman / OpenAPI → 标准 YAML 用例（自动脱敏 + 自动断言）。</p>
+      </div>
+      <div class="cardi">
+        <h4>📈 报告与日志 <span class="badge badge-core">开箱即用</span></h4>
+        <p>--html 单文件报告（离线可看）、--junitxml（CI）、logs/*.run.log、summary.json。</p>
+      </div>
+      <div class="cardi">
+        <h4>🤖 AI 协作 <span class="badge badge-ai">进阶</span></h4>
+        <p>haify gen（从接口文档生成草稿）、analyze（失败诊断）、fix（自愈建议）、review（人工确认门）。</p>
+      </div>
+      <div class="cardi">
+        <h4>🔬 Thrift / SOAP <span class="badge badge-ai">实验性</span></h4>
+        <p>Thrift RPC（仅 Linux/macOS）；SOAP/XML 请求 + XPath/XSD 断言（需 xml extra 或零依赖退路）。</p>
+      </div>
+    </div>
+    <div class="tip tip-warn" style="margin-top:20px;">
+      <strong>⚠️ 能力边界：</strong>HTTP 4xx/5xx <strong>不会自动判失败</strong>——成败完全由你的 <code>validate</code> 决定，每个步骤都要写断言！
+      不支持：WebSocket、gRPC、MQ（Kafka/RabbitMQ）、TCP/UDP、UI 自动化、性能压测。详细清单见 <a href="docs/能力清单.md" target="_blank">能力清单.md</a>。
+    </div>
+  </section>
+
+  <!-- ═══════════════ 你自己的项目怎么建 ═══════════════ -->
+  <section>
+    <h2><span class="icon">🧱</span> 你自己建项目只需 3 个文件</h2>
+    <p style="color:var(--muted); margin-bottom:14px;">
+      照着 <code>examples/quickstart/</code> 抄即可：
+    </p>
+    <table class="tbl">
+      <thead><tr><th>文件</th><th>作用</th><th>能不能省</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>debugtalk.py</code></td>
+          <td>🏠 <strong>门牌号</strong>：框架靠它认出项目根目录。所有相对路径（schemas/、data/、上传文件）都以它为基准。顺带放自定义函数。</td>
+          <td><strong>强烈建议别省</strong>（哪怕空文件也行）</td>
+        </tr>
+        <tr>
+          <td><code>.env</code></td>
+          <td>📝 环境信息（接口地址、账号密码），用例里用 <code>${ENV(名字)}</code> 取。换环境只改这一个文件。</td>
+          <td>可选</td>
+        </tr>
+        <tr>
+          <td><code>testcases/xxx.yml</code></td>
+          <td>🧪 用例本体：config（全局配置）+ teststeps（步骤列表）。</td>
+          <td>必须</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="tip tip-warn">
+      <strong>为什么 debugtalk.py 这么重要？</strong>没有它，项目根目录会退化成"你敲命令时所在的目录"——换个目录跑就报"找不到文件"。这是一个空文件就够，但删了就会出问题的东西。
+    </div>
+  </section>
+
+  <!-- ═══════════════ 核心工作流 ═══════════════ -->
+  <section>
+    <h2><span class="icon">🔄</span> 核心工作流</h2>
+    <div class="pipeline" style="flex-direction:column;align-items:flex-start;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="pipe-step">1. 拿到接口文档</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">2. Postman/curl 手工调通</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">3. 写 YAML（或 hconvert 导入）</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-left:80px;">
+        <div class="pipe-step">4. hrun 跑一遍</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="background:var(--warning-light);border-color:#fcd34d;color:var(--warning);">5. 失败→看日志→改 YAML→重跑</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="background:var(--success-light);border-color:#bbf7d0;color:var(--success);">6. 全通过→出报告</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 快速上手 ═══════════════ -->
+  <section>
+    <h2><span class="icon">🚀</span> 快速上手命令</h2>
+    <div class="cta">
+      <p><strong>第 0 步：激活虚拟环境（每次开终端都要先做！）</strong></p>
+      <code>D:\tester\.venv\Scripts\Activate.ps1</code>
+      <p style="margin-top:16px;"><strong>验证安装</strong></p>
+      <code>hrun -V</code>
+      <p style="margin-top:16px;"><strong>第 1 步：跑零依赖示例（本地 mock，不联网）</strong></p>
+      <code>interfacetester run examples\data_management -q</code>
+      <p style="margin-top:16px;"><strong>第 2 步：跑离线练习场（project-two，自带 mock）</strong></p>
+      <code>cd project-two</code><br>
+      <code>python mock_server.py</code> &nbsp;&nbsp;<span style="color:var(--muted);">← 终端 A：常驻</span><br>
+      <code>hrun login_flow.yml --html=reports\login.html --self-contained-html</code> &nbsp;&nbsp;<span style="color:var(--muted);">← 终端 B</span>
+      <p style="margin-top:16px;"><strong>第 3 步：写自己的用例</strong></p>
+      <code>hrun testcases\login.yml --html=reports\report.html --self-contained-html</code>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 文档速查 ═══════════════ -->
+  <section>
+    <h2><span class="icon">📚</span> 文档速查表</h2>
+    <table class="tbl">
+      <thead><tr><th>需求</th><th>看哪份文档</th></tr></thead>
+      <tbody>
+        <tr><td>从零开始，一步一图</td><td><a href="docs/小白入门指南：用interfacetester做接口自动化测试.txt" target="_blank">小白入门指南.txt</a></td></tr>
+        <tr><td>避坑 + 照做清单 + 自查脚本</td><td><a href="docs/新手快速上手.md" target="_blank">新手快速上手.md</a></td></tr>
+        <tr><td>完整语法（hook / 参数化 / 上传 / SQL）</td><td><a href="docs/使用教程-项目级.md" target="_blank">使用教程-项目级.md</a></td></tr>
+        <tr><td>文件怎么摆、每个文件干嘛的</td><td><a href="docs/使用说明-用例级.md" target="_blank">使用说明-用例级.md</a></td></tr>
+        <tr><td>给不写代码的同事看</td><td><a href="docs/使用说明-非技术版.md" target="_blank">使用说明-非技术版.md</a></td></tr>
+        <tr><td>判断某项能力是否支持</td><td><a href="docs/能力清单.md" target="_blank">能力清单.md</a> ⭐</td></tr>
+        <tr><td>从 Postman / curl / HAR / OpenAPI 导入</td><td><a href="docs/convert/README.md" target="_blank">docs/convert/README.md</a></td></tr>
+        <tr><td>接 CI</td><td><a href="docs/ci/README.md" target="_blank">docs/ci/README.md</a></td></tr>
+        <tr><td>让 AI 帮你写用例 / 分析失败</td><td><a href="docs/使用手册-AI协作层.md" target="_blank">使用手册-AI协作层.md</a></td></tr>
+        <tr><td>测 SOAP / XML 接口</td><td><a href="docs/soap/README.md" target="_blank">docs/soap/README.md</a></td></tr>
+        <tr><td>读源码 / 改框架</td><td><a href="docs/架构与调用链.md" target="_blank">架构与调用链.md</a></td></tr>
+        <tr><td>部署到别的机器</td><td><code>deploy.md</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════════ 三条铁律 ═══════════════ -->
+  <section>
+    <h2><span class="icon">⚡</span> 新手三条铁律</h2>
+    <div class="grid">
+      <div class="cardi">
+        <h4>① config.name 和每个 step 的 name 必填</h4>
+        <p>缺了直接报 TestCaseFormatError。</p>
+      </div>
+      <div class="cardi">
+        <h4>② 每个请求步骤都要写 validate</h4>
+        <p>HTTP 4xx/5xx <strong>不会自动判失败</strong>！没有断言的步骤，"请求返回 500"也算通过。</p>
+      </div>
+      <div class="cardi">
+        <h4>③ *_test.py 是生成物，永远不要手改</h4>
+        <p>改了下次 hrun 会被覆盖。要改就改 .yml。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 源码架构（开发者参考） ═══════════════ -->
+  <section>
+    <h2><span class="icon">🔬</span> 源码架构（开发者 / 维护者参考）</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      以下内容面向需要阅读、修改或扩展框架本身的开发者。普通使用者可跳过本节。
+    </p>
+
+    <!-- 核心模块职责表 -->
+    <h3>📦 内核模块职责（interfacetester/）</h3>
+    <table class="tbl">
+      <thead><tr><th>模块</th><th>职责</th><th>关键入口</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>cli.py</code></td>
+          <td>命令行入口：注册 <code>hrun</code> / <code>hmake</code> / <code>hconvert</code> / <code>interfacetester</code> 四个命令，解析参数并分发到对应子流程</td>
+          <td><code>main()</code>, <code>main_hrun_alias()</code>, <code>main_convert_alias()</code></td>
+        </tr>
+        <tr>
+          <td><code>loader.py</code></td>
+          <td>用例加载引擎：读取 YAML/JSON → 变量渲染（<code>$var</code> / <code>${func()}</code> / <code>${ENV()}</code>）→ 参数化展开 → 输出结构化 TestCase</td>
+          <td><code>load_testcase()</code>, <code>load_project_data()</code></td>
+        </tr>
+        <tr>
+          <td><code>parser.py</code></td>
+          <td>表达式解析器：递归解析变量引用、函数调用、环境变量；处理字符串模板与嵌套结构</td>
+          <td><code>parse_variables_mapping()</code>, <code>parse_parameters()</code></td>
+        </tr>
+        <tr>
+          <td><code>make.py</code></td>
+          <td>代码生成器：将结构化 TestCase 转成 pytest 测试脚本（<code>*_test.py</code>），调用 black 格式化；含覆盖保护（防止误改手写文件）</td>
+          <td><code>make_testcases()</code></td>
+        </tr>
+        <tr>
+          <td><code>runner.py</code></td>
+          <td>执行调度器：编排步骤顺序、管理会话级状态（提取变量传递）、汇总结果</td>
+          <td><code>InterfaceTester.run()</code></td>
+        </tr>
+        <tr>
+          <td><code>step_request.py</code></td>
+          <td>HTTP 请求步骤：发送请求 → 提取（jmespath）→ 断言分发 → 记录日志</td>
+          <td><code>RunRequest.run()</code></td>
+        </tr>
+        <tr>
+          <td><code>step_testcase.py</code></td>
+          <td>用例引用步骤：<code>testcase: path</code> 的加载、export 变量导出、嵌套执行</td>
+          <td><code>RunTestCase.run()</code></td>
+        </tr>
+        <tr>
+          <td><code>step_sql_request.py</code></td>
+          <td>SQL 步骤（可选 extra <code>sql</code>）：MySQL 查询 + extract + validate</td>
+          <td><code>RunSqlRequest.run()</code></td>
+        </tr>
+        <tr>
+          <td><code>step_thrift_request.py</code></td>
+          <td>Thrift RPC 步骤（仅 Linux/macOS）：二进制协议请求 + 字段类型转换</td>
+          <td><code>RunThriftRequest.run()</code></td>
+        </tr>
+        <tr>
+          <td><code>models.py</code></td>
+          <td>Pydantic v2 数据模型：TConfig / TStep / TRequest / TValidate 等结构化定义，驱动全链路类型校验</td>
+          <td><code>TConfig</code>, <code>TStep</code>, <code>TRequest</code></td>
+        </tr>
+        <tr>
+          <td><code>response.py</code></td>
+          <td>响应对象封装：统一 body / status_code / headers / elapsed / cookies 访问接口</td>
+          <td><code>ResponseObject</code></td>
+        </tr>
+        <tr>
+          <td><code>client.py</code></td>
+          <td>HTTP 客户端：requests.Session 封装，处理 TLS / 代理 / 证书 / 流式 / 重试</td>
+          <td><code>HttpClient</code></td>
+        </tr>
+        <tr>
+          <td><code>config.py</code></td>
+          <td>全局配置：项目根目录定位（debugtalk.py 锚点）、.env 加载、base_url 合并</td>
+          <td><code>Config</code></td>
+        </tr>
+        <tr>
+          <td><code>builtin/comparators.py</code></td>
+          <td>22+ 内置断言算子：equal / contains / regex_match / jsonschema_match / xpath_match / xml_schema_match 等</td>
+          <td><code>comparator_*()</code></td>
+        </tr>
+        <tr>
+          <td><code>builtin/functions.py</code></td>
+          <td>内置工具函数：<code>get_timestamp()</code> / <code>sleep()</code> / <code>environ()</code> 等</td>
+          <td><code>builtin_functions</code></td>
+        </tr>
+        <tr>
+          <td><code>converters/</code></td>
+          <td>导入器（4 个适配器）：curl / HAR / Postman / OpenAPI → IR → YAML；含脱敏、自动断言生成、黄金文件校验</td>
+          <td><code>curl_adapter</code>, <code>har_adapter</code>, <code>postman_adapter</code>, <code>openapi_adapter</code></td>
+        </tr>
+        <tr>
+          <td><code>compat.py</code></td>
+          <td>兼容性层：生成文件识别、旧格式迁移、跨版本兼容</td>
+          <td><code>is_generated_conftest()</code></td>
+        </tr>
+        <tr>
+          <td><code>exceptions.py</code></td>
+          <td>异常体系：ParamsError / TestCaseFormatError / ValidationFailure 等，区分「用户写错」（failed）与「框架故障」（error）</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>utils.py</code></td>
+          <td>通用工具：文件读写、路径解析、日志配置、数字安全转换</td>
+          <td><code>ensure_int_value()</code>, <code>_ensure_string_shaped()</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- AI 协作层模块 -->
+    <h3 style="margin-top:28px;">🤖 AI 协作层模块（interfacetester_ai/）</h3>
+    <p style="color:var(--muted); margin-bottom:12px;">
+      独立包，零三方运行时依赖。通过 <code>haify</code> 命令或 <code>python -m interfacetester_ai</code> 调用。
+    </p>
+    <table class="tbl">
+      <thead><tr><th>模块</th><th>职责</th></tr></thead>
+      <tbody>
+        <tr><td><code>cli.py</code></td><td>AI 层命令入口：<code>gen</code> / <code>analyze</code> / <code>fix</code> / <code>review</code></td></tr>
+        <tr><td><code>llm.py</code> + <code>l3.py</code></td><td>LLM 传输层 + L3 安全闸门（回环白名单 / sandbox 开关 / 凭据不落盘）</td></tr>
+        <tr><td><code>slicer.py</code></td><td>文档切片器：按接口段拆分长文档，每段独立生成草稿</td></tr>
+        <tr><td><code>assembler.py</code></td><td>装配器：LLM 产物 → CaseDraft 契约校验 → 落 <code>.ai/draft/</code>（带陷阱产物拦截）</td></tr>
+        <tr><td><code>assertions.py</code></td><td>断言补全：从文档响应表推导 jsonschema_match / 字段断言</td></tr>
+        <tr><td><code>prompts.py</code></td><td>Prompt 模板管理（版本化，与缓存键联动）</td></tr>
+        <tr><td><code>cache.py</code></td><td>LLM 调用缓存（内容哈希键，命中则跳过模型调用）</td></tr>
+        <tr><td><code>reviews.py</code></td><td>人工审批门：TODO_ 检查 / approver 留痕 / 篡改检测 / 原子写入</td></tr>
+        <tr><td><code>diagnosis.py</code> + <code>evidence.py</code></td><td>失败诊断：证据包装配（脱敏 / 截断 / siblings 上下文）</td></tr>
+        <tr><td><code>fix.py</code></td><td>自愈建议：基于诊断结果生成修复补丁</td></tr>
+        <tr><td><code>quality.py</code> + <code>gates.py</code></td><td>质量评估 + 闸门判定（static_valid / needs_review / auto_promotable）</td></tr>
+        <tr><td><code>normalize.py</code> + <code>projection.py</code></td><td>归一化管道 + 投影层（输入预处理与输出后处理）</td></tr>
+        <tr><td><code>workdir.py</code> + <code>manifest.py</code></td><td>作业隔离 + 登记根管理（写盘边界控制）</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 五条主链路 -->
+    <h3 style="margin-top:28px;">🔗 五条主链路</h3>
+    <div class="grid">
+      <div class="cardi">
+        <h4>① 加载链</h4>
+        <p>YAML/JSON → <code>loader</code>（变量渲染 + 参数化）→ <code>models.TConfig/TStep</code> 结构化对象</p>
+      </div>
+      <div class="cardi">
+        <h4>② 生成链</h4>
+        <p>结构化对象 → <code>make</code>（Jinja2 模板 + black 格式化）→ <code>*_test.py</code> pytest 脚本</p>
+      </div>
+      <div class="cardi">
+        <h4>③ 执行链</h4>
+        <p>pytest 收集 → <code>runner</code> 调度 → <code>step_request</code> 发请求 → <code>response</code> 封装 → <code>comparators</code> 断言</p>
+      </div>
+      <div class="cardi">
+        <h4>④ 汇总链</h4>
+        <p>步骤结果 → session 级变量传递 → summary.json + HTML 报告 + JUnit XML + logs/*.run.log</p>
+      </div>
+      <div class="cardi">
+        <h4>⑤ 导入链</h4>
+        <p>curl/HAR/Postman/OpenAPI → <code>converters/*_adapter</code> → IR → <code>emit_yaml</code> → 标准 YAML（自动脱敏 + 断言）</p>
+      </div>
+    </div>
+
+    <!-- P0~P3 + A2 批次变更明细 -->
+    <h3 style="margin-top:28px;">📋 本轮新增能力明细（P0 ~ P3 + A2）</h3>
+    <table class="tbl">
+      <thead><tr><th>批次</th><th>内容</th><th>用户可见变化</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>P0</strong></td>
+          <td>修 StepRequestValidation 算子分发 + hmake 期算子名白名单</td>
+          <td>debugtalk.py 自定义断言算子可在 YAML 直接用；算子名拼错在 hmake 阶段报错</td>
+        </tr>
+        <tr>
+          <td><strong>P1-a</strong></td>
+          <td>响应元信息断言 + 可读报错</td>
+          <td>新增 elapsed_ms / elapsed_s / response_size / reason 检查项；类型不匹配从 error 变 failed</td>
+        </tr>
+        <tr>
+          <td><strong>P1-b/c</strong></td>
+          <td>文档订正 9 处 + CI 模板 + mock 端口可配置</td>
+          <td>消除误导性结论；GitHub/GitLab CI 模板开箱可用</td>
+        </tr>
+        <tr>
+          <td><strong>P2-a</strong></td>
+          <td>测试数据管理约定（T1~T5）+ 可跑示例</td>
+          <td>examples/data_management/：造数/隔离/回收/环境矩阵</td>
+        </tr>
+        <tr>
+          <td><strong>P2-b</strong></td>
+          <td>第 19 个内置算子 jsonschema_match</td>
+          <td>契约级断言：jsonschema 进主依赖，schema 走函数或文件路径</td>
+        </tr>
+        <tr>
+          <td><strong>P3</strong></td>
+          <td>导入器 hconvert：curl / HAR / Postman / OpenAPI</td>
+          <td>存量资产一键转标准 YAML（自动脱敏 + 自动断言 + 导出即验证）</td>
+        </tr>
+        <tr>
+          <td><strong>A2-1</strong></td>
+          <td>内置 XML/XPath 算子 xpath_match / xpath_count</td>
+          <td>完整 XPath 1.0（text()/count()/string()/轴/谓词），需 xml extra</td>
+        </tr>
+        <tr>
+          <td><strong>A2-2</strong></td>
+          <td>内置 XSD 契约算子 xml_schema_match</td>
+          <td>XSD 契约校验：先定位业务元素再校验、xs:include 多文件、出错节点路径</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- haify AI 层配置详情 -->
+    <h3 style="margin-top:28px;">⚙️ AI 协作层（haify）运行期配置</h3>
+    <p style="color:var(--muted); margin-bottom:12px;">
+      AI 层配置<strong>只从环境变量读取</strong>，不读项目 <code>.env</code>（那份是用例侧的）。未配置时退出码 2 并打印指引，绝不会静默出网。
+    </p>
+    <table class="tbl">
+      <thead><tr><th>环境变量</th><th>用途</th><th>必填</th></tr></thead>
+      <tbody>
+        <tr><td><code>INTERFACETESTER_AI_BASE_URL</code></td><td>OpenAI 兼容 API 根地址（如 Ollama: <code>http://127.0.0.1:11434/v1</code>）</td><td>✅ 是</td></tr>
+        <tr><td><code>INTERFACETESTER_AI_MODEL</code></td><td>模型标识（如 <code>qwen2.5:14b</code>）</td><td>✅ 是</td></tr>
+        <tr><td><code>INTERFACETESTER_AI_API_KEY</code></td><td>API Key（回环地址可留空，Ollama 类无需 key）</td><td>云端必填</td></tr>
+        <tr><td><code>INTERFACETESTER_AI_SANDBOX</code></td><td>L3 安全闸门开关（默认关，设为 <code>on</code> 启用）</td><td>推荐开启</td></tr>
+        <tr><td><code>INTERFACETESTER_AI_ALLOW_HOST</code></td><td>非回环主机白名单（L3 只放行回环 + 此列表中的主机）</td><td>非回环时必填</td></tr>
+      </tbody>
+    </table>
+    <div class="tip tip-warn" style="margin-top:14px;">
+      <strong>产物落点：</strong>草稿默认落在 <code>.ai/draft/</code>（不是 <code>cases/</code>）。
+      要进 CI 跑的 <code>cases/</code> 必须经 <code>haify review --approve</code> 人工确认转正，并在 <code>.ai/reviews/</code> 留痕。
+      带 <code>TODO_</code> 占位符的草稿会被拒绝转正。
+    </div>
+
+    <!-- 技术栈与设计特点 -->
+    <h3 style="margin-top:28px;">🏛️ 技术栈与设计特点</h3>
+    <div class="grid">
+      <div class="cardi">
+        <h4>Pydantic v2 数据模型</h4>
+        <p>全链路类型校验由 TConfig / TStep / TRequest 等 Pydantic v2 模型驱动，加载阶段即拦截格式错误。</p>
+      </div>
+      <div class="cardi">
+        <h4>pytest 生态原生兼容</h4>
+        <p>生成的 *_test.py 是标准 pytest 用例，可直接使用 pytest-html / pytest-randomly / pytest-xdist 等插件。</p>
+      </div>
+      <div class="cardi">
+        <h4>防御性设计与护栏测试</h4>
+        <p>2500+ 回归用例守护每条修复；基线数字有唯一事实来源（docs_consistency_test 对账）；假通过 / 假失败均有防线清单逐条标注。</p>
+      </div>
+      <div class="cardi">
+        <h4>Apache-2.0 合规</h4>
+        <p>明确标注 HttpRunner v4.3.5 衍生关系；LICENSE + NOTICE 随 wheel 分发；pyproject.toml 用 SPDX 声明。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>InterfaceTester v5.0.1 · 派生自 <a href="https://github.com/httprunner/httprunner" target="_blank">HttpRunner v4.3.5</a> · Apache-2.0</p>
+    <p style="margin-top:6px;">工作目录：<code>D:\tester</code> · 此 HTML 文件即在此目录下 · 双击即可离线浏览</p>
+  </footer>
+
+</div>
+</body>
+</html>

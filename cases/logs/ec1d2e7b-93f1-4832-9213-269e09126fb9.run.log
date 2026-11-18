@@ -1,0 +1,8 @@
+2026-09-30 17:06:36.861 | INFO | Start to run testcase: T2_1_创建目录, TestCase ID: ec1d2e7b-93f1-4832-9213-269e09126fb9
+2026-09-30 17:06:36.863 | INFO | run step begin: 调用接口创建目录 >>>>>>
+2026-09-30 17:06:36.863 | ERROR | call function error:
+func_name: ENV
+args: ['AUTH_HEADER']
+kwargs: {}
+EnvNotFound: AUTH_HEADER
+2026-09-30 17:06:36.864 | INFO | generate testcase log: D:\tester\cases\logs\ec1d2e7b-93f1-4832-9213-269e09126fb9.run.log

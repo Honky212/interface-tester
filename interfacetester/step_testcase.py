@@ -19,13 +19,13 @@ def run_step_testcase(runner: InterfaceTester, step: TStep) -> StepResult:
     if step.setup_hooks:
         call_hooks(runner, step.setup_hooks, step_variables, "setup testcase")
 
-    # TODO: override testcase with current step name/variables/export
-
+    # P1-4（2026-11-18）：step 的 name/variables/export 通过 with_name/with_variables/
+    # with_export 传递到子 runner，覆盖子用例 config 的对应字段。
     # step.testcase is a referenced testcase, e.g. RequestWithFunctions
     ref_case_runner = step.testcase()
     ref_case_runner.set_referenced().with_session(runner.session).with_case_id(
         runner.case_id
-    ).with_variables(step_variables).with_export(step_export).test_start()
+    ).with_name(step.name).with_variables(step_variables).with_export(step_export).test_start()
 
     # teardown hooks
     if step.teardown_hooks:

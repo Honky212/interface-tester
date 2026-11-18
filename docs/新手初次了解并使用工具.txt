@@ -1,0 +1,136 @@
+可以把项目分成两件事：**先把 InterfaceTester 当作测试工具学会，再把你被测项目的业务流程翻译成 YAML 用例。** 不需要一开始就读源码或学 Python。
+
+## 一、先认识 `D:\tester`：它是工具，不是你的用例项目
+
+这个仓库里大致有几类东西：
+
+- **工具核心与命令**：`interfacetester/` 实现运行能力；最常用的是 `hrun`，它会把 YAML 转成 pytest 用例并运行。
+- **文档**：`docs/` 里有快速上手、语法教程、配置说明和架构资料。
+- **自带示例**：`examples/` 用来练习功能；其中 `examples/quickstart/README.md` 是最小可运行示例。
+- **框架自身测试**：`tests/` 是验证工具本身的，不是你平时写业务用例的地方。
+
+**你的业务 YAML 建议放在单独的用例工程目录中**，例如 `D:\my-api-tests`，不要直接放进工具源码目录。用例工程一般以 `debugtalk.py` 作为项目“门牌号”，`.env` 保存环境配置，`.yml` 才是你日常编写的测试用例。
+
+## 二、`docs` 不必从头读，按这个顺序就够了
+
+1. 先读 `新手快速上手.md`：了解入门步骤和三种起步方式。
+2. 再读 `examples/quickstart/README.md`：边看边跑最小示例。
+3. 开始写 YAML 时查 `使用教程-项目级.md`：看 YAML 结构、请求、变量和断言语法。
+4. 搭自己的用例目录时查 `使用说明-用例级.md`：了解 `.env`、`debugtalk.py`、CSV、报告等文件怎么配合。
+5. 想看业务风格的例子，可以读 `project-two/login_flow.yml` 或 `examples/unifsp/README.md`。
+
+暂时不用从架构文档、AI 改造方案或归档资料开始；那些更适合维护框架或研究内部实现时看。
+
+## 三、先跑通示例，确认工具能用
+
+在 PowerShell 中激活环境并检查命令：
+
+```powershell
+D:\tester\.venv\Scripts\Activate.ps1
+hrun -V
+```
+
+然后先练本地示例：
+
+```powershell
+cd D:\tester
+interfacetester run examples/data_management -q
+```
+
+这是仓库文档给出的离线练习入口。接着可以看登录链路示例：它演示了**登录获取 token，再用 token 请求后续接口**，对应 `project-two/login_flow.yml`。按 `新手快速上手.md` 中的说明启动配套 mock 服务，再运行用例。
+
+## 四、把自己的业务流程拆成测试场景
+
+先不用写 YAML，先拿一个业务流程做表格。比如“创建订单”：
+
+| 场景 | 输入/前置条件 | 预期结果 |
+|---|---|---|
+| 正常创建 | 合法商品、数量和地址 | 创建成功，返回订单号 |
+| 缺少必填项 | 不传收货地址 | 返回对应业务错误 |
+| 数量非法 | 数量为 0 或负数 | 拒绝创建 |
+| 未登录 | 不带 token | 返回未认证结果 |
+| 权限不足 | 普通用户操作管理员资源 | 拒绝操作 |
+
+写用例时优先回答三个问题：
+
+1. **要调哪个接口？** 从接口文档、Postman 或开发同事处确认 URL 和 HTTP 方法。
+2. **请求要带什么？** 确认请求头、参数、JSON 字段、认证信息和测试数据。
+3. **怎样才算业务上成功或失败？** 不要只看 HTTP 状态码，也要断言响应体中的业务字段。
+
+每条用例尽量聚焦一个场景；涉及创建、删除等有副作用的操作时，只在测试环境运行，并考虑测试数据如何清理。
+
+## 五、从一个业务用例开始写
+
+在单独目录中准备文件，例如：
+
+```text
+D:\my-api-tests\
+├── debugtalk.py
+├── .env
+└── login_profile.yml
+```
+
+`debugtalk.py` 初期可以是空文件；`.env` 放环境地址和测试账号。不要把真实密码、token 提交到代码仓库。
+
+下面只是一个结构示例。接口路径、请求字段和响应字段必须按**你自己的接口文档和实际响应**修改：
+
+```yaml
+config:
+  name: 登录后查询个人资料
+  base_url: ${ENV(BASE_URL)}
+
+teststeps:
+  - name: 登录并获取 token
+    request:
+      method: POST
+      url: /api/login
+      headers:
+        Content-Type: application/json
+      json:
+        username: ${ENV(TEST_USERNAME)}
+        password: ${ENV(TEST_PASSWORD)}
+    extract:
+      - token: body.data.token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+
+  - name: 使用 token 查询个人资料
+    request:
+      method: GET
+      url: /api/user/profile
+      headers:
+        Authorization: Bearer $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]
+      - eq: [body.data.username, ${ENV(TEST_USERNAME)}]
+```
+
+这里的重点是：
+
+- `config` 放整条用例的配置；`teststeps` 是按顺序执行的请求步骤。
+- `extract` 从响应中提取变量，供后续步骤使用。示例中的 `body.data.token` 要换成你的实际响应路径。
+- `validate` 写明确的断言。不同系统的业务成功码可能不是 `0`，应按接口约定修改。
+- `Authorization` 的格式可能是 `Bearer $token`，也可能是其他格式，以被测系统要求为准。
+- YAML 缩进必须一致，通常用空格，不要混用 Tab。
+- **每个步骤都要想清楚要验证什么。** 用例跑绿不一定代表业务真的测到了；漏写或拼错断言需要特别留意。
+
+## 六、运行、查看结果，再逐步扩充
+
+在用例工程目录里运行单条用例：
+
+```powershell
+cd D:\my-api-tests
+hrun login_profile.yml
+```
+
+运行整个目录并生成 HTML 报告：
+
+```powershell
+hrun . --html=reports/report.html --self-contained-html
+```
+
+先确认这一条业务主流程跑通，再逐渐补充异常输入、权限、边界值和不同角色场景。`hrun` 生成的 `*_test.py` 是工具产物，**不要手动修改**；需要调整时改 YAML 后重新运行。
+
+**建议的第一周路线：** 跑通一个示例 → 用你们项目的测试环境写一条查询类接口用例 → 写一条登录或创建业务对象的链路 → 再补错误场景和数据清理。这样既能学会 YAML，也能逐步形成适合你们业务的用例集。

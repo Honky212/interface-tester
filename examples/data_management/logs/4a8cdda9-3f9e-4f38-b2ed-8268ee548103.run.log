@@ -1,0 +1,223 @@
+2026-09-30 15:15:46.219 | INFO | Start to run testcase: 01 数据管理：造数与回读, TestCase ID: 4a8cdda9-3f9e-4f38-b2ed-8268ee548103
+2026-09-30 15:15:46.219 | INFO | run step begin: 刚造的数据可以被读到 >>>>>>
+2026-09-30 15:15:46.220 | DEBUG | ====== request details ======
+url: http://127.0.0.1:49966/records/47a1afe2432d
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4a8cdda9-3f9e-4f38-b2ed-8268ee548103-546219"
+}
+json: None
+
+2026-09-30 15:15:46.240 | DEBUG | client IP: 127.0.0.1, Port: 49972
+2026-09-30 15:15:46.242 | DEBUG | server IP: 127.0.0.1, Port: 49966
+2026-09-30 15:15:46.242 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:49966/records/47a1afe2432d
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4a8cdda9-3f9e-4f38-b2ed-8268ee548103-546219"
+}
+cookies  : {}
+body     : None
+
+2026-09-30 15:15:46.242 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Wed, 30 Sep 2026 07:15:46 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "127"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "id": "47a1afe2432d",
+    "name": "dm-test-c131864c-test_start-ebd618-alpha-6a0a54",
+    "payload": null,
+    "created_at": 1790752546.22
+}
+
+2026-09-30 15:15:46.242 | INFO | status_code: 200, response_time(ms): 19.38 ms, response_length: 127 bytes
+2026-09-30 15:15:46.242 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Wed, 30 Sep 2026 07:15:46 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "127"
+}
+body: {
+    "id": "47a1afe2432d",
+    "name": "dm-test-c131864c-test_start-ebd618-alpha-6a0a54",
+    "payload": null,
+    "created_at": 1790752546.22
+}
+
+2026-09-30 15:15:46.243 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-30 15:15:46.243 | INFO | assert body.name startswith dm-test-c131864c-test_start-ebd618(str)	==> pass
+2026-09-30 15:15:46.243 | INFO | run step end: 刚造的数据可以被读到 <<<<<<
+
+2026-09-30 15:15:46.243 | INFO | run step begin: 本次运行里只应有这一条数据 >>>>>>
+2026-09-30 15:15:46.243 | DEBUG | ====== request details ======
+url: http://127.0.0.1:49966/records
+method: GET
+params: {
+    "prefix": "dm-test-c131864c"
+}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4a8cdda9-3f9e-4f38-b2ed-8268ee548103-546243"
+}
+json: None
+
+2026-09-30 15:15:46.244 | DEBUG | client IP: 127.0.0.1, Port: 49972
+2026-09-30 15:15:46.244 | DEBUG | server IP: 127.0.0.1, Port: 49966
+2026-09-30 15:15:46.244 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:49966/records?prefix=dm-test-c131864c
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Authorization": "******",
+    "interfacetester-Request-ID": "interfacetester-4a8cdda9-3f9e-4f38-b2ed-8268ee548103-546243"
+}
+cookies  : {}
+body     : None
+
+2026-09-30 15:15:46.244 | DEBUG | 
+================== response details ==================
+status_code : 200
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Wed, 30 Sep 2026 07:15:46 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "184"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "records": [
+        {
+            "id": "47a1afe2432d",
+            "name": "dm-test-c131864c-test_start-ebd618-alpha-6a0a54",
+            "payload": null,
+            "created_at": 1790752546.22
+        }
+    ],
+    "count": 1,
+    "prefix": "dm-test-c131864c"
+}
+
+2026-09-30 15:15:46.244 | INFO | status_code: 200, response_time(ms): 1.0 ms, response_length: 184 bytes
+2026-09-30 15:15:46.245 | DEBUG | ====== response details ======
+status_code: 200
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Wed, 30 Sep 2026 07:15:46 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "184"
+}
+body: {
+    "records": [
+        {
+            "id": "47a1afe2432d",
+            "name": "dm-test-c131864c-test_start-ebd618-alpha-6a0a54",
+            "payload": null,
+            "created_at": 1790752546.22
+        }
+    ],
+    "count": 1,
+    "prefix": "dm-test-c131864c"
+}
+
+2026-09-30 15:15:46.245 | INFO | assert status_code equal 200(int)	==> pass
+2026-09-30 15:15:46.245 | INFO | assert body.count equal 1(int)	==> pass
+2026-09-30 15:15:46.245 | INFO | assert body.records[0].id equal 47a1afe2432d(str)	==> pass
+2026-09-30 15:15:46.245 | INFO | run step end: 本次运行里只应有这一条数据 <<<<<<
+
+2026-09-30 15:15:46.245 | INFO | run step begin: 未带 token 时被拒绝（顺便证明鉴权链路是通的） >>>>>>
+2026-09-30 15:15:46.246 | DEBUG | ====== request details ======
+url: http://127.0.0.1:49966/records
+method: GET
+params: {}
+data: None
+cookies: {}
+allow_redirects: True
+verify: False
+headers: {
+    "X-No-Auth": "1",
+    "interfacetester-Request-ID": "interfacetester-4a8cdda9-3f9e-4f38-b2ed-8268ee548103-546246"
+}
+json: None
+
+2026-09-30 15:15:46.246 | DEBUG | client IP: 127.0.0.1, Port: 49972
+2026-09-30 15:15:46.246 | DEBUG | server IP: 127.0.0.1, Port: 49966
+2026-09-30 15:15:46.246 | DEBUG | 
+================== request details ==================
+method   : MethodEnum.GET
+url      : http://127.0.0.1:49966/records
+headers  : {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "X-No-Auth": "1",
+    "interfacetester-Request-ID": "interfacetester-4a8cdda9-3f9e-4f38-b2ed-8268ee548103-546246"
+}
+cookies  : {}
+body     : None
+
+2026-09-30 15:15:46.247 | DEBUG | 
+================== response details ==================
+status_code : 401
+headers  : {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Wed, 30 Sep 2026 07:15:46 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "37"
+}
+cookies  : {}
+encoding : utf-8
+content_type : application/json; charset=utf-8
+body     : {
+    "error": "missing or invalid token"
+}
+
+2026-09-30 15:15:46.247 | ERROR | 401 Client Error: Unauthorized for url: http://127.0.0.1:49966/records
+2026-09-30 15:15:46.247 | DEBUG | ====== response details ======
+status_code: 401
+headers: {
+    "Server": "dm-demo-store/1.0 Python/3.12.10",
+    "Date": "Wed, 30 Sep 2026 07:15:46 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "37"
+}
+body: {
+    "error": "missing or invalid token"
+}
+
+2026-09-30 15:15:46.247 | INFO | assert status_code equal 401(int)	==> pass
+2026-09-30 15:15:46.247 | INFO | run step end: 未带 token 时被拒绝（顺便证明鉴权链路是通的） <<<<<<
+
+2026-09-30 15:15:46.247 | INFO | generate testcase log: D:\tester\examples\data_management\logs\4a8cdda9-3f9e-4f38-b2ed-8268ee548103.run.log

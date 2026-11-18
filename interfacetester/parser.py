@@ -384,10 +384,16 @@ def get_mapping_variable(
         exceptions.VariableNotFound: variable is not found.
 
     """
-    # TODO: get variable from debugtalk module and environ
+    # P2-5（2026-11-18）：原 TODO 要求从 debugtalk/environ fallback。
+    # 实际调用链中 variables_mapping 已经包含了 debugtalk 函数映射和环境变量
+    # （由 runner.merge_step_variables → parser.parse_variables 完成合并），
+    # 所以这里只需补 os.environ 兜底——覆盖"直接调 Python API 且跳过合并步骤"的场景。
     try:
         return variables_mapping[variable_name]
     except KeyError:
+        import os
+        if variable_name in os.environ:
+            return os.environ[variable_name]
         raise exceptions.VariableNotFound(
             f"{variable_name} not found in {variables_mapping}"
         )

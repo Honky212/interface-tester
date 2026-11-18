@@ -6,6 +6,7 @@ import inspect
 import json
 import keyword
 import os
+import re
 import string
 import subprocess
 import sys
@@ -80,6 +81,12 @@ make_failures: List[MakeFailure] = []
     看起来像"都跑过了"。这里记下来，由 `main_make` 末尾汇总成一行。
 """
 make_skipped_files: List[Text] = []
+
+
+# P0-1（2026-11-18）：--allow-plaintext-secret 逃生门。
+# 默认 False → hmake 检测到 config.oauth2.client_secret 明文时**硬阻断**（ParamsError），
+# 由 cli.py 在 make 子命令解析时设为 True 恢复旧行为（仅告警、继续生成）。
+_ALLOW_PLAINTEXT_SECRET: bool = False
 
 
 def _looks_like_testcase_intent(test_content: Any) -> bool:
@@ -746,6 +753,7 @@ GENERATOR_SUPPORTED_CONFIG_FIELDS: Tuple[Text, ...] = (
     "oauth2",
     "skip",  # 模板的 @pytest.mark.skip，见 make_config_skip
     "parameters",  # 模板的 @pytest.mark.parametrize
+    "db",  # P1-3（2026-11-18）：config.db YAML 渲染已实现
 )
 
 """ 「模型认、白名单认、生成器无分支」的 config 字段：命中即报错。
@@ -770,14 +778,7 @@ UNSUPPORTED_CONFIG_FIELDS: Dict[Text, Text] = {
         "  正确用法：手写 pytest 风格用例，`Config(...).thrift().service_name(...)...`\n"
         "  + `Step(RunThriftRequest(...))`（见 docs/能力清单.md 的「扩展协议：Thrift」）。"
     ),
-    "db": (
-        "`config.db` 在 YAML 里**不会生效**：`make.py` 不渲染它，而 YAML 也无法表达\n"
-        "  SQL step（`sql_request` 同样被生成器拒绝）。\n"
-        "  正确用法：手写 pytest 风格用例，`Config(...).db().user(...).ip(...)...`\n"
-        "  或 `RunSqlRequest(...).with_db_config(...)`"
-        "（见 examples/data_management/sql/04_sql_data_management_test.py）。"
-    ),
-}
+    # P1-3（2026-11-18）：`db` 已从本清单移除——YAML 的 config.db 现在可以被渲染。
 
 """ 由调用方注入的结构字段：不参与 config 层的交叉校验（不是用户可写的配置项）。"""
 STRUCTURAL_CONFIG_FIELDS: Tuple[Text, ...] = ("path",)
@@ -1730,6 +1731,39 @@ def ensure_generated_python_is_importable(content: Text, generated_path: Text) -
 
 
 
+# P3-11（2026-11-18）：生成物敏感值启发式扫查。
+_CREDENTIAL_PATTERN = re.compile(
+    r'(?i)(password|passwd|pwd|secret|token|api_key|apikey|access_key|'
+    r'secret_key|private_key|authorization|credential)\s*[=:]\s*'
+    r'["\']?([^"\'\,\s\}\)]{3,})["\']?'
+)
+
+
+def _warn_if_plaintext_credentials_in_generated(content: Text, generated_path: Text) -> None:
+    """对生成物内容做启发式敏感值扫查（仅告警，不阻断）。
+
+    P3-11（2026-11-18）：覆盖 OAuth2 client_secret 之外的场景（config.variables、
+    参数化 CSV 值、自定义函数返回值等被渲染进 _test.py 的明文凭据）。
+
+    NOTICE: 会有假正（如 `token: "${ENV(TOKEN)}"` 本身含敏感名字但值已是安全引用），
+    所以只告警不阻断。跳过以 `$` 开头的值（变量引用）。
+    """
+    for m in _CREDENTIAL_PATTERN.finditer(content):
+        key, value = m.group(1), m.group(2)
+        # 跳过变量引用（${ENV(...)} / $var / ${func()}）
+        if value.startswith("$") or value.startswith("{"):
+            continue
+        # 跳过 ****** 占位符
+        if value == "******":
+            continue
+        logger.warning(
+            f"生成文件 {generated_path} 中发现疑似明文凭据：\n"
+            f"  {key} = {value!r}\n"
+            f"  如果确实是凭据，请改用 ${{{key.upper()}}} 或 ${{ENV({key.upper()})}}\n"
+            f"  （此告警为启发式扫查，可能有误报；确认安全可忽略）。"
+        )
+
+
 def _safe_repr(value: Any, limit: int = 200) -> Text:
     """`repr()` 的**安全版**：本身不会抛，且过长的表示会被截断。
 
@@ -1796,17 +1830,31 @@ def make_config_chain_style(config: Dict) -> Text:
 
     if config.get("oauth2"):
         oauth2 = config["oauth2"]
-        # NOTICE: 生成的 _test.py 会把 client_secret 原样落盘（用户常把生成文件一起提交），
-        # 明文密钥会因此进入版本库。运行期 runner.get_oauth2_token() 会解析
-        # ${ENV(VAR)} / $var / ${func()}，所以推荐在用例里写引用而非明文；
-        # 这里仅告警并给出改法，不自动改写，以免静默改变既有用例的行为。
+        # P0-1（2026-11-18）：原为仅告警（继续生成，明文密钥进 _test.py 后常随
+        # git add . 入库）。现默认**硬阻断**——必须显式加 --allow-plaintext-secret
+        # 才恢复旧行为（逃生门供一次性迁移/CI 场景）。
+        # 运行期 runner.get_oauth2_token() 会解析 ${ENV(VAR)} / $var / ${func()}，
+        # 所以推荐在用例里写引用而非明文。
         client_secret = oauth2.get("client_secret") or ""
         if isinstance(client_secret, Text) and "$" not in client_secret:
+            # P0-1（2026-11-18）：原为 logger.warning（生成继续，明文密钥进 _test.py 后
+            # 常随 git add . 入库）。现在默认**硬阻断**——必须显式加 --allow-plaintext-secret
+            # 才恢复旧行为（逃生门供一次性迁移/CI 场景）。
+            if not _ALLOW_PLAINTEXT_SECRET:
+                raise exceptions.ParamsError(
+                    "config.oauth2.client_secret 是明文，已阻止生成，因为明文密钥会被写进"
+                    "測試文件（常随代码一起提交到仓库而泄露）。\n"
+                    "  改法 1（推荐）：把用例里的 client_secret 改成环境变量引用：\n"
+                    '      client_secret: ${ENV(OAUTH2_CLIENT_SECRET)}\n'
+                    "      （运行期自动解析，无需改其他配置）。\n"
+                    "  改法 2（已知风险，不推荐）：确认该密钥不是敏感信息（如公开 demo），加：\n"
+                    "      hmake --allow-plaintext-secret …\n"
+                    "      （禁用该检查 = 接受明文密钥落盘的风险）。"
+                )
+            # --allow-plaintext-secret 逃生门：恢复旧行为（仅告警、继续生成）
             logger.warning(
-                "config.oauth2.client_secret 是明文，会被原样写进生成的测试文件"
-                "（可能随代码一起提交而泄露）。建议改为环境变量引用：\n"
-                '    client_secret: ${ENV(OAUTH2_CLIENT_SECRET)}\n'
-                "运行期会自动解析该引用，无需改动其它配置。"
+                "config.oauth2.client_secret 是明文，已按 --allow-plaintext-secret 逃生门"
+                "继续生成（明文密钥将被写进测试文件，可能随代码一起提交而泄露）。"
             )
         # NOTICE（批次 B / M10 连带）：这里**不能**再直接取 `oauth2['client_id']`。
         # 修复前用下标取值，而 `load_testcase` 的模型给了默认空串、**不会**把默认值回写进
@@ -1849,7 +1897,28 @@ def make_config_chain_style(config: Dict) -> Text:
                 f".grant_type({ensure_python_literal(oauth2['grant_type'])})"
             )
 
+    # P1-3（2026-11-18）：config.db 现在可以从 YAML 渲染。
+    config_chain_style += make_config_db(config)
+
     return config_chain_style
+
+
+# P1-3（2026-11-18）：config.db YAML 渲染。原先 `config.db` 只在 Python API 路径
+# 中可用，YAML 写了被 UNSUPPORTED_CONFIG_FIELDS 拦下。现在它进入生成器支持列表。
+def make_config_db(config: Dict) -> Text:
+    """从 YAML 的 config.db 生成 `Config().db()...` 链式调用代码。"""
+    db = config.get("db") or {}
+    if not db:
+        return ""
+    parts = []
+    # scheme 优先（P1-2）：不写时默认 mysql+pymysql
+    scheme = db.get("scheme", "mysql+pymysql")
+    parts.append(f'.scheme({ensure_python_literal(scheme)})')
+    for field in ("user", "password", "ip", "port", "database"):
+        val = db.get(field)
+        if val is not None and val != "":
+            parts.append(f'.{field}({ensure_python_literal(val)})')
+    return "".join(parts)
 
 
 def make_config_skip(config: Dict) -> Text:
@@ -2472,6 +2541,11 @@ sys.path.insert(0, str(Path(__file__){parent})){extra_paths}
     # 这里补上同口径的**导入性**兜底（值层面的点名报错在 `__ensure_value_literal`，
     # 这一道是最后一道无损检查，管住键、以及未来任何新的渲染路径）。
     ensure_generated_python_is_importable(content, testcase_python_abs_path)
+
+    # P3-11（2026-11-18）：对生成物做启发式敏感值扫查（仅告警，不阻断）。
+    # 覆盖 OAuth2 client_secret 之外的场景（config.variables、参数化 CSV 值等）。
+    # 有误报风险（如 token: "${ENV(TOKEN)}" 本身含敏感名字但值已安全），所以只告警。
+    _warn_if_plaintext_credentials_in_generated(content, testcase_python_abs_path)
 
     # ensure new file's directory exists
     dir_path = os.path.dirname(testcase_python_abs_path)

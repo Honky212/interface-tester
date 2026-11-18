@@ -46,8 +46,8 @@ def format_mysql_time(value: datetime.timedelta) -> str:
 class DBEngine(object):
     def __init__(self, db_uri):
         """
-        db_uri = f'mysql+pymysql://{username}:{password}@{host}:{port}/{database}?charset=utf8mb4'
-
+        db_uri = f'{scheme}://{username}:{password}@{host}:{port}/{database}[?charset=utf8mb4]'
+        scheme 默认为 `mysql+pymysql`（P1-2 / 2026-11-18）。
         """
         self.engine = create_engine(db_uri)
         self.session = sessionmaker(bind=self.engine)()

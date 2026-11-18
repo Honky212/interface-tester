@@ -596,13 +596,10 @@ class StepRequestExtraction(IStep):
         self.__step.extract[var_name] = jmes_path
         return self
 
-    # def with_regex(self):
-    #     # TODO: extract response html with regex
-    #     pass
-    #
-    # def with_jsonpath(self):
-    #     # TODO: extract response json with jsonpath
-    #     pass
+    # P2-6（2026-11-18）：with_regex / with_jsonpath 从未实现且不需要。
+    # HTML 响应提取（CSRF token 等）：在 debugtalk.py 写函数，通过 teardown_hooks
+    # 取值后写 os.environ，后续步骤用 ${ENV(...)} 读。
+    # JSONPath 是伪需求——jmespath 完全涵盖且更优雅。
 
     def validate(self) -> StepRequestValidation:
         return StepRequestValidation(self.__step)

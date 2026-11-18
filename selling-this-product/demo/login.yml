@@ -1,0 +1,44 @@
+# demo 用例：登录拿 token → 带 token 查询用户 → 契约断言
+#
+# 离线可跑：base_url 指向同目录的 mock_server.py（先启动它）
+#   python selling-this-product/demo/mock_server.py
+# 真环境里把 base_url 换成你们的环境（或写成 ${ENV(BASE_URL)} 走 .env）
+config:
+  name: 登录链路（demo）
+  base_url: http://127.0.0.1:18080
+  variables:
+    uid: 1001
+
+teststeps:
+  # ---------- 第 1 步：登录，从响应里提取 token ----------
+  - name: 登录拿 token
+    request:
+      method: POST
+      url: /api/login
+      headers:
+        Content-Type: application/json
+      json:
+        username: admin
+        password: "123456"
+      timeout: 5
+    extract:
+      - token: body.data.token          # jmespath 提取，存成 $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.code, 0]              # ★HTTP 200 也可能是业务失败，所以断业务码
+
+  # ---------- 第 2 步：带上一步的 token 调接口 ----------
+  - name: 带 token 查询用户
+    request:
+      method: GET
+      url: /api/user/info
+      headers:
+        Authorization: "Bearer $token"          # 引用第 1 步提取的变量
+        X-Trace-Id: ${trace_id()}               # 调 debugtalk.py 里的自定义函数
+        X-Uid: "uid-$uid"                       # 变量插值（注意：header 值必须是字符串）
+      timeout: 5
+    validate:
+      - eq: [status_code, 200]
+      - eq: [body.data.username, admin]
+      - eq: [body.data.role, admin]
+      - jsonschema_match: [body, "schemas/user.json"]   # 契约断言：结构正确性交给 schema
