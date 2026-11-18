@@ -20,9 +20,9 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  # 内网镜像源：按需取消注释（坑 3）
-  # PIP_INDEX_URL: https://<内网源>/simple
+# env:
+#   # 内网镜像源：按需取消注释（坑 3）
+#   PIP_INDEX_URL: https://<内网源>/simple
 
 jobs:
   unit-test:
